@@ -1,0 +1,16 @@
+<div class="dsc-left-nav-brand">
+    <i class="fas fa-bars dsc-left-nav-brand__menu" (click)="showMenu.emit()"></i>
+    <div class="dsc-left-nav-brand__logo">
+        <img [src]="logo" alt="designicode-logo"/>
+        <!-- <span>etflix</span> -->
+    </div>
+</div>
+<div class="dsc-left-nav-usr">
+    <div class="dsc-left-nav-usr__avatar"  [ngStyle]="{'background-image' : 'url(' + avatar + ')'}"></div>
+    <h4 class="dsc-left-nav-usr__name">{{name}}</h4>
+    <h6 class="dsc-left-nav-usr__position">{{position}}</h6>
+</div>
+<ng-container *ngFor="let menu of menus">
+   <app-left-nav-menu [data]="menu"></app-left-nav-menu>
+</ng-container>
+

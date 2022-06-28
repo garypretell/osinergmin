@@ -1,0 +1,149 @@
+<mat-card [ngStyle]="{ 'margin-bottom': '20px' }">
+  <mat-card-title [ngStyle]="{ 'margin-bottom': '20px' }"
+    >Gestión de Vacaciones</mat-card-title
+  >
+
+  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column">
+    <div fxFlex="33">
+      <mat-form-field appearance="legacy">
+        <mat-label>Trabajador</mat-label>
+        <input matInput type="text" [(ngModel)]="usuario.nombres" readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="33">
+      <mat-form-field appearance="legacy">
+        <mat-label>Saldo Vacacional</mat-label>
+        <input matInput type="text" [(ngModel)]="usuario.cantidad" readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="33">
+      <mat-form-field appearance="legacy">
+        <mat-label>Fecha de Vencimiento</mat-label>
+        <input matInput type="text" [(ngModel)]="usuario.fecha" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="end center"
+    fxLayout.xs="column"
+    fxFlexFill
+    [ngStyle]="{ 'margin-bottom': '20px' }"
+  >
+    <button mat-raised-button color="primary" (click)="goRegister()">
+      Registrar Solicitud de Vacaciones
+    </button>
+  </div>
+</mat-card>
+<ngx-datatable
+  id="datatablele"
+  #tablePedidos
+  class="material"
+  [rows]="rows"
+  [columns]="columns"
+  [columnMode]="ColumnMode.force"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  rowHeight="auto"
+  [reorderable]="true"
+  [limit]="5"
+  [loadingIndicator]="loadingIndicator"
+  [scrollbarH]="true"
+>
+  <ngx-datatable-column
+    name="Detalles"
+    prop="actions"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="3"
+    [sortable]="false"
+  >
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <span class="badge bg-success" role="button" (click)="goDetail(row)">
+        <i class="fas fa-eye"></i> Ver</span
+      >
+      <span class="badge bg-danger mx-1" role="button" (click)="anular(row)"
+        ><i class="fas fa-trash"></i> Anular</span
+      >
+      <span class="badge bg-primary" role="button"
+        ><i class="fas fa-trash-restore"></i> Recuperar</span
+      >
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="created" [flexGrow]="2" [sortable]="false">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fas fa-calendar"></i> Creación</span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="code" [flexGrow]="2" [sortable]="false">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> Cod. Solicitud </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="type" [flexGrow]="2" [sortable]="false">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="init" [flexGrow]="2" [sortable]="false">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    prop="end"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="2"
+    [sortable]="false"
+  >
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="days" [flexGrow]="1" [sortable]="false">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fas fa-clock"></i> Dias </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    name="Estado"
+    prop="state"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="2"
+    [sortable]="false"
+  >
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{
+        value === 0
+          ? "Abierto"
+          : value === 1
+          ? "Indexando"
+          : value === 2
+          ? "Evaluando"
+          : "Completado"
+      }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    name="Acciones"
+    prop="actions"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="3"
+    [sortable]="false"
+  >
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <span class="badge bg-info" role="button"
+        ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
+      >
+      <span class="badge bg-success" role="button" (click)="reprogramar(row)"
+        ><i class="fas fa-retweet"></i> Reprogramar</span
+      >
+      <span class="badge bg-primary" role="button" (click)="interrumpir(row)"
+        ><i class="fas fa-stopwatch"></i> Interrumpir</span
+      >
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

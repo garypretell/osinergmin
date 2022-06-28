@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['']" (click)="goBandeja()">Bandeja</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Registrar Vacaciones
+      </li>
+    </ol>
+  </nav>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Registrar Solicitud de Vacaciones - Goce Efectivo">
+      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Código de la solicitud</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Nombre del solicitante</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Fecha expiración</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Días solicitados</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Fecha Fin de Vacaciones</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Persona que reemplazará/apoyo</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Persona que aprobará la solicitud</mat-label>
+            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+    fxLayout="row"
+    fxLayoutAlign="end center"
+    fxLayout.xs="column"
+  >
+    <button mat-raised-button color="primary" [ngStyle]="{ 'margin': '5px' }">
+      Registrar Solicitud
+    </button>
+    <button mat-raised-button [ngStyle]="{ 'margin': '5px' }" (click)="goBandeja()">
+      Cancelar
+    </button>
+  </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

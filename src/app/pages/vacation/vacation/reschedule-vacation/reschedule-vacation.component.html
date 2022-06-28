@@ -1,0 +1,17 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" [routerLinkActive]="['active']">
+          <a [routerLink]="['']" (click)="goback()">Bandeja</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Reprogramar solicitud ({{detalle?.code}}) 
+        </li>
+      </ol>
+    </nav>
+    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
+        <div class="card-body">
+            {{detalle | json}}
+        </div>
+    </div>
+</div>
