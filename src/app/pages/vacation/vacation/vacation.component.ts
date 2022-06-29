@@ -4,6 +4,8 @@ import { UserService } from '@services/user.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
 import Swal from 'sweetalert2';
+// import { Tooltip } from 'node_modules/bootstrap/dist/js/';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-vacation',
@@ -19,8 +21,8 @@ export class VacationComponent implements OnInit {
   sortData = {place: 1, volume: 1};
   sortOrder = [{ prop: 'place', dir: 'asc' }, { prop: 'volume', dir: 'asc' }];
   rows = [
-    { created: '01/03/2022 00:00', code: 'SV-GSTI-00025-2022', type: 'Goce Efectivo', init: '03/03/2022', end: '05/03/2022', days: 2, state: 3 },
-    { created: '01/04/2022 00:00', code: 'SV-GSTI-00026-2022', type: 'Reprogramación', init: '03/04/2022', end: '05/04/2022', days: 3, state: 3 },
+    { created: '01/03/2022 00:00', code: 'SV-GSTI-00025-2022', type: 'Goce Efectivo', init: '03/03/2022', end: '05/03/2022', days: 2, state: 0 },
+    { created: '01/04/2022 00:00', code: 'SV-GSTI-00026-2022', type: 'Reprogramación', init: '03/04/2022', end: '05/04/2022', days: 3, state: 1 },
     { created: '01/05/2022 00:00', code: 'SV-GSTI-00027-2022', type: 'Interrupción', init: '03/05/2022', end: '05/05/2022', days: 1, state: 3 },
 
   ];
@@ -39,11 +41,15 @@ export class VacationComponent implements OnInit {
   isBelowMd = true;
   initialSize = 0;
   columnSize  = [ 20, 20, 23, 25, 25, 12 ];
-
+  rolAA = 'Asistente Administrativo';
   value = 'Clear me';
   constructor(private userService: UserService, private router: Router, private vacationService: VacationService) { }
 
   ngOnInit(): void {
+    setTimeout(()=>{  
+      Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
+     .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode))
+       }, 100);
     this.userService.getUser({ identificacion: "111" }).subscribe((data: any) => {
       console.log(data);
       this.episodio = data;
