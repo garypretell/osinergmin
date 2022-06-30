@@ -18,7 +18,7 @@ export class VacationComponent implements OnInit {
   cantidad: any;
   pageNumber: any = 0;
   loadingIndicator = false;
-  sortData = {place: 1, volume: 1};
+  sortData = { place: 1, volume: 1 };
   sortOrder = [{ prop: 'place', dir: 'asc' }, { prop: 'volume', dir: 'asc' }];
   rows = [
     { created: '01/03/2022 00:00', code: 'SV-GSTI-00025-2022', type: 'Goce Efectivo', init: '03/03/2022', end: '05/03/2022', days: 2, state: 0 },
@@ -28,7 +28,7 @@ export class VacationComponent implements OnInit {
   ];
   columns = [
     { name: 'created', sortable: false },
-    { name: 'code', sortable: false},
+    { name: 'code', sortable: false },
     { name: 'type', sortable: false },
     { name: 'init', sortable: false },
     { name: 'end', sortable: false },
@@ -40,16 +40,19 @@ export class VacationComponent implements OnInit {
   ColumnMode = ColumnMode;
   isBelowMd = true;
   initialSize = 0;
-  columnSize  = [ 20, 20, 23, 25, 25, 12 ];
+  columnSize = [20, 20, 23, 25, 25, 12];
   rolAA = 'Asistente Administrativo';
   value = 'Clear me';
   constructor(private userService: UserService, private router: Router, private vacationService: VacationService) { }
 
   ngOnInit(): void {
-    setTimeout(()=>{  
+    setTimeout(() => {
       Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
-     .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode))
-       }, 100);
+        .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode, {
+          container: 'body',
+          trigger: 'hover'
+        }))
+    }, 100);
     this.userService.getUser({ identificacion: "111" }).subscribe((data: any) => {
       console.log(data);
       this.episodio = data;
@@ -61,13 +64,15 @@ export class VacationComponent implements OnInit {
     this.router.navigate(['vacaciones/registrar']);
   }
 
-  async setPage(pageInfo: any): Promise<any> {}
+  async setPage(pageInfo: any): Promise<any> { }
 
-  async onSort(event: any): Promise<any> {}
+  async onSort(event: any): Promise<any> { }
 
   goDetail(row: any) {
     this.vacationService.vacationSubjectObsData = row;
     this.router.navigate(['vacaciones/solicitud', row.code]);
+    let tooltip = document.getElementsByClassName("tooltip");
+    tooltip[0].remove();
   }
 
   anular(row: any): void {

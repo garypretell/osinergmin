@@ -11,68 +11,85 @@
   </nav>
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Registrar Solicitud de Vacaciones - Goce Efectivo">
-      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Código de la solicitud</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
-          </mat-form-field>
+      <mat-card [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"> 
+        <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+          <div fxFlex="50">
+            <mat-form-field appearance="legacy">
+              <mat-label>Código de la solicitud</mat-label>
+              <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
+            </mat-form-field>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="legacy">
+              <mat-label>Nombre del solicitante</mat-label>
+              <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
+            </mat-form-field>
+          </div>
         </div>
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Nombre del solicitante</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
-          </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+          <div fxFlex="50">
+            <mat-form-field class="example-full-width" appearance="legacy">
+              <mat-label>Fecha Inicio de Vacaciones</mat-label>
+              <input matInput [matDatepicker]="picker">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="legacy">
+              <mat-label>Días solicitados</mat-label>
+              <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Fecha expiración</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
-          </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+          <div fxFlex="50">
+            <mat-form-field class="example-full-width" appearance="legacy">
+              <mat-label>Fecha Fin de Vacaciones</mat-label>
+              <input matInput [matDatepicker]="picker1">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="legacy">
+              <mat-label>Persona que reemplazará/apoyo</mat-label>
+              <mat-select>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Días solicitados</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
-          </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="25px"  fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+          <div fxFlex="50">
+            <mat-form-field appearance="legacy">
+              <mat-label>Persona que aprobará la solicitud</mat-label>
+              <mat-select>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Fecha Fin de Vacaciones</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
-          </mat-form-field>
-        </div>
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Persona que reemplazará/apoyo</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.cantidad" readonly />
-          </mat-form-field>
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Persona que aprobará la solicitud</mat-label>
-            <input matInput type="text" [(ngModel)]="vacaciones.nombres" readonly />
-          </mat-form-field>
-        </div>
-      </div>
-      <div
-    fxLayout="row"
-    fxLayoutAlign="end center"
-    fxLayout.xs="column"
-  >
-    <button mat-raised-button color="primary" [ngStyle]="{ 'margin': '5px' }">
-      Registrar Solicitud
-    </button>
-    <button mat-raised-button [ngStyle]="{ 'margin': '5px' }" (click)="goBandeja()">
-      Cancelar
-    </button>
-  </div>
+        <div
+      fxLayout="row"
+      fxLayoutAlign="end center"
+      fxLayout.xs="column"
+    >
+      <button mat-raised-button color="primary" [ngStyle]="{ 'margin': '5px' }">
+        Registrar Solicitud
+      </button>
+      <button mat-raised-button [ngStyle]="{ 'margin': '5px' }" (click)="goBandeja()">
+        Cancelar
+      </button>
+    </div>
+
+      </mat-card>
     </mat-tab>
   </mat-tab-group>
 </div>

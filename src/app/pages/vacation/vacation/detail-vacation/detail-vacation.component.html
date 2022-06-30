@@ -1,18 +1,140 @@
-<div class="container">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item" [routerLinkActive]="['active']">
-          <a [routerLink]="['']" (click)="goback()">Bandeja</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          Detalle de la Solicitud ({{detalle?.code}}) 
-        </li>
-      </ol>
-    </nav>
-    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
-        <div class="card-body">
-            {{detalle | json}}
-        </div>
+<div class="container-fluid">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['']" (click)="goback()">Bandeja</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Detalle de la Solicitud ({{ detalle?.code }})
+      </li>
+    </ol>
+  </nav>
+  <mat-card> 
+    <div
+      fxLayout="row wrap"
+      fxLayoutGap="2%"
+      fxLayout.xs="column"
+      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+    >
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Código de la solicitud</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.nombres" readonly />
+        </mat-form-field>
+      </div>
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Estado</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+        </mat-form-field>
+      </div>
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Creado</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+        </mat-form-field>
+      </div>
     </div>
+    <div
+      fxLayout="row wrap"
+      fxLayoutGap="2%"
+      fxLayout.xs="column"
+      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+    >
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Tipo</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+        </mat-form-field>
+      </div>
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Actualizado</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout="row wrap"
+      fxLayoutGap="2%"
+      fxLayout.xs="column"
+      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+    >
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Nombre del solicitante</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+        </mat-form-field>
+      </div>
+      <div fxFlex="32">
+        <mat-form-field class="example-full-width" appearance="legacy">
+          <mat-label>Fecha Inicio de Vacaciones</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout="row wrap"
+      fxLayoutGap="2%"
+      fxLayout.xs="column"
+      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+    >
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Dias solicitados</mat-label>
+          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+        </mat-form-field>
+      </div>
+      <div fxFlex="32">
+        <mat-form-field class="example-full-width" appearance="legacy">
+          <mat-label>Fecha Fin de Vacaciones</mat-label>
+          <input matInput [matDatepicker]="picker1" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout="row wrap"
+      fxLayoutGap="2%"
+      fxLayout.xs="column"
+      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+    >
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Persona que reemplazará/apoyo</mat-label>
+          <mat-select>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Persona que aprobará la solicitud</mat-label>
+          <mat-select>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
+      <button mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }">
+        Editar Solicitud
+      </button>
+      <button mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
+        Cancelar
+      </button>
+    </div>
+  </mat-card>
 </div>
-
