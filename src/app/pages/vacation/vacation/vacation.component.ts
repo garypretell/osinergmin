@@ -43,7 +43,7 @@ export class VacationComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.bandejaService.getBandeja({ identificacion: "111" }).subscribe((user: IBandejaResponse) => {
+    this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe((user: IBandejaResponse) => {
       console.log(user);
       this.usuario = user;
       this.rows = user.solicitudesVacacionales;
