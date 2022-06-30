@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
 import { BandejaService } from '@shared/services/bandeja.service';
@@ -13,6 +13,7 @@ import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/b
   styleUrls: ['./vacation.component.scss']
 })
 export class VacationComponent implements OnInit {
+  identificacion: any;
   usuario: IBandejaResponse = {} as IBandejaResponse ;
   cantidad: any;
   pageNumber: any = 0;
@@ -37,7 +38,9 @@ export class VacationComponent implements OnInit {
   columnSize = [20, 20, 23, 25, 25, 12];
   rolAA = 'Asistente Administrativo';
   value = 'Clear me';
-  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService) { }
+  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private route: ActivatedRoute) {
+    this.identificacion = +this.route.snapshot.params['identify'];
+   }
 
   ngOnInit(): void {
     this.bandejaService.getBandeja({ identificacion: "111" }).subscribe((user: IBandejaResponse) => {
@@ -55,7 +58,7 @@ export class VacationComponent implements OnInit {
   }
 
   goRegister(): void {
-    this.router.navigate(['vacaciones/registrar']);
+    this.router.navigate([`vacaciones/${this.identificacion}/registrar`]);
   }
 
   async setPage(pageInfo: any): Promise<any> { }
@@ -63,16 +66,12 @@ export class VacationComponent implements OnInit {
   async onSort(event: any): Promise<any> { }
 
   goDetail(row: any) {
-    let tooltip = document.getElementsByClassName("tooltip");
-    tooltip[0].remove();
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/solicitud', row.codSolicitud]);
+    this.router.navigate([`vacaciones/${this.identificacion}/solicitud`, row.codSolicitud]);
     
   }
 
   anular(row: any): void {
-    let tooltip = document.getElementsByClassName("tooltip");
-    tooltip[0].remove();
     Swal.fire({
       title: `¿Está seguro de anular la solicitud ${row.codSolicitud}?`,
       // text: "No podrás revertir el proceso!",
@@ -96,12 +95,12 @@ export class VacationComponent implements OnInit {
 
   reprogramar(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/reprogramar-solicitud', row.codSolicitud]);
+    this.router.navigate([`vacaciones/${this.identificacion}/reprogramar-solicitud`, row.codSolicitud]);
   }
 
   interrumpir(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/interrumpir-solicitud', row.codSolicitud]);
+    this.router.navigate([`vacaciones/${this.identificacion}/interrumpir-solicitud`, row.codSolicitud]);
   }
 
 }

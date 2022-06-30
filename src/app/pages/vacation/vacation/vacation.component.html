@@ -17,8 +17,8 @@
         <input matInput type="text" [(ngModel)]="usuario.nombres" readonly />
       </mat-form-field>
     </div>
-    <div fxFlex="5" *ngIf="usuario?.esJefe === 1">
-      <span class="badge bg-primary">Cambiar...</span>
+    <div fxFlex="9" *ngIf="usuario?.esJefe === 1">
+      <span class="badge bg-primary">Cambiar trabajador</span>
     </div>
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
@@ -84,7 +84,7 @@
       <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
         ><i class="fas fa-trash"></i></button
       >
-      <button class="btn btn-sm btn-primary me-1" role="button" [disabled]="row.codEstado !== 5 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
+      <button class="btn btn-sm btn-primary me-1" role="button" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
         ><i class="fas fa-trash-restore"></i> </button
       >
     </ng-template>
@@ -151,10 +151,10 @@
       <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1"
         ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
       >
-      <span class="badge bg-success" role="button" (click)="reprogramar(row)"
+      <span class="badge bg-success" role="button" (click)="reprogramar(row)" *ngIf="row.codEstado === 4"
         ><i class="fas fa-retweet"></i> Reprogramar</span
       >
-      <span class="badge bg-primary" role="button" (click)="interrumpir(row)"
+      <span class="badge bg-primary" role="button" (click)="interrumpir(row)" *ngIf="row.codEstado === 4"
         ><i class="fas fa-stopwatch"></i> Interrumpir</span
       >
     </ng-template>

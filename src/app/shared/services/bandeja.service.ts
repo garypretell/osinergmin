@@ -16,7 +16,7 @@ export class BandejaService {
    getBandeja(
     params: IBandejaRequest
   ): Observable<IBandejaResponse> {
-    return this.apiService.post(BandejaEndpoint.GetBandeja, {params, default: []});
+    return this.apiService.get(BandejaEndpoint.GetBandeja, {params, default: []});
   }
 
 }
