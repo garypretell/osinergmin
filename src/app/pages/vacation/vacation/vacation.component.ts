@@ -20,12 +20,6 @@ export class VacationComponent implements OnInit {
   sortData = { place: 1, volume: 1 };
   sortOrder = [{ prop: 'place', dir: 'asc' }, { prop: 'volume', dir: 'asc' }];
   rows: Array<ISolicitud> = [];
-  // rows = [
-  //   { created: '01/03/2022 00:00', code: 'SV-GSTI-00025-2022', type: 'Goce Efectivo', init: '03/03/2022', end: '05/03/2022', days: 2, state: 0 },
-  //   { created: '01/04/2022 00:00', code: 'SV-GSTI-00026-2022', type: 'Reprogramación', init: '03/04/2022', end: '05/04/2022', days: 3, state: 1 },
-  //   { created: '01/05/2022 00:00', code: 'SV-GSTI-00027-2022', type: 'Interrupción', init: '03/05/2022', end: '05/05/2022', days: 1, state: 3 },
-
-  // ];
   columns = [
     { name: 'created', sortable: false },
     { name: 'code', sortable: false },
