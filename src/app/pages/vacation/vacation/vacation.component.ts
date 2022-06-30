@@ -69,13 +69,16 @@ export class VacationComponent implements OnInit {
   async onSort(event: any): Promise<any> { }
 
   goDetail(row: any) {
-    this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/solicitud', row.code]);
     let tooltip = document.getElementsByClassName("tooltip");
     tooltip[0].remove();
+    this.vacationService.vacationSubjectObsData = row;
+    this.router.navigate(['vacaciones/solicitud', row.code]);
+    
   }
 
   anular(row: any): void {
+    let tooltip = document.getElementsByClassName("tooltip");
+    tooltip[0].remove();
     Swal.fire({
       title: `¿Está seguro de anular la solicitud ${row.code}?`,
       // text: "No podrás revertir el proceso!",
