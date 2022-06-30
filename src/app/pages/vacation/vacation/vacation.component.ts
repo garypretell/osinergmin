@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '@services/user.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
-import Swal from 'sweetalert2';
-// import { Tooltip } from 'node_modules/bootstrap/dist/js/';
+import { BandejaService } from '@shared/services/bandeja.service';
 declare var bootstrap: any;
+import Swal from 'sweetalert2';
+import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/bandeja.interface';
 
 @Component({
   selector: 'app-vacation',
@@ -13,19 +13,19 @@ declare var bootstrap: any;
   styleUrls: ['./vacation.component.scss']
 })
 export class VacationComponent implements OnInit {
-  episodio: any = {};
-  usuario: any = {};
+  usuario: IBandejaResponse = {} as IBandejaResponse ;
   cantidad: any;
   pageNumber: any = 0;
   loadingIndicator = false;
   sortData = { place: 1, volume: 1 };
   sortOrder = [{ prop: 'place', dir: 'asc' }, { prop: 'volume', dir: 'asc' }];
-  rows = [
-    { created: '01/03/2022 00:00', code: 'SV-GSTI-00025-2022', type: 'Goce Efectivo', init: '03/03/2022', end: '05/03/2022', days: 2, state: 0 },
-    { created: '01/04/2022 00:00', code: 'SV-GSTI-00026-2022', type: 'Reprogramación', init: '03/04/2022', end: '05/04/2022', days: 3, state: 1 },
-    { created: '01/05/2022 00:00', code: 'SV-GSTI-00027-2022', type: 'Interrupción', init: '03/05/2022', end: '05/05/2022', days: 1, state: 3 },
+  rows: Array<ISolicitud> = [];
+  // rows = [
+  //   { created: '01/03/2022 00:00', code: 'SV-GSTI-00025-2022', type: 'Goce Efectivo', init: '03/03/2022', end: '05/03/2022', days: 2, state: 0 },
+  //   { created: '01/04/2022 00:00', code: 'SV-GSTI-00026-2022', type: 'Reprogramación', init: '03/04/2022', end: '05/04/2022', days: 3, state: 1 },
+  //   { created: '01/05/2022 00:00', code: 'SV-GSTI-00027-2022', type: 'Interrupción', init: '03/05/2022', end: '05/05/2022', days: 1, state: 3 },
 
-  ];
+  // ];
   columns = [
     { name: 'created', sortable: false },
     { name: 'code', sortable: false },
@@ -43,9 +43,14 @@ export class VacationComponent implements OnInit {
   columnSize = [20, 20, 23, 25, 25, 12];
   rolAA = 'Asistente Administrativo';
   value = 'Clear me';
-  constructor(private userService: UserService, private router: Router, private vacationService: VacationService) { }
+  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService) { }
 
   ngOnInit(): void {
+    this.bandejaService.getBandeja({ identificacion: "111" }).subscribe((user: IBandejaResponse) => {
+      console.log(user);
+      this.usuario = user;
+      this.rows = user.solicitudesVacacionales;
+    });
     setTimeout(() => {
       Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
         .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode, {
@@ -53,11 +58,6 @@ export class VacationComponent implements OnInit {
           trigger: 'hover'
         }))
     }, 100);
-    this.userService.getUser({ identificacion: "111" }).subscribe((data: any) => {
-      console.log(data);
-      this.episodio = data;
-      this.usuario = data;
-    });
   }
 
   goRegister(): void {
@@ -72,7 +72,7 @@ export class VacationComponent implements OnInit {
     let tooltip = document.getElementsByClassName("tooltip");
     tooltip[0].remove();
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/solicitud', row.code]);
+    this.router.navigate(['vacaciones/solicitud', row.codSolicitud]);
     
   }
 
@@ -80,7 +80,7 @@ export class VacationComponent implements OnInit {
     let tooltip = document.getElementsByClassName("tooltip");
     tooltip[0].remove();
     Swal.fire({
-      title: `¿Está seguro de anular la solicitud ${row.code}?`,
+      title: `¿Está seguro de anular la solicitud ${row.codSolicitud}?`,
       // text: "No podrás revertir el proceso!",
       icon: 'warning',
       showCancelButton: true,
@@ -90,7 +90,7 @@ export class VacationComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.rows = this.rows.filter(item => item.code !== row.code);
+        this.rows = this.rows.filter(item => item.codSolicitud !== row.codSolicitud);
         Swal.fire(
           'Eliminado!',
           'La solicitud ha sido eliminada.',
@@ -102,12 +102,12 @@ export class VacationComponent implements OnInit {
 
   reprogramar(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/reprogramar-solicitud', row.code]);
+    this.router.navigate(['vacaciones/reprogramar-solicitud', row.codSolicitud]);
   }
 
   interrumpir(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate(['vacaciones/interrumpir-solicitud', row.code]);
+    this.router.navigate(['vacaciones/interrumpir-solicitud', row.codSolicitud]);
   }
 
 }

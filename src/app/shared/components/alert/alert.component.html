@@ -1,7 +1,7 @@
 <mat-dialog-content>
-    <button class="close-button" mat-dialog-close [autofocus]="false">
-        <mat-icon>close</mat-icon>
-    </button>
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn-close" aria-label="Close" mat-dialog-close [autofocus]="false"></button>
+    </div>
     <div class="card border-0">
         <div class="card-body">
             <div class="row text-center">
@@ -10,7 +10,7 @@
             <div class="row mt-xs-1 text-center">
                 <b>{{alert.title}}</b>
             </div>
-            <div class="row mt-xs-1 text-center">
+            <div class="row mt-xs-1 mt-lg-3 text-center">
                 {{alert.message}}
             </div>
         </div>

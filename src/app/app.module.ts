@@ -7,7 +7,7 @@ import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderComponent } from './layout/header/header.component';
 import { LeftNavComponent } from './layout/left-nav/left-nav.component';
 import { LeftNavMenuComponent } from './layout/left-nav/left-nav-menu/left-nav-menu.component';
@@ -15,6 +15,8 @@ import { SkeletonComponent } from './layout/skeleton/skeleton.component';
 import { FooterComponent } from './layout/footer/footer.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
+import { AlertComponent } from '@shared/components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     LeftNavComponent,
     LeftNavMenuComponent,
     SkeletonComponent,
-    FooterComponent
+    FooterComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FlexLayoutModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

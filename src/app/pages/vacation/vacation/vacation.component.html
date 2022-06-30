@@ -1,13 +1,10 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '20px' }">
   <mat-card-title [ngStyle]="{ 'margin-bottom': '20px' }"
     >
-    <!-- <span class="me-3">
-      Gestión de Vacaciones  
-    </span> -->
-    <button type="button" class="btn btn-sm btn-primary position-relative me-3" *ngIf="usuario.rol === rolAA">
+    <button type="button" class="btn btn-sm btn-primary position-relative me-3" *ngIf="usuario?.esJefe === 1">
       Solicitudes pendientes de aprobar
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        4
+        {{usuario.cantidaPorAprobar}}
         <span class="visually-hidden">unread messages</span>
       </span>
     </button></mat-card-title
@@ -20,20 +17,19 @@
         <input matInput type="text" [(ngModel)]="usuario.nombres" readonly />
       </mat-form-field>
     </div>
-    <div fxFlex="5" *ngIf="usuario.rol === rolAA">
+    <div fxFlex="5" *ngIf="usuario?.esJefe === 1">
       <span class="badge bg-primary">Cambiar...</span>
-      <!-- <button mat-raised-button color="primary">Primary</button> -->
     </div>
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
         <mat-label>Saldo Vacacional</mat-label>
-        <input matInput type="text" [(ngModel)]="usuario.cantidad" readonly />
+        <input matInput type="text" [(ngModel)]="usuario.saldo" readonly />
       </mat-form-field>
     </div>
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
         <mat-label>Fecha de Vencimiento</mat-label>
-        <input matInput type="text" [(ngModel)]="usuario.fecha" readonly />
+        <input matInput type="text" [(ngModel)]="usuario.fechaVencimiento" readonly />
       </mat-form-field>
     </div>
     <div fxFlex="5">
@@ -83,36 +79,36 @@
       <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
         <i class="fas fa-eye"></i></button
       >
-      <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.state !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
+      <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
         ><i class="fas fa-trash"></i></button
       >
-      <button class="btn btn-sm btn-primary me-1" role="button" [disabled]="row.state !== 0 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
+      <button class="btn btn-sm btn-primary me-1" role="button" [disabled]="row.codEstado !== 5 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
         ><i class="fas fa-trash-restore"></i> </button
       >
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="created" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="false">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-calendar"></i> Creación</span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="code" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="false">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> Cod. Solicitud </span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="type" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="false">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="init" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="false">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    prop="end"
+    prop="fechaFin"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
     [flexGrow]="2"
@@ -122,14 +118,14 @@
       <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="days" [flexGrow]="1" [sortable]="false">
+  <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="false">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-clock"></i> Dias </span>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
     name="Estado"
-    prop="state"
+    prop="desEstado"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
     [flexGrow]="2"
@@ -137,13 +133,7 @@
   >
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       {{
-        value === 0
-          ? "Anulado"
-          : value === 1
-          ? "Registrado"
-          : value === 2
-          ? "Pendiente"
-          : "Aprobado"
+       row.desEstado
       }}
     </ng-template>
   </ngx-datatable-column>
@@ -156,7 +146,7 @@
     [sortable]="false"
   >
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <span class="badge bg-info" role="button" *ngIf="row.state === 1"
+      <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1"
         ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
       >
       <span class="badge bg-success" role="button" (click)="reprogramar(row)"
