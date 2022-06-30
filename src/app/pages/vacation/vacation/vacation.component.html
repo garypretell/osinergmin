@@ -1,19 +1,24 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '20px' }">
-  <mat-card-title [ngStyle]="{ 'margin-bottom': '20px' }"
-    >
-    <button type="button" class="btn btn-sm btn-primary position-relative me-3" *ngIf="usuario?.esJefe === 1">
-      Solicitudes pendientes de aprobar
-      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {{usuario.cantidaPorAprobar}}
-        <span class="visually-hidden">unread messages</span>
-      </span>
-    </button></mat-card-title
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="end center"
+    fxLayout.xs="column"
+    fxFlexFill
+    [ngStyle]="{ 'margin-bottom': '20px' }"
   >
+  <button type="button" mat-raised-button color="primary" class="position-relative me-3" *ngIf="usuario?.esJefe === 1">
+    Solicitudes pendientes de aprobar
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      {{usuario.cantidaPorAprobar}}
+      <span class="visually-hidden">unread messages</span>
+    </span>
+  </button>
+  </div>
 
   <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
-        <mat-label>Trabajador</mat-label>
+        <mat-label><b>Trabajador</b></mat-label>
         <input matInput type="text" [(ngModel)]="usuario.nombres" readonly />
       </mat-form-field>
     </div>
@@ -22,13 +27,13 @@
     </div>
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
-        <mat-label>Saldo Vacacional</mat-label>
+        <mat-label><b>Saldo Vacacional</b></mat-label>
         <input matInput type="text" [(ngModel)]="usuario.saldo" readonly />
       </mat-form-field>
     </div>
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
-        <mat-label>Fecha de Vencimiento</mat-label>
+        <mat-label><b>Fecha de Vencimiento</b></mat-label>
         <input matInput type="text" [(ngModel)]="usuario.fechaVencimiento" readonly />
       </mat-form-field>
     </div>
