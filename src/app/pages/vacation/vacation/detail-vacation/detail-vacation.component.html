@@ -69,8 +69,8 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Inicio de Vacaciones</mat-label>
-          <input matInput [matDatepicker]="picker" />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+          <input matInput readonly [matDatepicker]="picker" />
+          <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -91,8 +91,8 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Fin de Vacaciones</mat-label>
-          <input matInput [matDatepicker]="picker1" />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+          <input matInput readonly [matDatepicker]="picker1" />
+          <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle
             matSuffix
             [for]="picker1"

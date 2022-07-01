@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MAT_DATE_LOCALE } from '@angular/material/core'
 
 import { VacationRoutingModule } from './vacation-routing.module';
 import { VacationComponent } from './vacation/vacation.component';
@@ -29,6 +30,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NgxDatatableModule,
     MaterialModule,
     FlexLayoutModule
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ]
 })
 export class VacationModule { }
