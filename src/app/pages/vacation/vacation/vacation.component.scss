@@ -6,6 +6,14 @@ mat-form-field {
   color: rgb(69, 41, 252);
 }
 
+.contenedor::-webkit-scrollbar {
+  width: 5px;
+}
+.contenedor::-webkit-scrollbar-thumb {
+  background: #3a47fc;
+  border-radius: 5px;
+}
+
 .my-custom-cell {
     align-items: center !important;
     text-align: center !important;
