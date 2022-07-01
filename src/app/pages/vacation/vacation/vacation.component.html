@@ -153,7 +153,7 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    name=""
+    name="Solicitar"
     prop="actions"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
@@ -162,7 +162,7 @@
     [frozenRight]="true"
   >
   <ng-template let-column="column" ngx-datatable-header-template>
-    <span> </span>
+    <span>Solicitar </span>
   </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1"
