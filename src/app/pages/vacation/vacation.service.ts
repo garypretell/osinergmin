@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class VacationService {
     vacationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    identificationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   constructor(private observer: BreakpointObserver) {}
 
   get vacationValue(): any {
@@ -19,6 +20,18 @@ export class VacationService {
 
   set vacationSubjectObsData(data: any) {
     this.vacationSubject.next(data);
+  }
+
+  get identificationValue(): any {
+    return this.identificationSubject.value;
+  }
+
+  get identificationSubjectObs(): Observable<any> {
+    return this.identificationSubject.asObservable();
+  }
+
+  set identificationSubjectObsData(data: any) {
+    this.identificationSubject.next(data);
   }
 
   isBelowSm(): Observable<BreakpointState> {

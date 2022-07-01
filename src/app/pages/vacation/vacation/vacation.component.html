@@ -81,7 +81,11 @@
     [cellClass]="'my-custom-cell'"
     [flexGrow]="3"
     [sortable]="false"
+    [frozenLeft]="true"
   >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Detalles</span>
+  </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
         <i class="fas fa-eye"></i></button
@@ -138,6 +142,9 @@
     [flexGrow]="2"
     [sortable]="false"
   >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Estado</span>
+  </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       {{
        row.desEstado
@@ -151,7 +158,11 @@
     [cellClass]="'my-custom-cell'"
     [flexGrow]="3"
     [sortable]="false"
+    [frozenRight]="true"
   >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Acciones</span>
+  </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1"
         ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span

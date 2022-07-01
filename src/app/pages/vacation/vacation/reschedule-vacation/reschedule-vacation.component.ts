@@ -9,9 +9,7 @@ import { VacationService } from '../../vacation.service';
 })
 export class RescheduleVacationComponent implements OnInit {
   detalle: any = {};
-  identificacion: any;
-  constructor(private router: Router, private vacationService: VacationService, private route: ActivatedRoute) {
-    this.identificacion = +this.route.snapshot.params['identify'];
+  constructor(private router: Router, private vacationService: VacationService) {
    }
 
   ngOnInit(): void {
@@ -20,7 +18,7 @@ export class RescheduleVacationComponent implements OnInit {
   }
 
   goback(): void {
-    this.router.navigate([`vacaciones/${this.identificacion}/bandeja`]);
+    this.router.navigate([`vacaciones/bandeja`], { queryParams: { id: this.vacationService.identificationValue } });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { VacationService } from '../../vacation.service';
 
 @Component({
@@ -9,9 +9,7 @@ import { VacationService } from '../../vacation.service';
 })
 export class InterruptionVacationComponent implements OnInit {
   detalle: any = {};
-  identificacion: any;
-  constructor(private router: Router, private vacationService: VacationService, private route: ActivatedRoute) {
-    this.identificacion = +this.route.snapshot.params['identify'];
+  constructor(private router: Router, private vacationService: VacationService) {
    }
 
   ngOnInit(): void {
@@ -20,7 +18,7 @@ export class InterruptionVacationComponent implements OnInit {
   }
 
   goback(): void {
-    this.router.navigate([`vacaciones/${this.identificacion}/bandeja`]);
+    this.router.navigate([`vacaciones/bandeja`], { queryParams: { id: this.vacationService.identificationValue } });
   }
 
 }

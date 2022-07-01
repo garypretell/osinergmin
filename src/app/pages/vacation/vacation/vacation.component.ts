@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
@@ -12,9 +12,9 @@ import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/b
   templateUrl: './vacation.component.html',
   styleUrls: ['./vacation.component.scss']
 })
-export class VacationComponent implements OnInit {
+export class VacationComponent implements OnInit, AfterViewInit {
   identificacion: any;
-  usuario: IBandejaResponse = {} as IBandejaResponse ;
+  usuario: IBandejaResponse = {} as IBandejaResponse;
   cantidad: any;
   pageNumber: any = 0;
   loadingIndicator = false;
@@ -33,21 +33,11 @@ export class VacationComponent implements OnInit {
   ];
   reorderable = true;
   ColumnMode = ColumnMode;
-  isBelowMd = true;
-  initialSize = 0;
-  columnSize = [20, 20, 23, 25, 25, 12];
-  rolAA = 'Asistente Administrativo';
-  value = 'Clear me';
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private route: ActivatedRoute) {
-    this.identificacion = +this.route.snapshot.params['identify'];
-   }
-
-  ngOnInit(): void {
-    this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe((user: IBandejaResponse) => {
-      console.log(user);
-      this.usuario = user;
-      this.rows = user.solicitudesVacacionales;
-    });
+    this.identificacion = +this.route.snapshot.queryParams['id'];
+    this.vacationService.identificationSubjectObsData = this.identificacion;
+  }
+  ngAfterViewInit(): void {
     setTimeout(() => {
       Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
         .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode, {
@@ -57,8 +47,24 @@ export class VacationComponent implements OnInit {
     }, 100);
   }
 
+  ngOnInit(): void {
+    this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe({
+      next: (user: IBandejaResponse) => {
+        this.usuario = user;
+        this.rows = user.solicitudesVacacionales;
+      },
+      error: error => {
+        // handle error
+      },
+      complete: () => {
+        console.log('Request complete');
+      }
+    });
+
+  }
+
   goRegister(): void {
-    this.router.navigate([`vacaciones/${this.identificacion}/registrar`]);
+    this.router.navigate([`vacaciones/registrar`]);
   }
 
   async setPage(pageInfo: any): Promise<any> { }
@@ -67,8 +73,8 @@ export class VacationComponent implements OnInit {
 
   goDetail(row: any) {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate([`vacaciones/${this.identificacion}/solicitud`, row.codSolicitud]);
-    
+    this.router.navigate([`vacaciones/solicitud`, row.codSolicitud]);
+
   }
 
   anular(row: any): void {
@@ -95,12 +101,12 @@ export class VacationComponent implements OnInit {
 
   reprogramar(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate([`vacaciones/${this.identificacion}/reprogramar-solicitud`, row.codSolicitud]);
+    this.router.navigate([`vacaciones/reprogramar-solicitud`, row.codSolicitud]);
   }
 
   interrumpir(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate([`vacaciones/${this.identificacion}/interrumpir-solicitud`, row.codSolicitud]);
+    this.router.navigate([`vacaciones/interrumpir-solicitud`, row.codSolicitud]);
   }
 
 }
