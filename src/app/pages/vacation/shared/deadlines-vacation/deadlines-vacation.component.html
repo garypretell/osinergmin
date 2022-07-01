@@ -1,7 +1,24 @@
-<p>deadlines-vacation works!</p>
-{{saldo | json}}
-<div>
-
+<div mat-dialog-content>
+  <table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Desc. Periodo</th>
+            <th>Saldo</th>
+            <th class="text-center">Fecha Vencimiento</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let saldo of saldos.listaPlazozVacacionales; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>
+                    {{ saldo.descPeriodo }}
+                </td>
+                <td>{{ saldo.saldo }}</td>
+                <td class="text-center">{{ saldo.fecVencimiento }}</td>
+        </tr>
+    </tbody>
+  </table>
 </div>
 <div fxLayout="row" fxLayoutAlign="end center" >
     <div mat-dialog-actions>
