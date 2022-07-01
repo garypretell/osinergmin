@@ -27,4 +27,15 @@ export interface ISolicitud {
 
 export interface IBandejaRequest {
     identificacion: string;
-  }
+}
+
+export interface IPlazosBody {
+    codSaldo: number;
+}
+
+export interface IPlazosResponse {
+    codSaldo: number;
+    descPeriodo: string;
+    saldo: string;
+    fecVencimiento: string;
+}

@@ -22,7 +22,7 @@
         <input matInput type="text" [(ngModel)]="usuario.nombres" readonly />
       </mat-form-field>
     </div>
-    <div fxFlex="9" *ngIf="usuario?.esJefe === 1">
+    <div fxFlex="9" *ngIf="usuario?.esJefe === 1" fxHide >
       <span class="badge bg-primary">Cambiar trabajador</span>
     </div>
     <div fxFlex="30">
@@ -38,9 +38,10 @@
       </mat-form-field>
     </div>
     <div fxFlex="5">
-      <mat-icon
+      <mat-icon (click)="openModal()"
           class="info-icon"
           aria-label="Example home icon"
+          [ngStyle]="{ 'cursor': 'pointer' }"
           >info</mat-icon
         >
     </div>
@@ -50,7 +51,7 @@
     fxLayoutAlign="end center"
     fxLayout.xs="column"
     fxFlexFill
-    [ngStyle]="{ 'margin-bottom': '20px' }"
+    [ngStyle]="{ 'margin-bottom': '20px', 'margin-right': '20px' }"
   >
     <button mat-raised-button color="primary" (click)="goRegister()">
       Registrar Solicitud de Vacaciones

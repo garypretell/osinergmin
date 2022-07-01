@@ -6,6 +6,8 @@ import { BandejaService } from '@shared/services/bandeja.service';
 declare var bootstrap: any;
 import Swal from 'sweetalert2';
 import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/bandeja.interface';
+import {MatDialog} from '@angular/material/dialog';
+import { DeadlinesVacationComponent } from '../shared/deadlines-vacation/deadlines-vacation.component';
 
 @Component({
   selector: 'app-vacation',
@@ -33,7 +35,8 @@ export class VacationComponent implements OnInit, AfterViewInit {
   ];
   reorderable = true;
   ColumnMode = ColumnMode;
-  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private route: ActivatedRoute) {
+  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService,
+     private route: ActivatedRoute, public dialog: MatDialog) {
     this.identificacion = +this.route.snapshot.queryParams['id'];
     this.vacationService.identificationSubjectObsData = this.identificacion;
   }
@@ -108,5 +111,16 @@ export class VacationComponent implements OnInit, AfterViewInit {
     this.vacationService.vacationSubjectObsData = row;
     this.router.navigate([`vacaciones/interrumpir-solicitud`, row.codSolicitud]);
   }
+
+  openModal(): void {
+    this.dialog.open(DeadlinesVacationComponent, {
+      width: '400px',
+      autoFocus: false,
+      closeOnNavigation: true,
+      data: {
+        saldo: this.rows[0]
+      }
+    });
+  } 
 
 }

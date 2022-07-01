@@ -13,6 +13,7 @@ import { InterruptionVacationComponent } from './vacation/interruption-vacation/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadlines-vacation.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     RegisterVacationComponent,
     DetailVacationComponent,
     RescheduleVacationComponent,
-    InterruptionVacationComponent
+    InterruptionVacationComponent,
+    DeadlinesVacationComponent
   ],
   imports: [
     CommonModule,
