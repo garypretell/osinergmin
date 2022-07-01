@@ -6,7 +6,7 @@
     fxFlexFill
     [ngStyle]="{ 'margin-bottom': '20px' }"
   >
-  <button type="button" mat-raised-button color="primary" class="position-relative me-3" *ngIf="usuario?.esJefe === 1">
+  <button type="button" mat-raised-button color="primary" class="position-relative me-3" >
     Solicitudes pendientes de aprobar
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
       {{usuario.cantidaPorAprobar}}
@@ -51,9 +51,9 @@
     fxLayoutAlign="end center"
     fxLayout.xs="column"
     fxFlexFill
-    [ngStyle]="{ 'margin-bottom': '20px', 'margin-right': '20px' }"
+    [ngStyle]="{ 'margin-bottom': '20px' }"
   >
-    <button mat-raised-button color="primary" (click)="goRegister()">
+    <button mat-raised-button color="primary" (click)="goRegister()" [ngStyle]="{ 'margin-right': '16px' }">
       Registrar Solicitud de Vacaciones
     </button>
   </div>
@@ -76,7 +76,7 @@
   totalMessage: 'solicitudes'}"
 >
   <ngx-datatable-column
-    name="Detalles"
+    name="Acciones"
     prop="actions"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
@@ -85,7 +85,7 @@
     [frozenLeft]="true"
   >
   <ng-template let-column="column" ngx-datatable-header-template>
-    <span> Detalles</span>
+    <span> Acciones</span>
   </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
@@ -153,7 +153,7 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    name="Acciones"
+    name=""
     prop="actions"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
@@ -162,7 +162,7 @@
     [frozenRight]="true"
   >
   <ng-template let-column="column" ngx-datatable-header-template>
-    <span> Acciones</span>
+    <span> </span>
   </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1"
