@@ -5,7 +5,7 @@
         <a [routerLink]="['']" (click)="goback()">Bandeja</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
-        Detalle de la Solicitud ({{ row?.code }})
+        Detalle de la Solicitud ({{ row?.codSolicitud }})
       </li>
     </ol>
   </nav>
@@ -110,21 +110,53 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Persona que reemplazará/apoyo</mat-label>
-          <mat-select>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-          </mat-select>
+              <input
+                id="reemplazo"
+                matInput
+                aria-label="State"
+                [matAutocomplete]="auto"
+                [formControl]="reemplazoCtrl"
+                [(ngModel)]="reemplazoValue" 
+                name="reemplazoValue"
+                required
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
+                  *ngFor="let state of filteredReemplazo | async"
+                  [value]="state.nombres"
+                >
+                  <span>{{ state.nombres }}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
+                <mat-icon>close</mat-icon>
+              </button>
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Persona que aprobará la solicitud</mat-label>
-          <mat-select>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-          </mat-select>
+                <input
+                  id="aprobar"
+                  matInput
+                  aria-label="State"
+                  [matAutocomplete]="cmp"
+                  [formControl]="aprobadoCtrl"
+                  [(ngModel)]="aprobadoValue"
+                  name="aprobadoValue"
+                  required
+                />
+                <mat-autocomplete #cmp="matAutocomplete">
+                  <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
+                    *ngFor="let state of filteredAprobado| async"
+                    [value]="state.nombres"
+                  >
+                    <span>{{ state.nombres }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <button type="button" mat-button *ngIf="aprobadoValue" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
+                  <mat-icon>close</mat-icon>
+                </button>
         </mat-form-field>
       </div>
     </div>

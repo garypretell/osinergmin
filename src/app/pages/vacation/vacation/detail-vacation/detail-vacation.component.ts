@@ -31,6 +31,10 @@ export class DetailVacationComponent implements OnInit {
   aprobadoCtrl = new FormControl('');
   aprobadoValue: any;
   filteredAprobado!: Observable<IEmpleadoAprobacion[]>;
+  codReemplazoValue: any;
+  codAprobadoValue: any;
+  steps = 0.5;
+  hasDot = false;
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe, public dialog: MatDialog) {
    }
 
@@ -85,6 +89,14 @@ export class DetailVacationComponent implements OnInit {
 
   goback(): void {
     this.router.navigate([`vacaciones/bandeja`], { queryParams: { id: this.vacationService.identificationValue } });
+  }
+
+  OnReemplazoSelected(value: any): void {
+    this.codReemplazoValue = value.identificacion;
+  }
+
+  OnAprobacionSelected(value: any): void {
+    this.codAprobadoValue = value.identificacion;
   }
 
 }
