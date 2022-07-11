@@ -100,22 +100,22 @@
       >
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="true">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-calendar"></i> Creación</span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="true">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> Cod. Solicitud </span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="true">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="false">
+  <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="true">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
     </ng-template>
@@ -131,7 +131,7 @@
       <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="false">
+  <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-clock"></i> Dias </span>
     </ng-template>
@@ -159,7 +159,7 @@
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
     [flexGrow]="3"
-    [sortable]="false"
+    [sortable]="true"
     [frozenRight]="true"
   >
   <ng-template let-column="column" ngx-datatable-header-template>
