@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
 import { BandejaService } from '@shared/services/bandeja.service';
 declare var bootstrap: any;
@@ -22,17 +22,18 @@ export class VacationComponent implements OnInit, AfterViewInit {
   pageNumber: any = 0;
   loadingIndicator = false;
   sortData = { place: 1, volume: 1 };
+  SortType = SortType;
   sortOrder = [{ prop: 'place', dir: 'asc' }, { prop: 'volume', dir: 'asc' }];
   rows: Array<ISolicitud> = [];
   columns = [
-    { name: 'created', sortable: false },
-    { name: 'code', sortable: false },
-    { name: 'type', sortable: false },
-    { name: 'init', sortable: false },
-    { name: 'end', sortable: false },
-    { name: 'days', sortable: false },
-    { name: 'state', sortable: false },
-    { name: 'action', sortable: false },
+    { name: 'created', sortable: true },
+    { name: 'code', sortable: true },
+    { name: 'type', sortable: true },
+    { name: 'init', sortable: true },
+    { name: 'end', sortable: true },
+    { name: 'days', sortable: true },
+    { name: 'state', sortable: true },
+    { name: 'action', sortable: true },
   ];
   reorderable = true;
   ColumnMode = ColumnMode;
