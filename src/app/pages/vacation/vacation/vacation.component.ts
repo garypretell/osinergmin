@@ -57,6 +57,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
         this.rows = user.solicitudesVacacionales;
       },
       error: error => {
+        this.usuario = {} as IBandejaResponse;
         // handle error
       },
       complete: () => {
@@ -67,6 +68,8 @@ export class VacationComponent implements OnInit, AfterViewInit {
   }
 
   goRegister(): void {
+    this.vacationService.userSubjectObsData = this.usuario;
+    // if (this.usuario.nombres) { this.router.navigate([`vacaciones/registrar`]); }
     this.router.navigate([`vacaciones/registrar`]);
   }
 

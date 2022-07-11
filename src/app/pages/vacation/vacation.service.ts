@@ -6,9 +6,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class VacationService {
+    userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     vacationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     identificationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   constructor(private observer: BreakpointObserver) {}
+
+  get userValue(): any {
+    return this.userSubject.value;
+  }
+
+  get userSubjectObs(): Observable<any> {
+    return this.userSubject.asObservable();
+  }
+
+  set userSubjectObsData(data: any) {
+    this.userSubject.next(data);
+  }
 
   get vacationValue(): any {
     return this.vacationSubject.value;

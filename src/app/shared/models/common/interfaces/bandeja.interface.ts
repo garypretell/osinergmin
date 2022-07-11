@@ -33,6 +33,42 @@ export interface IPlazosBody {
     codSaldo: number;
 }
 
+export interface IDatosRegistroBody {
+    identificacion: string;
+    nombres: string;
+}
+
+export interface IRegistroVacaionalBody {
+    identificacion: string;
+    nombres: string;
+    codRegistro: string;
+    codigoSolicitud: string;
+    codEmplReemplazo: string;
+    codEmplAprobacion: string;
+    fechaInicio: string;
+    fechaFin: string;
+    dias: string;
+    diaMedio: string;
+}
+
+export interface IDatosRegistroResponse {
+    identificacion: number;
+    nombres: string;
+    codigoSolicitud: string;
+    listaEmpleadosReemplazo: IEmpleadosReemplazo[];
+    listaEmpleadoAprobacion: IEmpleadoAprobacion[];
+}
+
+export interface IEmpleadosReemplazo {
+    identificacion: number;
+    nombres: string;
+}
+
+export interface IEmpleadoAprobacion {
+    identificacion: number;
+    nombres: string;
+}
+
 export interface IPlazosResponse {
     codSaldo: number;
     descPeriodo: string;

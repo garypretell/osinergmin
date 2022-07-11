@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBandejaRequest, IBandejaResponse, IPlazosBody, IPlazosResponse } from '@shared/models/common/interfaces/bandeja.interface';
+import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IPlazosBody, IPlazosResponse, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaEndpoint } from '@shared/providers/bandeja.endpoint';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
@@ -24,6 +24,20 @@ export class BandejaService {
    */
    getPlazos(body: IPlazosBody): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostDeadlines, body);
+  }
+
+  /**
+   * Obtener Datos Registro
+   */
+   getDatosRegistros(body: IDatosRegistroBody): Observable<IDatosRegistroResponse> {
+    return this.apiService.post(BandejaEndpoint.PostDatosRegistro, body);
+  }
+
+  /**
+   * Registrar Vacacional
+   */
+   postRegistro(body: IRegistroVacaionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostRegistroVacacional, body);
   }
 
 }
