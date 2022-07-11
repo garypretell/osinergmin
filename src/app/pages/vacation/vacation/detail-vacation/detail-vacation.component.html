@@ -20,19 +20,19 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Código de la solicitud</mat-label>
-          <input matInput type="text" [(ngModel)]="row.codSolicitud" readonly required />
+          <input matInput type="text" [(ngModel)]="row.codSolicitud" readonly required name="code" />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Estado</mat-label>
-          <input matInput type="text" [(ngModel)]="row.desEstado" readonly required />
+          <input matInput type="text" [(ngModel)]="row.desEstado" readonly required name="estado">
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Creado</mat-label>
-          <input matInput type="text" [(ngModel)]="registroVacional.fechaRegistro" readonly  required/>
+          <input matInput type="text" [(ngModel)]="registroVacional.fechaRegistro" name="fechaRegistro" readonly  required/>
         </mat-form-field>
       </div>
     </div>
@@ -45,19 +45,19 @@
       <div fxFlex="32">
       <mat-form-field appearance="legacy">
         <mat-label>Nombre del solicitante</mat-label>
-        <input matInput type="text" [(ngModel)]="detalle.nombres" readonly required/>
+        <input matInput type="text" [(ngModel)]="detalle.nombres" name="nombres" readonly required/>
       </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Tipo</mat-label>
-          <input matInput type="text" [(ngModel)]="row.descTipoGoce" readonly required />
+          <input matInput type="text" [(ngModel)]="row.descTipoGoce" name="tipoGoce" readonly required />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Actualizado</mat-label>
-          <input matInput type="text" [(ngModel)]="registroVacional.fechaModificacion" readonly required />
+          <input matInput type="text" [(ngModel)]="registroVacional.fechaModificacion" name="fechaMod" readonly required />
         </mat-form-field>
       </div>
     </div>
@@ -70,7 +70,7 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio" required/>
+          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio" name="fechaInit" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -79,7 +79,7 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" required/>
+          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" name="fechaF" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle
             matSuffix
@@ -107,6 +107,7 @@
           min="1"
           oninput="validity.valid||(value='');"
           required
+          name="diasSolicitados"
         />
         <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
       </mat-form-field>
@@ -134,6 +135,7 @@
                 [(ngModel)]="reemplazoValue" 
                 name="reemplazoValue"
                 required
+                name="reemplazoValue"
               />
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
@@ -160,6 +162,7 @@
                   [(ngModel)]="aprobadoValue"
                   name="aprobadoValue"
                   required
+                  name="aprobadoValue"
                 />
                 <mat-autocomplete #cmp="matAutocomplete">
                   <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
