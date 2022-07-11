@@ -11,165 +11,176 @@
   </nav>
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Registrar Solicitud de Vacaciones - Goce Efectivo">
-      <mat-card [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
-        <div
-          fxLayout="row"
-          fxLayoutGap="25px"
-          fxLayout.xs="column"
-          [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-        >
+        <mat-card [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
+          <form name="form" #f="ngForm" novalidate>
+          <div
+            fxLayout="row"
+            fxLayoutGap="25px"
+            fxLayout.xs="column"
+            [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+          >
+            <div fxFlex="50">
+              <mat-form-field appearance="legacy">
+                <mat-label>Código de la solicitud</mat-label>
+                <input
+                  name="codigo"
+                  matInput
+                  type="text"
+                  [(ngModel)]="registro.codigoSolicitud"
+                  readonly
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <div fxFlex="50">
+              <mat-form-field appearance="legacy">
+                <mat-label>Nombre del solicitante</mat-label>
+                <input
+                  name="solicita"
+                  matInput
+                  type="text"
+                  [(ngModel)]="registro.nombres"
+                  readonly
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutGap="25px"
+            fxLayout.xs="column"
+            [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+          >
+            <div fxFlex="50">
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Fecha Inicio de Vacaciones</mat-label>
+                <input matInput readonly [matDatepicker]="picker" [min]="today" [(ngModel)]="fechaInicio" name="fechaInicio" />
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle 
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div fxFlex="50">
+              <mat-form-field appearance="legacy">
+                <mat-label>Días solicitados</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="{{steps}}"
+                  [(ngModel)]="diasSolicitados" name="diasSolicitados"
+                  (ngModelChange)="calcularDias()"
+                  min="1"
+                  oninput="validity.valid||(value='');"
+                />
+                <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutGap="25px"
+            fxLayout.xs="column"
+            [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+          >
+            <div fxFlex="50">
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Fecha Fin de Vacaciones</mat-label>
+                <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" name="fechaFin"/>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle disabled
+                  matSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div fxFlex="50">
+                <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" >La fecha final considera solo medio día de vacaciones.</mat-checkbox>
+            </div>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutGap="25px"
+            fxLayout.xs="column"
+            [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+          >
           <div fxFlex="50">
             <mat-form-field appearance="legacy">
-              <mat-label>Código de la solicitud</mat-label>
+              <mat-label>Persona que reemplazará/apoyo</mat-label>
               <input
-                matInput
-                type="text"
-                [(ngModel)]="registro.codigoSolicitud"
-                readonly
-              />
-            </mat-form-field>
-          </div>
-          <div fxFlex="50">
-            <mat-form-field appearance="legacy">
-              <mat-label>Nombre del solicitante</mat-label>
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="registro.nombres"
-                readonly
-              />
-            </mat-form-field>
-          </div>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayoutGap="25px"
-          fxLayout.xs="column"
-          [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-        >
-          <div fxFlex="50">
-            <mat-form-field class="example-full-width" appearance="legacy">
-              <mat-label>Fecha Inicio de Vacaciones</mat-label>
-              <input matInput readonly [matDatepicker]="picker" [min]="today" [(ngModel)]="fechaInicio" />
-              <mat-hint>DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle 
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div fxFlex="50">
-            <mat-form-field appearance="legacy">
-              <mat-label>Días solicitados</mat-label>
-              <input
-                matInput
-                type="number"
-                step="{{steps}}"
-                [(ngModel)]="diasSolicitados"
-                (ngModelChange)="calcularDias()"
-                min="1"
-                oninput="validity.valid||(value='');"
-              />
-              <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
-            </mat-form-field>
-          </div>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayoutGap="25px"
-          fxLayout.xs="column"
-          [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-        >
-          <div fxFlex="50">
-            <mat-form-field class="example-full-width" appearance="legacy">
-              <mat-label>Fecha Fin de Vacaciones</mat-label>
-              <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" />
-              <mat-hint>DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle disabled
-                matSuffix
-                [for]="picker1"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div fxFlex="50">
-              <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot">La fecha final considera solo medio día de vacaciones.</mat-checkbox>
-          </div>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayoutGap="25px"
-          fxLayout.xs="column"
-          [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-        >
-        <div fxFlex="50">
-          <mat-form-field appearance="legacy">
-            <mat-label>Persona que reemplazará/apoyo</mat-label>
-            <input
-              id="reemplazo"
-              matInput
-              aria-label="State"
-              [matAutocomplete]="auto"
-              [formControl]="reemplazoCtrl"
-              [(ngModel)]="reemplazoValue"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
-                *ngFor="let state of filteredReemplazo | async"
-                [value]="state.nombres"
-              >
-                <span>{{ state.nombres }}</span>
-              </mat-option>
-            </mat-autocomplete>
-            <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-          <div fxFlex="50">
-            <mat-form-field appearance="legacy">
-              <mat-label>Persona que aprobará la solicitud</mat-label>
-              <input
-                id="aprobar"
+                id="reemplazo"
                 matInput
                 aria-label="State"
-                [matAutocomplete]="cmp"
-                [formControl]="aprobadoCtrl"
-                [(ngModel)]="aprobadoValue"
+                [matAutocomplete]="auto"
+                [formControl]="reemplazoCtrl"
+                [(ngModel)]="reemplazoValue" 
+                name="reemplazoValue"
+                required
               />
-              <mat-autocomplete #cmp="matAutocomplete">
-                <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
-                  *ngFor="let state of filteredAprobado| async"
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
+                  *ngFor="let state of filteredReemplazo | async"
                   [value]="state.nombres"
                 >
                   <span>{{ state.nombres }}</span>
                 </mat-option>
               </mat-autocomplete>
-              <button type="button" mat-button *ngIf="aprobadoValue" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
+              <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
           </div>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
-          <button
-            mat-raised-button
-            color="primary"
-            [ngStyle]="{ margin: '5px' }"
-            (click)="registrar()"
-          >
-            Registrar Solicitud
-          </button>
-          <button
-            mat-raised-button
-            [ngStyle]="{ margin: '5px' }"
-            (click)="goBandeja()"
-          >
-            Cancelar
-          </button>
-        </div>
-      </mat-card>
+            <div fxFlex="50">
+              <mat-form-field appearance="legacy">
+                <mat-label>Persona que aprobará la solicitud</mat-label>
+                <input
+                  id="aprobar"
+                  matInput
+                  aria-label="State"
+                  [matAutocomplete]="cmp"
+                  [formControl]="aprobadoCtrl"
+                  [(ngModel)]="aprobadoValue"
+                  name="aprobadoValue"
+                  required
+                />
+                <mat-autocomplete #cmp="matAutocomplete">
+                  <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
+                    *ngFor="let state of filteredAprobado| async"
+                    [value]="state.nombres"
+                  >
+                    <span>{{ state.nombres }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <button type="button" mat-button *ngIf="aprobadoValue" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
+            <button
+              [disabled]="!f.form.valid"
+              mat-raised-button
+              color="primary"
+              [ngStyle]="{ margin: '5px' }"
+              (click)="registrar()"
+            >
+              Registrar Solicitud
+            </button>
+            <button
+              mat-raised-button
+              [ngStyle]="{ margin: '5px' }"
+              (click)="goBandeja()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+        </mat-card>
     </mat-tab>
   </mat-tab-group>
 </div>

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, NgForm } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./register-vacation.component.scss']
 })
 export class RegisterVacationComponent implements OnInit {
+  @ViewChild('formReg') public formReg!: NgForm;
   today = new Date();
   fechaInicio = new Date();
   fechaFin = new Date();
