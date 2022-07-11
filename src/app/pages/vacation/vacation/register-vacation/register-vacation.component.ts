@@ -21,14 +21,44 @@ export class RegisterVacationComponent implements OnInit {
   usuario: any = {};
   registro: IDatosRegistroResponse = {} as IDatosRegistroResponse;
   listaEmpleadosReemplazo: Array<IEmpleadosReemplazo> = [
-   
+    {
+      "identificacion": 1072092,
+      "nombres": "NOM-morasyhvbigf APE-daojzvvmzgrtq"
+  },
+  {
+      "identificacion": 1048994,
+      "nombres": "NOM-rfiplsgvtkfix APE-cwyphrryinyaoisv"
+  },
+  {
+      "identificacion": 1106741,
+      "nombres": "NOM-sgvrlkcupyl APE-cwqevcyfvhxpzjjj"
+  },
+  {
+      "identificacion": 1094507,
+      "nombres": "NOM-ftqhzguzwr APE-jegzcmgjpxbgnzw"
+  }
   ];
   reemplazoCtrl = new FormControl('');
   reemplazoValue: any;
   filteredReemplazo!: Observable<IEmpleadosReemplazo[]>;
 
   listaEmpleadoAprobacion: Array<IEmpleadoAprobacion> = [
-    
+    {
+      "identificacion": 1072092,
+      "nombres": "NOM-morasyhvbigf APE-daojzvvmzgrtq"
+  },
+  {
+      "identificacion": 1048994,
+      "nombres": "NOM-rfiplsgvtkfix APE-cwyphrryinyaoisv"
+  },
+  {
+      "identificacion": 1106741,
+      "nombres": "NOM-sgvrlkcupyl APE-cwqevcyfvhxpzjjj"
+  },
+  {
+      "identificacion": 1094507,
+      "nombres": "NOM-ftqhzguzwr APE-jegzcmgjpxbgnzw"
+  }
   ];
   aprobadoCtrl = new FormControl('');
   aprobadoValue: any;
@@ -58,7 +88,7 @@ export class RegisterVacationComponent implements OnInit {
 
   ngOnInit(): void {
     const user: any = this.vacationService.userValue;
-    // user.identificacion ? this.usuario = user : this.goBandeja();
+    user.identificacion ? this.usuario = user : this.goBandeja();
     if(user?.identificacion) {
       this.bandejaService.getDatosRegistros({
         identificacion: this.usuario.identificacion,
@@ -66,8 +96,6 @@ export class RegisterVacationComponent implements OnInit {
       }).subscribe({
         next: (data: IDatosRegistroResponse) => {
           this.registro = data;
-          // this.usuario = user;
-          // this.rows = user.solicitudesVacacionales;
         },
         error: error => {
           // handle error
