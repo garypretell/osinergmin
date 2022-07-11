@@ -20,58 +20,17 @@ export class RegisterVacationComponent implements OnInit {
   vacaciones: any = {};
   usuario: any = {};
   registro: IDatosRegistroResponse = {} as IDatosRegistroResponse;
-  listaEmpleadosReemplazo: Array<IEmpleadosReemplazo> = [
-    {
-      "identificacion": 1072092,
-      "nombres": "NOM-morasyhvbigf APE-daojzvvmzgrtq"
-  },
-  {
-      "identificacion": 1048994,
-      "nombres": "NOM-rfiplsgvtkfix APE-cwyphrryinyaoisv"
-  },
-  {
-      "identificacion": 1106741,
-      "nombres": "NOM-sgvrlkcupyl APE-cwqevcyfvhxpzjjj"
-  },
-  {
-      "identificacion": 1094507,
-      "nombres": "NOM-ftqhzguzwr APE-jegzcmgjpxbgnzw"
-  }
-  ];
+  listaEmpleadosReemplazo: Array<IEmpleadosReemplazo> = [];
   reemplazoCtrl = new FormControl('');
   reemplazoValue: any;
   filteredReemplazo!: Observable<IEmpleadosReemplazo[]>;
 
-  listaEmpleadoAprobacion: Array<IEmpleadoAprobacion> = [
-    {
-      "identificacion": 1072092,
-      "nombres": "NOM-morasyhvbigf APE-daojzvvmzgrtq"
-  },
-  {
-      "identificacion": 1048994,
-      "nombres": "NOM-rfiplsgvtkfix APE-cwyphrryinyaoisv"
-  },
-  {
-      "identificacion": 1106741,
-      "nombres": "NOM-sgvrlkcupyl APE-cwqevcyfvhxpzjjj"
-  },
-  {
-      "identificacion": 1094507,
-      "nombres": "NOM-ftqhzguzwr APE-jegzcmgjpxbgnzw"
-  }
-  ];
+  listaEmpleadoAprobacion: Array<IEmpleadoAprobacion> = [];
   aprobadoCtrl = new FormControl('');
   aprobadoValue: any;
   filteredAprobado!: Observable<IEmpleadoAprobacion[]>;
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService) {
-    this.filteredReemplazo = this.reemplazoCtrl.valueChanges.pipe(
-      startWith(''),
-      map(state => (state ? this._filterStatesReemplazo(state) : this.listaEmpleadosReemplazo.slice())),
-    );
-    this.filteredAprobado = this.aprobadoCtrl.valueChanges.pipe(
-      startWith(''),
-      map(state => (state ? this._filterStatesAprobado(state) : this.listaEmpleadoAprobacion.slice())),
-    );
+    
   }
 
   private _filterStatesReemplazo(value: string): IEmpleadosReemplazo[] {
@@ -96,11 +55,21 @@ export class RegisterVacationComponent implements OnInit {
       }).subscribe({
         next: (data: IDatosRegistroResponse) => {
           this.registro = data;
+          this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
+          this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
         },
         error: error => {
           // handle error
         },
         complete: () => {
+          this.filteredReemplazo = this.reemplazoCtrl.valueChanges.pipe(
+            startWith(''),
+            map(state => (state ? this._filterStatesReemplazo(state) : this.listaEmpleadosReemplazo.slice())),
+          );
+          this.filteredAprobado = this.aprobadoCtrl.valueChanges.pipe(
+            startWith(''),
+            map(state => (state ? this._filterStatesAprobado(state) : this.listaEmpleadoAprobacion.slice())),
+          );
           console.log('Request complete');
         }
       });
