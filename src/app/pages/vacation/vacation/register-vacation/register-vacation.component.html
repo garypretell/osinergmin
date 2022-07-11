@@ -95,6 +95,7 @@
             <mat-form-field appearance="legacy">
               <mat-label>Persona que reemplazará/apoyo</mat-label>
               <input
+                id="reemplazo"
                 matInput
                 aria-label="State"
                 [matAutocomplete]="auto"
@@ -125,13 +126,14 @@
             <mat-form-field appearance="legacy">
               <mat-label>Persona que aprobará la solicitud</mat-label>
               <input
+                id="aprobar"
                 matInput
                 aria-label="State"
-                [matAutocomplete]="auto"
+                [matAutocomplete]="cmp"
                 [formControl]="aprobadoCtrl"
                 [(ngModel)]="aprobadoValue"
               />
-              <mat-autocomplete #auto="matAutocomplete">
+              <mat-autocomplete #cmp="matAutocomplete">
                 <mat-option
                   *ngFor="let state of filteredAprobado| async"
                   [value]="state.nombres"
