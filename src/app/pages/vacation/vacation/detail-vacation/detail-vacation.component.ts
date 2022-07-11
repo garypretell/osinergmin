@@ -38,6 +38,7 @@ export class DetailVacationComponent implements OnInit {
   codAprobadoValue: any;
   steps = 0.5;
   hasDot = false;
+  registroVacional: any = {};
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe, public dialog: MatDialog) {
    }
 
@@ -68,6 +69,7 @@ export class DetailVacationComponent implements OnInit {
       }).subscribe({
         next: (data: IDetalleRegistroResponse) => {
           this.detalle = data;
+          this.registroVacional = data.registroVacional;
           this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
           dialogRef.close();
