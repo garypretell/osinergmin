@@ -121,7 +121,7 @@ export class RegisterVacationComponent implements OnInit {
     this.bandejaService.postRegistro(body).subscribe({
       next: (data: IDatosRegistroResponse) => {
         Swal.fire(
-          '',
+          `Registro : ${this.registro.codRegistro}`,
           'Registro realizado con éxito',
           'success'
         ).then(() => {

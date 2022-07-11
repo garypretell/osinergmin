@@ -10,6 +10,7 @@
     </ol>
   </nav>
   <mat-card> 
+    <form name="form" #f="ngForm" novalidate>
     <div
       fxLayout="row wrap"
       fxLayoutGap="2%"
@@ -19,19 +20,19 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Código de la solicitud</mat-label>
-          <input matInput type="text" [(ngModel)]="row.codSolicitud" readonly />
+          <input matInput type="text" [(ngModel)]="row.codSolicitud" readonly required />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Estado</mat-label>
-          <input matInput type="text" [(ngModel)]="row.desEstado" readonly />
+          <input matInput type="text" [(ngModel)]="row.desEstado" readonly required />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Creado</mat-label>
-          <input matInput type="text" [(ngModel)]="registroVacional.fechaRegistro" readonly />
+          <input matInput type="text" [(ngModel)]="registroVacional.fechaRegistro" readonly  required/>
         </mat-form-field>
       </div>
     </div>
@@ -44,19 +45,19 @@
       <div fxFlex="32">
       <mat-form-field appearance="legacy">
         <mat-label>Nombre del solicitante</mat-label>
-        <input matInput type="text" [(ngModel)]="detalle.nombres" readonly />
+        <input matInput type="text" [(ngModel)]="detalle.nombres" readonly required/>
       </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Tipo</mat-label>
-          <input matInput type="text" [(ngModel)]="row.descTipoGoce" readonly />
+          <input matInput type="text" [(ngModel)]="row.descTipoGoce" readonly required />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Actualizado</mat-label>
-          <input matInput type="text" [(ngModel)]="registroVacional.fechaModificacion" readonly />
+          <input matInput type="text" [(ngModel)]="registroVacional.fechaModificacion" readonly required />
         </mat-form-field>
       </div>
     </div>
@@ -69,7 +70,7 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio"/>
+          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -78,7 +79,7 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin"/>
+          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle
             matSuffix
@@ -105,6 +106,7 @@
           (ngModelChange)="calcularDias()"
           min="1"
           oninput="validity.valid||(value='');"
+          required
         />
         <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
       </mat-form-field>
@@ -174,12 +176,13 @@
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
-      <button mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }">
+      <button [disabled]="!f.form.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }">
         Editar Solicitud
       </button>
       <button mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
         Cancelar
       </button>
     </div>
+  </form>
   </mat-card>
 </div>

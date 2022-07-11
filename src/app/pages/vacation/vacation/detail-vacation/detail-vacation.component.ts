@@ -4,11 +4,12 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
-import { IDatosRegistroResponse, IDetalleRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo } from '@shared/models/common/interfaces/bandeja.interface';
+import { IDatosRegistroResponse, IDetalleRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { VacationService } from '../../vacation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail-vacation',
@@ -113,10 +114,47 @@ export class DetailVacationComponent implements OnInit {
   }
 
   calcularDias(): any {
-    this.hasDot = this.diasSolicitados.toString().includes('.');
-    const result = new Date(this.fechaInicio);
-    result.setDate(result.getDate() + this.diasSolicitados);
-    this.fechaFin = result;
+    if(this.diasSolicitados) {
+      this.hasDot = this.diasSolicitados.toString().includes('.');
+      const result = new Date(this.fechaInicio);
+      result.setDate(result.getDate() + this.diasSolicitados);
+      this.fechaFin = result;
+    }
+  }
+
+  editar(): void {
+
+    const body: IRegistroVacaionalBody = {
+      identificacion: this.usuario.identificacion,
+      nombres: this.usuario.nombres,
+      codRegistro:  this.registroVacional.codRegistro,
+      codigoSolicitud: this.registroVacional.codSolicitud,
+      codEmplReemplazo: this.codReemplazoValue.toString(),
+      codEmplAprobacion: this.codAprobadoValue.toString(),
+      fechaInicio: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
+      fechaFin: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
+      dias: this.diasSolicitados.toString(),
+      diaMedio: '0'
+    }
+    console.log(body);
+    this.bandejaService.postRegistro(body).subscribe({
+      next: (data: IDatosRegistroResponse) => {
+        Swal.fire(
+          `Registro : ${this.registroVacional.codRegistro}`,
+          'Actualización exitosa!',
+          'success'
+        ).then(() => {
+          this.goback();
+        });
+      },
+      error: error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error en el registro!'
+        })
+      },
+    });
   }
 
 }
