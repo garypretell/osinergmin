@@ -70,6 +70,10 @@ export class DetailVacationComponent implements OnInit {
         next: (data: IDetalleRegistroResponse) => {
           this.detalle = data;
           this.registroVacional = data.registroVacional;
+          this.codReemplazoValue = data.registroVacional.codEmplReemplazo;
+          this.codAprobadoValue = data.registroVacional.codEmplAprobacion;
+          this.aprobadoValue = data.listaEmpleadoAprobacion.find(x => x.identificacion === data.registroVacional.codEmplAprobacion)?.nombres;
+          this.reemplazoValue = data.listaEmpleadosReemplazo.find(x => x.identificacion === data.registroVacional.codEmplReemplazo)?.nombres;
           this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
           dialogRef.close();
