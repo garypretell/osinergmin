@@ -42,6 +42,12 @@
       [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
     >
       <div fxFlex="32">
+      <mat-form-field appearance="legacy">
+        <mat-label>Nombre del solicitante</mat-label>
+        <input matInput type="text" [(ngModel)]="detalle.nombres" readonly />
+      </mat-form-field>
+      </div>
+      <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Tipo</mat-label>
           <input matInput type="text" [(ngModel)]="row.descTipoGoce" readonly />
@@ -61,18 +67,24 @@
       [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
     >
       <div fxFlex="32">
-        <mat-form-field appearance="legacy">
-          <mat-label>Nombre del solicitante</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.nombres" readonly />
+        <mat-form-field class="example-full-width" appearance="legacy">
+          <mat-label>Fecha Inicio de Vacaciones</mat-label>
+          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio"/>
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
-          <mat-label>Fecha Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="registroVacional.fechaInicio"/>
+          <mat-label>Fecha Fin de Vacaciones</mat-label>
+          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin"/>
           <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
@@ -85,21 +97,22 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Dias solicitados</mat-label>
-          <input matInput type="text" [(ngModel)]="row.dias" readonly />
-        </mat-form-field>
+          <input
+          matInput
+          type="number"
+          step="{{steps}}"
+          [(ngModel)]="diasSolicitados" name="diasSolicitados"
+          (ngModelChange)="calcularDias()"
+          min="1"
+          oninput="validity.valid||(value='');"
+        />
+        <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+      </mat-form-field>
       </div>
       <div fxFlex="32">
-        <mat-form-field class="example-full-width" appearance="legacy">
-          <mat-label>Fecha Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="registroVacional.fechaFin"/>
-          <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker1"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </div>
+        <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" >La fecha final considera solo medio día de vacaciones.</mat-checkbox>
+    </div>
+      
     </div>
     <div
       fxLayout="row wrap"

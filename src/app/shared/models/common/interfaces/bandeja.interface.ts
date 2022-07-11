@@ -88,7 +88,7 @@ export interface IRegistroVacacional {
     descTipoGoce: string;
     fechaInicio: string;
     fechaFin: string;
-    dias: string;
+    dias: any;
     codEstado: 1,
     desEstado: string,
     codEmpl: number,
