@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 
 import { VacationRoutingModule } from './vacation-routing.module';
@@ -34,6 +34,7 @@ import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadline
     FlexLayoutModule
   ],
   providers: [
+    DatePipe,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ]
 })

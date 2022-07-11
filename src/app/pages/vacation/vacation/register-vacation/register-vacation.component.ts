@@ -1,11 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
 import { VacationService } from '@pages/vacation/vacation.service';
 import { IDatosRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register-vacation',
@@ -29,7 +32,9 @@ export class RegisterVacationComponent implements OnInit {
   aprobadoCtrl = new FormControl('');
   aprobadoValue: any;
   filteredAprobado!: Observable<IEmpleadoAprobacion[]>;
-  constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService) {
+  codReemplazoValue: any;
+  codAprobadoValue: any;
+  constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe) {
     
   }
 
@@ -70,7 +75,6 @@ export class RegisterVacationComponent implements OnInit {
             startWith(''),
             map(state => (state ? this._filterStatesAprobado(state) : this.listaEmpleadoAprobacion.slice())),
           );
-          console.log('Request complete');
         }
       });
     }
@@ -85,6 +89,43 @@ export class RegisterVacationComponent implements OnInit {
     const result = new Date(this.fechaInicio);
     result.setDate(result.getDate() + this.diasSolicitados);
     this.fechaFin = result;
+  }
+
+  registrar(): void {
+
+    const body: IRegistroVacaionalBody = {
+      identificacion: this.usuario.identificacion,
+      nombres: this.usuario.nombres,
+      codRegistro: '68',
+      codigoSolicitud: this.registro.codigoSolicitud,
+      diaMedio: '0',
+      fechaInicio: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
+      fechaFin: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
+      dias: this.diasSolicitados.toString(),
+      codEmplReemplazo: this.codReemplazoValue.toString(),
+      codEmplAprobacion: this.codAprobadoValue.toString()
+    }
+    console.log(body);
+    this.bandejaService.postRegistro(body).subscribe({
+      next: (data: IDatosRegistroResponse) => {
+        this.goBandeja();
+      },
+      error: error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error en el registro!'
+        })
+      },
+    });
+  }
+
+  OnReemplazoSelected(value: any): void {
+    this.codReemplazoValue = value.identificacion;
+  }
+
+  OnAprobacionSelected(value: any): void {
+    this.codAprobadoValue = value.identificacion;
   }
 
 }
