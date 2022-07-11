@@ -115,7 +115,12 @@ export class RegisterVacationComponent implements OnInit {
     console.log(body);
     this.bandejaService.postRegistro(body).subscribe({
       next: (data: IDatosRegistroResponse) => {
-        this.goBandeja();
+        Swal.fire(
+          'Registro realizado con éxito',
+          'success'
+        ).then(() => {
+          this.goBandeja();
+        });
       },
       error: error => {
         Swal.fire({
