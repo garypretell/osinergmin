@@ -38,6 +38,17 @@ export interface IDatosRegistroBody {
     nombres: string;
 }
 
+export interface IDatosRegistroBody {
+    identificacion: string;
+    nombres: string;
+}
+
+export interface IDetalleVacacionalBody {
+    identificacion: string;
+    nombres: string;
+    codRegistro: number;
+}
+
 export interface IRegistroVacaionalBody {
     identificacion: string;
     nombres: string;
@@ -58,6 +69,34 @@ export interface IDatosRegistroResponse {
     codigoSolicitud: string;
     listaEmpleadosReemplazo: IEmpleadosReemplazo[];
     listaEmpleadoAprobacion: IEmpleadoAprobacion[];
+}
+
+export interface IDetalleRegistroResponse {
+    identificacion: number;
+    nombres: string;
+    registroVacional: IRegistroVacacional;
+    listaEmpleadosReemplazo: IEmpleadosReemplazo[];
+    listaEmpleadoAprobacion: IEmpleadoAprobacion[];
+}
+
+export interface IRegistroVacacional {
+    codRegistro: number;
+    codSolicitud: string;
+    fechaRegistro: number;
+    fechaModificacion: string;
+    codTipoGoce: number;
+    descTipoGoce: string;
+    fechaInicio: string;
+    fechaFin: string;
+    dias: string;
+    codEstado: 1,
+    desEstado: string,
+    codEmpl: number,
+    codEmplReemplazo: number,
+    codEmplAprobacion: number,
+    saldo: number,
+    fechaVencimiento: string,
+    codSaldo: number
 }
 
 export interface IEmpleadosReemplazo {

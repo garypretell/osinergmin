@@ -5,4 +5,5 @@ export class BandejaEndpoint {
   public static PostDeadlines = `${environment.urlService}api/vacaciones/bandeja/listarPlazosVacacionales`;
   public static PostDatosRegistro = `${environment.urlService}api/vacaciones/bandeja/obtenerDatosRegistroVacacional`;
   public static PostRegistroVacacional = `${environment.urlService}api/vacaciones/bandeja/registrarVacacional`;
+  public static PostDetalle = `${environment.urlService}api/vacaciones/bandeja/verRegistroVacacional`;
 }
