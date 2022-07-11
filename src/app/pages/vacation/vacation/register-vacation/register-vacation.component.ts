@@ -21,7 +21,7 @@ export class RegisterVacationComponent implements OnInit {
   today = new Date();
   fechaInicio = new Date();
   fechaFin = new Date();
-  diasSolicitados = 0;
+  diasSolicitados = 1;
   vacaciones: any = {};
   usuario: any = {};
   registro: IDatosRegistroResponse = {} as IDatosRegistroResponse;
@@ -36,6 +36,8 @@ export class RegisterVacationComponent implements OnInit {
   filteredAprobado!: Observable<IEmpleadoAprobacion[]>;
   codReemplazoValue: any;
   codAprobadoValue: any;
+  steps = 0.5;
+  hasDot = false;
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe, public dialog: MatDialog) {
     
   }
@@ -53,6 +55,7 @@ export class RegisterVacationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.calcularDias();
     const user: any = this.vacationService.userValue;
     user.identificacion ? this.usuario = user : this.goBandeja();
     if(user?.identificacion) {
@@ -93,6 +96,7 @@ export class RegisterVacationComponent implements OnInit {
   }
 
   calcularDias(): any {
+    this.hasDot = this.diasSolicitados.toString().includes('.');
     const result = new Date(this.fechaInicio);
     result.setDate(result.getDate() + this.diasSolicitados);
     this.fechaFin = result;

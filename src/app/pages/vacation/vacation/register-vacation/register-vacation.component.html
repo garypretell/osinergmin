@@ -65,11 +65,13 @@
               <input
                 matInput
                 type="number"
+                step="{{steps}}"
                 [(ngModel)]="diasSolicitados"
                 (ngModelChange)="calcularDias()"
-                min="0"
+                min="1"
                 oninput="validity.valid||(value='');"
               />
+              <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
             </mat-form-field>
           </div>
         </div>
@@ -92,28 +94,7 @@
             </mat-form-field>
           </div>
           <div fxFlex="50">
-            <mat-form-field appearance="legacy">
-              <mat-label>Persona que reemplazará/apoyo</mat-label>
-              <input
-                id="reemplazo"
-                matInput
-                aria-label="State"
-                [matAutocomplete]="auto"
-                [formControl]="reemplazoCtrl"
-                [(ngModel)]="reemplazoValue"
-              />
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
-                  *ngFor="let state of filteredReemplazo | async"
-                  [value]="state.nombres"
-                >
-                  <span>{{ state.nombres }}</span>
-                </mat-option>
-              </mat-autocomplete>
-              <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
+              <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot">La fecha final considera solo medio día de vacaciones.</mat-checkbox>
           </div>
         </div>
         <div
@@ -122,6 +103,30 @@
           fxLayout.xs="column"
           [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
         >
+        <div fxFlex="50">
+          <mat-form-field appearance="legacy">
+            <mat-label>Persona que reemplazará/apoyo</mat-label>
+            <input
+              id="reemplazo"
+              matInput
+              aria-label="State"
+              [matAutocomplete]="auto"
+              [formControl]="reemplazoCtrl"
+              [(ngModel)]="reemplazoValue"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
+                *ngFor="let state of filteredReemplazo | async"
+                [value]="state.nombres"
+              >
+                <span>{{ state.nombres }}</span>
+              </mat-option>
+            </mat-autocomplete>
+            <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
           <div fxFlex="50">
             <mat-form-field appearance="legacy">
               <mat-label>Persona que aprobará la solicitud</mat-label>
