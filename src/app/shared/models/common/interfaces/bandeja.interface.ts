@@ -47,6 +47,7 @@ export interface IDetalleVacacionalBody {
     identificacion: string;
     nombres: string;
     codRegistro: number;
+    codSolicitud: any;
 }
 
 export interface IRegistroVacaionalBody {

@@ -67,7 +67,8 @@ export class DetailVacationComponent implements OnInit {
       this.bandejaService.postDetalle({
         identificacion: this.usuario.identificacion,
         nombres: this.usuario.nombres,
-        codRegistro: this.row.codRegistro
+        codRegistro: this.row.codRegistro,
+        codSolicitud: this.row.codSolicitud
       }).subscribe({
         next: (data: IDetalleRegistroResponse) => {
           this.detalle = data;
