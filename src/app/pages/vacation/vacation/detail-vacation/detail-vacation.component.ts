@@ -16,6 +16,9 @@ import { VacationService } from '../../vacation.service';
   styleUrls: ['./detail-vacation.component.scss']
 })
 export class DetailVacationComponent implements OnInit {
+  fechaInicio = new Date();
+  fechaFin = new Date();
+  diasSolicitados = 1;
   actualizado = new Date();
   usuario: any = {};
   row: any = {};
@@ -97,6 +100,13 @@ export class DetailVacationComponent implements OnInit {
 
   OnAprobacionSelected(value: any): void {
     this.codAprobadoValue = value.identificacion;
+  }
+
+  calcularDias(): any {
+    this.hasDot = this.diasSolicitados.toString().includes('.');
+    const result = new Date(this.fechaInicio);
+    result.setDate(result.getDate() + this.diasSolicitados);
+    this.fechaFin = result;
   }
 
 }

@@ -85,6 +85,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
   async onSort(event: any): Promise<any> { }
 
   goDetail(row: any) {
+    this.vacationService.userSubjectObsData = this.usuario;
     this.vacationService.vacationSubjectObsData = row;
     this.router.navigate([`vacaciones/solicitud`, row.codSolicitud]);
 

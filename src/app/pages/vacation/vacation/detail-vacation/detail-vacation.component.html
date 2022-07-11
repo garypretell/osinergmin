@@ -19,7 +19,7 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Código de la solicitud</mat-label>
-          <input matInput type="text" [(ngModel)]="row.codigoSolicitud" readonly />
+          <input matInput type="text" [(ngModel)]="row.codSolicitud" readonly />
         </mat-form-field>
       </div>
       <div fxFlex="32">
@@ -31,7 +31,7 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Creado</mat-label>
-          <input matInput type="text" [(ngModel)]="row.fechaRegistro" readonly />
+          <input matInput type="text" [(ngModel)]="detalle?.registroVacacional.fechaRegistro" readonly />
         </mat-form-field>
       </div>
     </div>
@@ -50,7 +50,7 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Actualizado</mat-label>
-          <input matInput type="text" [(ngModel)]="actualizado" readonly />
+          <input matInput type="text" [(ngModel)]="detalle?.registroVacacional.fechaModificacion" readonly />
         </mat-form-field>
       </div>
     </div>
