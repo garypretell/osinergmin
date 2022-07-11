@@ -5,12 +5,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IAlerta } from '@shared/models/common/interfaces/alert.interface';
 
 @Component({
-  selector: 'app-alert',
-  templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  selector: 'app-loader',
+  templateUrl: './loader.component.html',
+  styleUrls: ['./loader.component.scss']
 })
 
-export class AlertComponent implements OnInit {
+export class LoaderComponent implements OnInit {
   alert!: IAlerta;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }

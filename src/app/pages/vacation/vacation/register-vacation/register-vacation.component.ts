@@ -2,8 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { VacationService } from '@pages/vacation/vacation.service';
+import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { IDatosRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { Observable } from 'rxjs';
@@ -34,7 +36,7 @@ export class RegisterVacationComponent implements OnInit {
   filteredAprobado!: Observable<IEmpleadoAprobacion[]>;
   codReemplazoValue: any;
   codAprobadoValue: any;
-  constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe) {
+  constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe, public dialog: MatDialog) {
     
   }
 
@@ -54,6 +56,9 @@ export class RegisterVacationComponent implements OnInit {
     const user: any = this.vacationService.userValue;
     user.identificacion ? this.usuario = user : this.goBandeja();
     if(user?.identificacion) {
+      const dialogRef = this.dialog.open(LoaderComponent, {
+        width: '400px', data: {}, disableClose: true
+      });
       this.bandejaService.getDatosRegistros({
         identificacion: this.usuario.identificacion,
         nombres: this.usuario.nombres
@@ -62,8 +67,10 @@ export class RegisterVacationComponent implements OnInit {
           this.registro = data;
           this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
+          dialogRef.close();
         },
         error: error => {
+          dialogRef.close();
           // handle error
         },
         complete: () => {

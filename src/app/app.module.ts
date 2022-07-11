@@ -17,6 +17,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { AlertComponent } from '@shared/components/alert/alert.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,12 +26,12 @@ import { AlertComponent } from '@shared/components/alert/alert.component';
     LeftNavComponent,
     LeftNavMenuComponent,
     SkeletonComponent,
-    FooterComponent,
-    AlertComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
+    SharedModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,

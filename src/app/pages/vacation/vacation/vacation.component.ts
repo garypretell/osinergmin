@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/bandeja.interface';
 import {MatDialog} from '@angular/material/dialog';
 import { DeadlinesVacationComponent } from '../shared/deadlines-vacation/deadlines-vacation.component';
+import { LoaderComponent } from '@shared/components/loader/loader.component';
 
 @Component({
   selector: 'app-vacation',
@@ -51,12 +52,17 @@ export class VacationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    const dialogRef = this.dialog.open(LoaderComponent, {
+      width: '400px', data: {}, disableClose: true
+    });
     this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe({
       next: (user: IBandejaResponse) => {
         this.usuario = user;
         this.rows = user.solicitudesVacacionales;
+        dialogRef.close();
       },
       error: error => {
+        dialogRef.close();
         this.usuario = {} as IBandejaResponse;
         // handle error
       },

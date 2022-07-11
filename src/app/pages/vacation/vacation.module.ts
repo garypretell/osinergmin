@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadlines-vacation.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadline
     VacationRoutingModule,
     NgxDatatableModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    SharedModule
   ],
   providers: [
     DatePipe,

@@ -4,10 +4,12 @@ import { AlertComponent } from '@shared/components/alert/alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
-    AlertComponent
+    AlertComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AlertComponent
   ], 
   entryComponents : [
-    AlertComponent
+    AlertComponent,
+    LoaderComponent
   ], 
   providers: [
   ]
