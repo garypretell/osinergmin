@@ -96,7 +96,7 @@ export class RegisterVacationComponent implements OnInit {
     const body: IRegistroVacaionalBody = {
       identificacion: this.usuario.identificacion,
       nombres: this.usuario.nombres,
-      codRegistro: '68',
+      codRegistro:  this.registro.codRegistro,
       codigoSolicitud: this.registro.codigoSolicitud,
       diaMedio: '0',
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',

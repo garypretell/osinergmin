@@ -41,7 +41,7 @@ export interface IDatosRegistroBody {
 export interface IRegistroVacaionalBody {
     identificacion: string;
     nombres: string;
-    codRegistro: string;
+    codRegistro: number;
     codigoSolicitud: string;
     codEmplReemplazo: string;
     codEmplAprobacion: string;
@@ -54,6 +54,7 @@ export interface IRegistroVacaionalBody {
 export interface IDatosRegistroResponse {
     identificacion: number;
     nombres: string;
+    codRegistro: number;
     codigoSolicitud: string;
     listaEmpleadosReemplazo: IEmpleadosReemplazo[];
     listaEmpleadoAprobacion: IEmpleadoAprobacion[];
