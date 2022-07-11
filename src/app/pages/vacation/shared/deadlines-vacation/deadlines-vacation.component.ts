@@ -9,6 +9,7 @@ import { BandejaService } from '@shared/services/bandeja.service';
 })
 export class DeadlinesVacationComponent implements OnInit {
   saldos: any;
+  spinner = true;
   constructor(public dialogRef: MatDialogRef<DeadlinesVacationComponent>, private bandejaService: BandejaService,
     @ Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -17,9 +18,11 @@ export class DeadlinesVacationComponent implements OnInit {
     this.bandejaService.getPlazos({ codSaldo: this.data.saldo.codSaldo }).subscribe({
       next: (row: any) => {
         this.saldos = row;
+        this.spinner = false;
       },
       error: error => {
         // handle error
+        this.spinner = false;
       },
       complete: () => {
         console.log('Request complete');
