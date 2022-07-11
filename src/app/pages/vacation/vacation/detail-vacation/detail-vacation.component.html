@@ -69,7 +69,7 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="row.fechaInicio"/>
+          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="registroVacional.fechaInicio"/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -91,7 +91,7 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="row.fechaFin"/>
+          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="registroVacional.fechaFin"/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle
             matSuffix
