@@ -50,7 +50,7 @@ export class BandejaService {
   /**
    * Ver Detalle
    */
-   postActualizar(body: IDetalleVacacionalBody): Observable<IDetalleRegistroResponse> {
+   postActualizar(body: IRegistroVacaionalBody): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostActualizar, body);
   }
 

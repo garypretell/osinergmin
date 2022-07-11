@@ -64,7 +64,7 @@ export class DetailVacationComponent implements OnInit {
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
       });
-      this.bandejaService.postActualizar({
+      this.bandejaService.postDetalle({
         identificacion: this.usuario.identificacion,
         nombres: this.usuario.nombres,
         codRegistro: this.row.codRegistro,
@@ -138,7 +138,7 @@ export class DetailVacationComponent implements OnInit {
       diaMedio: '0'
     }
     console.log(body);
-    this.bandejaService.postRegistro(body).subscribe({
+    this.bandejaService.postActualizar(body).subscribe({
       next: (data: IDatosRegistroResponse) => {
         Swal.fire(
           `Registro : ${this.registroVacional.codRegistro}`,
