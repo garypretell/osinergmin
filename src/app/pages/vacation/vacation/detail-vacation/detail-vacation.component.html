@@ -179,7 +179,7 @@
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
-      <button [disabled]="!f.form.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }">
+      <button [disabled]="!f.form.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()">
         Editar Solicitud
       </button>
       <button mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">

@@ -64,7 +64,7 @@ export class DetailVacationComponent implements OnInit {
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
       });
-      this.bandejaService.postDetalle({
+      this.bandejaService.postActualizar({
         identificacion: this.usuario.identificacion,
         nombres: this.usuario.nombres,
         codRegistro: this.row.codRegistro,

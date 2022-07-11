@@ -46,5 +46,12 @@ export class BandejaService {
    postDetalle(body: IDetalleVacacionalBody): Observable<IDetalleRegistroResponse> {
     return this.apiService.post(BandejaEndpoint.PostDetalle, body);
   }
+  
+  /**
+   * Ver Detalle
+   */
+   postActualizar(body: IDetalleVacacionalBody): Observable<IDetalleRegistroResponse> {
+    return this.apiService.post(BandejaEndpoint.PostActualizar, body);
+  }
 
 }
