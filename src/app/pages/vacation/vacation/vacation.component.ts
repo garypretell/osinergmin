@@ -119,7 +119,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           error: error => { dialogRef.close(); },
           complete: () => {
             Swal.fire(
-              `Solicitud ${row.codSolicitud} anulada con éxito`,
+              `Solicitud: ${row.codSolicitud}`,
               'La solicitud ha sido anulada.',
               'success'
             ).then(() => {
@@ -133,7 +133,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
 
   recuperar(row: any): void {
     Swal.fire({
-      title: `¿Está seguro de recuperar la solicitud ${row.codSolicitud}?`,
+      title: `La Solicitud ${row.codSolicitud} será eliminada.`,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -155,7 +155,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           error: error => { dialogRef.close(); },
           complete: () => {
             Swal.fire(
-              `Solicitud ${row.codSolicitud} recuperada con éxito`,
+              `Solicitud: ${row.codSolicitud}`,
               'La solicitud ha sido recuperada.',
               'success'
             ).then(() => {
@@ -191,7 +191,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           error: error => { dialogRef.close(); },
           complete: () => {
             Swal.fire(
-              `Solicitud ${row.codSolicitud} enviada con éxito`,
+              `Solicitud: ${row.codSolicitud}`,
               'La solicitud ha sido enviada.',
               'success'
             ).then(() => {
