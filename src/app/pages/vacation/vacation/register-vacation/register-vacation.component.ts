@@ -97,10 +97,12 @@ export class RegisterVacationComponent implements OnInit {
   }
 
   calcularDias(): any {
-    this.hasDot = this.diasSolicitados.toString().includes('.');
-    const result = new Date(this.fechaInicio);
-    result.setDate(result.getDate() + this.diasSolicitados);
-    this.fechaFin = result;
+    if(this.diasSolicitados) {
+      this.hasDot = this.diasSolicitados.toString().includes('.');
+      const result = new Date(this.fechaInicio);
+      result.setDate(result.getDate() + this.diasSolicitados);
+      this.fechaFin = result;
+    }
   }
 
   registrar(): void {
