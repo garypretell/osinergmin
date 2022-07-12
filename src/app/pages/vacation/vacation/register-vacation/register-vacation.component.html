@@ -163,7 +163,7 @@
           </div>
           <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
             <button
-              [disabled]="!f.form.valid"
+              [disabled]="!f.form.valid || !codReemplazoValue || !codAprobadoValue"
               mat-raised-button
               color="primary"
               [ngStyle]="{ margin: '5px' }"
