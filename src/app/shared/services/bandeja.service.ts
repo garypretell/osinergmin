@@ -54,4 +54,25 @@ export class BandejaService {
     return this.apiService.post(BandejaEndpoint.PostActualizar, body);
   }
 
+  /**
+   * Anular
+   */
+   postAnular(body: IDetalleVacacionalBody): Observable<IDetalleRegistroResponse> {
+    return this.apiService.post(BandejaEndpoint.PostAnular, body);
+  }
+
+  /**
+   * Recuperar
+   */
+   postRecuperar(body: IDetalleVacacionalBody): Observable<IDetalleRegistroResponse> {
+    return this.apiService.post(BandejaEndpoint.PostRecuperar, body);
+  }
+
+  /**
+   * Enviar Jefe
+   */
+   postEnviarJefe(body: IDetalleVacacionalBody): Observable<IDetalleRegistroResponse> {
+    return this.apiService.post(BandejaEndpoint.PostEnviarJefe, body);
+  }
+
 }

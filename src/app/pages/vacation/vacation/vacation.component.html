@@ -95,7 +95,7 @@
       <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
         ><i class="fas fa-trash"></i></button
       >
-      <button class="btn btn-sm btn-primary me-1" role="button" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
+      <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
         ><i class="fas fa-trash-restore"></i> </button
       >
     </ng-template>

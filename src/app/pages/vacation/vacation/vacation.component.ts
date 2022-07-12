@@ -53,6 +53,10 @@ export class VacationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData(): void {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
@@ -71,7 +75,6 @@ export class VacationComponent implements OnInit, AfterViewInit {
         console.log('Request complete');
       }
     });
-
   }
 
   goRegister(): void {
@@ -99,16 +102,103 @@ export class VacationComponent implements OnInit, AfterViewInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
+      confirmButtonText: 'Si, anular!',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.rows = this.rows.filter(item => item.codSolicitud !== row.codSolicitud);
-        Swal.fire(
-          'Eliminado!',
-          'La solicitud ha sido eliminada.',
-          'success'
-        )
+        const dialogRef = this.dialog.open(LoaderComponent, {
+          width: '400px', data: {}, disableClose: true
+        });
+        this.bandejaService.postAnular({
+          identificacion: this.identificacion,
+          nombres: this.usuario.nombres,
+          codRegistro: row.codRegistro,
+          codSolicitud: row.codSolicitud
+        }).subscribe({
+          next: (response: any) => { dialogRef.close(); },
+          error: error => { dialogRef.close(); },
+          complete: () => {
+            Swal.fire(
+              'Anulado!',
+              'La solicitud ha sido anulada.',
+              'success'
+            ).then(() => {
+              this.getData();
+            });
+          }
+        });
+      }
+    })
+  }
+
+  recuperar(row: any): void {
+    Swal.fire({
+      title: `¿Está seguro de recuperar la solicitud ${row.codSolicitud}?`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, recuperar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const dialogRef = this.dialog.open(LoaderComponent, {
+          width: '400px', data: {}, disableClose: true
+        });
+        this.bandejaService.postRecuperar({
+          identificacion: this.identificacion,
+          nombres: this.usuario.nombres,
+          codRegistro: row.codRegistro,
+          codSolicitud: row.codSolicitud
+        }).subscribe({
+          next: (response: any) => { dialogRef.close(); },
+          error: error => { dialogRef.close(); },
+          complete: () => {
+            Swal.fire(
+              'Recuperado!',
+              'La solicitud ha sido recuperada.',
+              'success'
+            ).then(() => {
+              this.getData();
+            });
+          }
+        });
+      }
+    })
+  }
+
+  enviarJefe(row: any): void {
+    Swal.fire({
+      title: `¿Está seguro de enviar la solicitud ${row.codSolicitud} a Jefe Inmediato?`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, enviar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const dialogRef = this.dialog.open(LoaderComponent, {
+          width: '400px', data: {}, disableClose: true
+        });
+        this.bandejaService.postEnviarJefe({
+          identificacion: this.identificacion,
+          nombres: this.usuario.nombres,
+          codRegistro: row.codRegistro,
+          codSolicitud: row.codSolicitud
+        }).subscribe({
+          next: (response: any) => { dialogRef.close(); },
+          error: error => { dialogRef.close(); },
+          complete: () => {
+            Swal.fire(
+              'Enviado!',
+              'La solicitud ha sido enviada.',
+              'success'
+            ).then(() => {
+              this.getData();
+            });
+          }
+        });
       }
     })
   }
