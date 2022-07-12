@@ -141,7 +141,7 @@ export class DetailVacationComponent implements OnInit {
     this.bandejaService.postActualizar(body).subscribe({
       next: (data: IDatosRegistroResponse) => {
         Swal.fire(
-          `Registro : ${this.registroVacional.codRegistro}`,
+          `Solicitud : ${this.registroVacional.codSolicitud}`,
           'Actualización exitosa!',
           'success'
         ).then(() => {
