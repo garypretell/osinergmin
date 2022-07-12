@@ -166,7 +166,7 @@
     <span>Solicitar </span>
   </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1"
+      <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1" (click)="enviarJefe(row)"
         ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
       >
       <span class="badge bg-success" role="button" (click)="reprogramar(row)" *ngIf="row.codEstado === 4"

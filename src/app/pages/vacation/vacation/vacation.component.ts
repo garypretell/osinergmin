@@ -119,7 +119,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           error: error => { dialogRef.close(); },
           complete: () => {
             Swal.fire(
-              'Anulado!',
+              `Solicitud ${row.codSolicitud} anulada con éxito`,
               'La solicitud ha sido anulada.',
               'success'
             ).then(() => {
@@ -155,7 +155,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           error: error => { dialogRef.close(); },
           complete: () => {
             Swal.fire(
-              'Recuperado!',
+              `Solicitud ${row.codSolicitud} recuperada con éxito`,
               'La solicitud ha sido recuperada.',
               'success'
             ).then(() => {
@@ -191,7 +191,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           error: error => { dialogRef.close(); },
           complete: () => {
             Swal.fire(
-              'Enviado!',
+              `Solicitud ${row.codSolicitud} enviada con éxito`,
               'La solicitud ha sido enviada.',
               'success'
             ).then(() => {
