@@ -96,7 +96,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
 
   anular(row: any): void {
     Swal.fire({
-      title: `La Solicitud ${row.codSolicitud} será eliminada.`,
+      title: `<p>¿Está seguro de anular la solicitud:</p><p>${row.codSolicitud}?</p>`,
       // text: "No podrás revertir el proceso!",
       icon: 'warning',
       showCancelButton: true,
@@ -192,7 +192,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
           complete: () => {
             Swal.fire(
               `Solicitud: ${row.codSolicitud}`,
-              'La solicitud ha sido enviada.',
+              'La solicitud ha sido enviada a Jefe Inm.',
               'success'
             ).then(() => {
               this.getData();
