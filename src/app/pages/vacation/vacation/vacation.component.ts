@@ -96,7 +96,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
 
   anular(row: any): void {
     Swal.fire({
-      title: `¿Está seguro de anular la solicitud ${row.codSolicitud}?`,
+      title: `La Solicitud ${row.codSolicitud} será eliminada.`,
       // text: "No podrás revertir el proceso!",
       icon: 'warning',
       showCancelButton: true,
@@ -133,7 +133,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
 
   recuperar(row: any): void {
     Swal.fire({
-      title: `La Solicitud ${row.codSolicitud} será eliminada.`,
+      title: `¿Está seguro de recuperar la solicitud ${row.codSolicitud}?`,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
