@@ -56,7 +56,6 @@ export class DetailVacationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.calcularDias();
     const user: any = this.vacationService.userValue;
     user.identificacion ? this.usuario = user : this.goback();
     this.vacationService.vacationValue ? this.row = this.vacationService.vacationValue : this.goback();
@@ -82,6 +81,7 @@ export class DetailVacationComponent implements OnInit {
           this.fechaInicio = new Date(data.registroVacional.fechaInicio);
           this.fechaFin = new Date(data.registroVacional.fechaFin);
           this.diasSolicitados = data.registroVacional.dias;
+          this.calcularDias();
           dialogRef.close();
         },
         error: error => {
