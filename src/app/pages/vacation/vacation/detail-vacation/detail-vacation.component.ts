@@ -10,6 +10,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { VacationService } from '../../vacation.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-detail-vacation',
@@ -40,6 +41,7 @@ export class DetailVacationComponent implements OnInit {
   steps = 0.5;
   hasDot = false;
   registroVacional: any = {};
+  btnRegistrar = false;
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe, public dialog: MatDialog) {
    }
 
@@ -71,6 +73,7 @@ export class DetailVacationComponent implements OnInit {
       }).subscribe({
         next: (data: IDetalleRegistroResponse) => {
           this.detalle = data;
+          console.log(data);
           this.registroVacional = data.registroVacional;
           this.codReemplazoValue = data.registroVacional.codEmplReemplazo;
           this.codAprobadoValue = data.registroVacional.codEmplAprobacion;
@@ -78,8 +81,8 @@ export class DetailVacationComponent implements OnInit {
           this.reemplazoValue = data.listaEmpleadosReemplazo.find(x => x.identificacion === data.registroVacional.codEmplReemplazo)?.nombres;
           this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
-          this.fechaInicio = new Date(data.registroVacional.fechaInicio);
-          this.fechaFin = new Date(data.registroVacional.fechaFin);
+          this.fechaInicio = moment(data.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
+          this.fechaFin =  moment(data.registroVacional.fechaFin, "DD/MM/YYYY").toDate();
           this.diasSolicitados = data.registroVacional.dias;
           this.calcularDias();
           dialogRef.close();
@@ -121,9 +124,18 @@ export class DetailVacationComponent implements OnInit {
       result.setDate(result.getDate() + this.diasSolicitados);
       this.fechaFin = result;
     }
+    // this.vacationForm.baseForm.get('fechaInicio')?.setValue(new Date(this.fechaInicio));
+    //   const result = new Date(this.fechaInicio);
+    //   result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
+    //   this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
+    //   this.fechaFin = result;
   }
 
   editar(): void {
+    this.btnRegistrar = true;
+  }
+
+  registrar(): void {
 
     const body: IRegistroVacaionalBody = {
       identificacion: this.usuario.identificacion,

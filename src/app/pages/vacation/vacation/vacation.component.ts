@@ -43,13 +43,13 @@ export class VacationComponent implements OnInit, AfterViewInit {
     this.vacationService.identificationSubjectObsData = this.identificacion;
   }
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
-        .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode, {
-          container: 'body',
-          trigger: 'hover'
-        }))
-    }, 100);
+    // setTimeout(() => {
+    //   Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
+    //     .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode, {
+    //       container: 'body',
+    //       trigger: 'hover'
+    //     }))
+    // }, 100);
   }
 
   ngOnInit(): void {
@@ -63,6 +63,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
     this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe({
       next: (user: IBandejaResponse) => {
         this.usuario = user;
+        this.vacationService.userSubjectObsData = user;
         this.rows = user.solicitudesVacacionales;
         dialogRef.close();
       },

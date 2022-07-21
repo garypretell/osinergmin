@@ -75,4 +75,18 @@ export class BandejaService {
     return this.apiService.post(BandejaEndpoint.PostEnviarJefe, body);
   }
 
+  /**
+   * Get Reprogramacion
+   */
+   getReprogramacion(body: IDetalleVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.GetReprogramar, body);
+  }
+
+  /**
+   * Registrar Reprogramacion
+   */
+   postReprogramacion(body: IDetalleVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostReprogramar, body);
+  }
+
 }

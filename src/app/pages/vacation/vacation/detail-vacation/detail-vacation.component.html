@@ -73,7 +73,7 @@
           <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio" name="fechaInit" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker [disabled]="!btnRegistrar"></mat-datepicker>
         </mat-form-field>
       </div>
       <div fxFlex="32">
@@ -85,7 +85,7 @@
             matSuffix
             [for]="picker1"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
+          <mat-datepicker #picker1 [disabled]="!btnRegistrar"></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
@@ -108,6 +108,7 @@
           oninput="validity.valid||(value='');"
           required
           name="diasSolicitados"
+          [readonly]="!btnRegistrar"
         />
         <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
       </mat-form-field>
@@ -136,6 +137,7 @@
                 name="reemplazoValue"
                 required
                 name="reemplazoValue"
+                [readonly]="!btnRegistrar"
               />
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
@@ -145,7 +147,7 @@
                   <span>{{ state.nombres }}</span>
                 </mat-option>
               </mat-autocomplete>
-              <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
+              <button  type="button" mat-button *ngIf="reemplazoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
                 <mat-icon>close</mat-icon>
               </button>
         </mat-form-field>
@@ -163,6 +165,7 @@
                   name="aprobadoValue"
                   required
                   name="aprobadoValue"
+                  [readonly]="!btnRegistrar"
                 />
                 <mat-autocomplete #cmp="matAutocomplete">
                   <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
@@ -172,19 +175,24 @@
                     <span>{{ state.nombres }}</span>
                   </mat-option>
                 </mat-autocomplete>
-                <button type="button" mat-button *ngIf="aprobadoValue" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
+                <button type="button" mat-button *ngIf="aprobadoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
                   <mat-icon>close</mat-icon>
                 </button>
         </mat-form-field>
       </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
-      <button [disabled]="!f.form.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
+      <button type="button" [disabled]="!f.form.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()">
         Editar Solicitud
       </button>
-      <button mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
-        Cancelar
-      </button>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
+        <button type="button" [disabled]="!f.form.valid || !btnRegistrar" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="registrar()">
+          Registrar Solicitud
+        </button>
+        <button type="button" mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
+          Cancelar
+        </button>
+      </div>
     </div>
   </form>
   </mat-card>

@@ -12,7 +12,7 @@
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Registrar Solicitud de Vacaciones - Goce Efectivo">
         <mat-card [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }">
-          <form name="form" #f="ngForm" novalidate>
+          <form name="form" #f="ngForm" novalidate [formGroup]="vacationForm.baseForm">
           <div
             fxLayout="row"
             fxLayoutGap="25px"
@@ -26,10 +26,15 @@
                   name="codigo"
                   matInput
                   type="text"
-                  [(ngModel)]="registro.codigoSolicitud"
+                  formControlName="codigoSolicitud"
                   readonly
                   required
                 />
+                <mat-error>
+                  <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('codigoSolicitud')))">
+                    {{ vacationForm.handleError(error,'codigoSolicitud')}} <br>
+                  </ng-container>
+                </mat-error>
               </mat-form-field>
             </div>
             <div fxFlex="50">
@@ -39,10 +44,15 @@
                   name="solicita"
                   matInput
                   type="text"
-                  [(ngModel)]="registro.nombres"
+                  formControlName="nombres"
                   readonly
                   required
                 />
+                <mat-error>
+                  <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('nombres')))">
+                    {{ vacationForm.handleError(error,'nombres')}} <br>
+                  </ng-container>
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -55,13 +65,18 @@
             <div fxFlex="50">
               <mat-form-field class="example-full-width" appearance="legacy">
                 <mat-label>Fecha Inicio de Vacaciones</mat-label>
-                <input matInput readonly [matDatepicker]="picker" [min]="today" [(ngModel)]="fechaInicio" name="fechaInicio" />
+                <input matInput readonly [matDatepicker]="picker" [min]="today" formControlName="fechaInicio" name="fechaInicio" />
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle 
                   matSuffix
                   [for]="picker"
                 ></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+                <mat-error>
+                  <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('fechaInicio')))">
+                    {{ vacationForm.handleError(error,'fechaInicio')}} <br>
+                  </ng-container>
+                </mat-error>
               </mat-form-field>
             </div>
             <div fxFlex="50">
@@ -71,13 +86,18 @@
                   matInput
                   type="number"
                   step="{{steps}}"
-                  [(ngModel)]="diasSolicitados" name="diasSolicitados"
-                  (ngModelChange)="calcularDias()"
+                  formControlName="dias" name="diasSolicitados"
                   min="1"
                   oninput="validity.valid||(value='');"
                 />
                 <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+                <mat-error>
+                  <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('dias')))">
+                    {{ vacationForm.handleError(error,'dias')}} <br>
+                  </ng-container>
+                </mat-error>               
               </mat-form-field>
+              <p [ngStyle]="{'font-size': '10x'}" class="text-danger" *ngIf="vacationForm.baseForm.hasError('scoreError')">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
             </div>
           </div>
           <div
@@ -89,17 +109,22 @@
             <div fxFlex="50">
               <mat-form-field class="example-full-width" appearance="legacy">
                 <mat-label>Fecha Fin de Vacaciones</mat-label>
-                <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" name="fechaFin"/>
+                <input matInput readonly [matDatepicker]="picker1" formControlName="fechaFin"  name="fechaFin"/>
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle disabled
                   matSuffix
                   [for]="picker1"
                 ></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
+                <mat-error>
+                  <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('fechaFin')))">
+                    {{ vacationForm.handleError(error,'fechaFin')}} <br>
+                  </ng-container> 
+                </mat-error>
               </mat-form-field>
             </div>
             <div fxFlex="50">
-                <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" >La fecha final considera solo medio día de vacaciones.</mat-checkbox>
+                <!-- <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" >La fecha final considera solo medio día de vacaciones.</mat-checkbox> -->
             </div>
           </div>
           <div
@@ -115,9 +140,8 @@
                 id="reemplazo"
                 matInput
                 aria-label="State"
-                [matAutocomplete]="auto"
-                [formControl]="reemplazoCtrl"
-                [(ngModel)]="reemplazoValue" 
+                [matAutocomplete]="auto"  
+                formControlName="codEmplReemplazo"
                 name="reemplazoValue"
                 required
               />
@@ -129,7 +153,7 @@
                   <span>{{ state.nombres }}</span>
                 </mat-option>
               </mat-autocomplete>
-              <button type="button" mat-button *ngIf="reemplazoValue" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
+              <button type="button" mat-button *ngIf="vacationForm.baseForm.get('codEmplReemplazo')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="vacationForm.baseForm.get('codEmplReemplazo')?.setValue('')">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
@@ -142,8 +166,7 @@
                   matInput
                   aria-label="State"
                   [matAutocomplete]="cmp"
-                  [formControl]="aprobadoCtrl"
-                  [(ngModel)]="aprobadoValue"
+                  formControlName="codEmplAprobacion"
                   name="aprobadoValue"
                   required
                 />
@@ -155,15 +178,16 @@
                     <span>{{ state.nombres }}</span>
                   </mat-option>
                 </mat-autocomplete>
-                <button type="button" mat-button *ngIf="aprobadoValue" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
+                <button type="button" mat-button *ngIf="vacationForm.baseForm.get('codEmplAprobacion')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="vacationForm.baseForm.get('codEmplAprobacion')?.setValue('')">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-form-field>
             </div>
           </div>
+          <!-- <p class="text-danger"  *ngIf="vacationForm.baseForm.hasError('scoreError')">*La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}}) </p> -->
           <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
             <button
-              [disabled]="!f.form.valid || !codReemplazoValue || !codAprobadoValue || !diasSolicitados"
+              [disabled]="!vacationForm.baseForm.valid"
               mat-raised-button
               color="primary"
               [ngStyle]="{ margin: '5px' }"

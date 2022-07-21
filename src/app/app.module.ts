@@ -18,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { AlertComponent } from '@shared/components/alert/alert.component';
 import { SharedModule } from '@shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { SharedModule } from '@shared/shared.module';
     AppRoutingModule,
     MaterialModule,
     FlexLayoutModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

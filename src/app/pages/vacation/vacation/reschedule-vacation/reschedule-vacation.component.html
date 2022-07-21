@@ -10,24 +10,25 @@
     </ol>
   </nav>
   <mat-card> 
+    <form name="form" novalidate [formGroup]="rescheduleForm.baseForm">
     <div
       fxLayout="row wrap"
       fxLayoutGap="2%"
       fxLayout.xs="column"
       [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
     >
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Código de la solicitud</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.nombres" readonly />
-        </mat-form-field>
-      </div>
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Código de la solicitud original</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
-        </mat-form-field>
-      </div>
+    <div fxFlex="49">
+      <mat-form-field appearance="legacy">
+        <mat-label>Código de la solicitud original</mat-label>
+        <input matInput type="text" formControlName="codSolicitud"  readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="49">
+      <mat-form-field appearance="legacy">
+        <mat-label>Código de la solicitud</mat-label>
+        <input matInput type="text" formControlName="codigoSolicitudReprogramacion" readonly />
+      </mat-form-field>
+    </div>
     </div>
     <div
       fxLayout="row wrap"
@@ -38,7 +39,7 @@
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Nombre del solicitante</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+          <input matInput type="text" formControlName="nombres"  readonly />
         </mat-form-field>
       </div>
     </div>
@@ -51,7 +52,7 @@
       <div fxFlex="49">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Programacion original Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" />
+          <input matInput readonly [matDatepicker]="picker" formControlName="fechaInicio" />
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -60,7 +61,7 @@
       <div fxFlex="49">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Nueva Programacion Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker2" />
+          <input matInput readonly [matDatepicker]="picker2" formControlName="fechaInicioReprogramacion" />
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
@@ -76,13 +77,15 @@
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Dias solicitados original</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+          <input matInput type="text" formControlName="dias" readonly />
         </mat-form-field>
       </div>
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Dias solicitados reprogramacion</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
+          <input matInput type="number"
+          step="{{steps}}" formControlName="diasReprogramacion"  min="1"
+          oninput="validity.valid||(value='');" />
         </mat-form-field>
       </div>
 
@@ -96,7 +99,7 @@
       <div fxFlex="49">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Programacion original Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker3" />
+          <input matInput readonly [matDatepicker]="picker3" formControlName="fechaFin" />
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
           <mat-datepicker #picker3></mat-datepicker>
@@ -105,7 +108,7 @@
       <div fxFlex="49">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Nueva Programacion Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker4" />
+          <input matInput readonly [matDatepicker]="picker4" formControlName="fechaFinReprogramacion" />
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
           <mat-datepicker #picker4></mat-datepicker>
@@ -138,32 +141,63 @@
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Persona que reemplazará/apoyo</mat-label>
-          <mat-select>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-          </mat-select>
+          <input
+                id="reemplazo"
+                matInput
+                aria-label="State"
+                [matAutocomplete]="auto"  
+                formControlName="codEmplReemplazoReprogramacion"
+                name="reemplazoValue"
+                required
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
+                  *ngFor="let state of filteredReemplazo | async"
+                  [value]="state.nombres"
+                >
+                  <span>{{ state.nombres }}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear">
+                <mat-icon>close</mat-icon>
+              </button>
         </mat-form-field>
       </div>
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Persona que aprobará la solicitud</mat-label>
-          <mat-select>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-          </mat-select>
+          <input
+                  id="aprobar"
+                  matInput
+                  aria-label="State"
+                  [matAutocomplete]="cmp"
+                  formControlName="codEmplAprobacionReprogramacion"
+                  name="aprobadoValue"
+                  required
+                />
+                <mat-autocomplete #cmp="matAutocomplete">
+                  <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
+                    *ngFor="let state of filteredAprobado| async"
+                    [value]="state.nombres"
+                  >
+                    <span>{{ state.nombres }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <button type="button" mat-button *ngIf="rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue('')">
+                  <mat-icon>close</mat-icon>
+                </button>
         </mat-form-field>
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
-      <button mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }">
+      <button [disabled]="!rescheduleForm.baseForm.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="registrar()">
         Registrar Solicitud
       </button>
       <button mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
         Cancelar
       </button>
     </div>
+    </form>
   </mat-card>
 </div>
 
