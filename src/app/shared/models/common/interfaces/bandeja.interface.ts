@@ -16,7 +16,7 @@ export interface ISolicitud {
     descTipoGoce: string;
     fechaInicio: string;
     fechaFin: string;
-    dias: number;
+    dias: string;
     codEstado: number;
     desEstado: string;
     codEmpl: number;
