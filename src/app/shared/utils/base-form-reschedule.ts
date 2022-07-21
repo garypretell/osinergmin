@@ -26,7 +26,7 @@ export class BaseFormReschedule {
     diasReprogramacion: [1, [Validators.required]],
     dias: ['', [Validators.required]],
     diaMedioReprogramacion: ['', []],
-
+    maxDias: ['', [Validators.required]]
   }, { validators: validateScore });
 
 
@@ -52,9 +52,9 @@ export class BaseFormReschedule {
 export function validateScore(
   control: AbstractControl
 ): ValidationErrors | null {
-  if (control && control.get('dias') && control.get('maxDias')) {
+  if (control && control.get('diasReprogramacion') && control.get('maxDias')) {
     const highscore = control.get('maxDias')?.value;
-    const lowscore = control.get('dias')?.value;
+    const lowscore = control.get('diasReprogramacion')?.value;
     return (Number(lowscore) > Number(highscore)) ? { scoreError: true } : null;
   }
   return null;

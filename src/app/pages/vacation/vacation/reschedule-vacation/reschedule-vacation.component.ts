@@ -37,6 +37,7 @@ export class RescheduleVacationComponent implements OnInit {
 
   steps = 0.5;
   hasDot = false;
+  hasDotRep = false;
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService,
     private datePipe: DatePipe, public dialog: MatDialog, public rescheduleForm: BaseFormReschedule) { }
 
@@ -59,6 +60,7 @@ export class RescheduleVacationComponent implements OnInit {
     this.rescheduleForm.baseForm.reset();
     this.rescheduleForm.baseForm.get('diasReprogramacion')?.setValue(1);
     if (user?.identificacion) {
+      this.rescheduleForm.baseForm.get('maxDias')?.setValue(user.saldo);
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
       });
@@ -77,6 +79,7 @@ export class RescheduleVacationComponent implements OnInit {
           this.codAprobadoValue = this.listaEmpleadoAprobacion[0].identificacion;
           this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(this.listaEmpleadoAprobacion[0].nombres);
           this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.setValue('');
+          this.hasDot = this.rescheduleForm.baseForm.get('diasReprogramacion')?.value.toString().includes('.');
           dialogRef.close();
         },
         error: error => {
@@ -97,7 +100,7 @@ export class RescheduleVacationComponent implements OnInit {
     this.calcularDias();
     this.rescheduleForm.baseForm.get('diasReprogramacion')?.valueChanges.subscribe(change => {
       if (change) {
-        this.hasDot = change.toString().includes('.');
+        this.hasDotRep = change.toString().includes('.');
         const result = new Date(this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.value);
         result.setDate(result.getDate() + change);
         this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
@@ -105,7 +108,7 @@ export class RescheduleVacationComponent implements OnInit {
     })
     this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.valueChanges.subscribe(change => {
       if (change) {
-        this.hasDot = change.toString().includes('.');
+        this.hasDotRep = change.toString().includes('.');
         const result = new Date(change);
         result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value);
         this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
@@ -142,13 +145,13 @@ export class RescheduleVacationComponent implements OnInit {
 
   OnReemplazoSelected(value: any): void {
     console.log(value);
-    this.codReemplazoValue = value.identificacion;
     this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.setValue(value.nombres);
+    this.codReemplazoValue = value.identificacion;
   }
 
   OnAprobacionSelected(value: any): void {
-    this.codAprobadoValue = value.identificacion;
     this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(value.nombres);
+    this.codAprobadoValue = value.identificacion;
   }
 
   registrar(): void {
@@ -164,7 +167,8 @@ export class RescheduleVacationComponent implements OnInit {
       fechaInicioReprogramacion: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
       fechaFinReprogramacion: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
       diasReprogramacion: this.rescheduleForm.baseForm.get('diasReprogramacion')?.value || '',
-      diaMedioReprogramacion: '0'
+      diaMedioReprogramacion: '0',
+      maxDias: this.usuario.saldo
     }
     console.log(body);
     this.bandejaService.postReprogramacion(body).subscribe({
@@ -185,7 +189,7 @@ export class RescheduleVacationComponent implements OnInit {
         })
       },
       complete: () => {
-        this.rescheduleForm.baseForm.reset();
+        // this.rescheduleForm.baseForm.reset();
       },
     });
   }

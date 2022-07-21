@@ -81,11 +81,11 @@
           <mat-label>Fecha Fin de Vacaciones</mat-label>
           <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" name="fechaF" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle
+          <mat-datepicker-toggle disabled
             matSuffix
             [for]="picker1"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker1 [disabled]="!btnRegistrar"></mat-datepicker>
+          <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
@@ -112,6 +112,7 @@
         />
         <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
       </mat-form-field>
+      <p [ngStyle]="{'font-size': '10x'}" class="text-danger" *ngIf="diasSolicitados > saldo">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
       </div>
       <div fxFlex="32">
         <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" >La fecha final considera solo medio día de vacaciones.</mat-checkbox>
@@ -186,7 +187,7 @@
         Editar Solicitud
       </button>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
-        <button type="button" [disabled]="!f.form.valid || !btnRegistrar" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="registrar()">
+        <button type="button" [disabled]="!f.form.valid || !btnRegistrar || diasSolicitados > saldo || btnEditar!==1" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="registrar()">
           Registrar Solicitud
         </button>
         <button type="button" mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">

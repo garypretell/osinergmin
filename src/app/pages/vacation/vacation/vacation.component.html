@@ -6,7 +6,7 @@
     fxFlexFill
     [ngStyle]="{ 'margin-bottom': '20px' }"
   >
-  <button type="button" mat-raised-button color="primary" class="position-relative me-3" >
+  <button type="button" mat-raised-button color="primary" class="position-relative me-3" *ngIf="usuario?.esJefe === 1">
     Solicitudes pendientes de aprobar
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
       {{usuario.cantidaPorAprobar}}

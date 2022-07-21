@@ -42,6 +42,8 @@ export class DetailVacationComponent implements OnInit {
   hasDot = false;
   registroVacional: any = {};
   btnRegistrar = false;
+  saldo: any;
+  btnEditar = 0;
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, private datePipe: DatePipe, public dialog: MatDialog) {
    }
 
@@ -62,6 +64,7 @@ export class DetailVacationComponent implements OnInit {
     user.identificacion ? this.usuario = user : this.goback();
     this.vacationService.vacationValue ? this.row = this.vacationService.vacationValue : this.goback();
     if(user?.identificacion) {
+      this.saldo = user.saldo;
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
       });
@@ -73,7 +76,7 @@ export class DetailVacationComponent implements OnInit {
       }).subscribe({
         next: (data: IDetalleRegistroResponse) => {
           this.detalle = data;
-          console.log(data);
+          this.btnEditar = data.registroVacional.codEstado;
           this.registroVacional = data.registroVacional;
           this.codReemplazoValue = data.registroVacional.codEmplReemplazo;
           this.codAprobadoValue = data.registroVacional.codEmplAprobacion;
