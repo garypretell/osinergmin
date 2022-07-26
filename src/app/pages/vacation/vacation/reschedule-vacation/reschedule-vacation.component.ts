@@ -88,6 +88,8 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
           this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(this.listaEmpleadoAprobacion[0].nombres);
           this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.setValue('');
           this.hasDot = this.rescheduleForm.baseForm.get('diasReprogramacion')?.value.toString().includes('.');
+          this.calcularDias();
+          this.calcularDiasBefore();
           dialogRef.close();
         },
         error: error => {
@@ -107,7 +109,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
         }
       });
     }
-    this.calcularDias();
+    
     this.rescheduleForm.baseForm.get('diasReprogramacion')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if (change) {
         this.hasDotRep = change.toString().includes('.');
@@ -132,6 +134,13 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
     result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value);
     this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
     this.fechaFin = result;
+  }
+
+  calcularDiasBefore(): any {
+    this.rescheduleForm.baseForm.get('fechaInicio')?.setValue( moment(this.registro.verRegistroVacacional.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
+    const result =  moment(this.registro.verRegistroVacacional.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
+    result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('dias')?.value);
+    this.rescheduleForm.baseForm.get('fechaFin')?.setValue(result);
   }
 
   private pathFormData(): void {

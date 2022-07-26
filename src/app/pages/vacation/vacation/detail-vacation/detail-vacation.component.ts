@@ -67,8 +67,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const user: any = this.vacationService.userValue;
-    console.log(user);
-    user.identificacion ? this.usuario = user : this.goback();
+    user && user.identificacion ? this.usuario = user : this.goback();
     this.vacationService.vacationValue ? this.row = this.vacationService.vacationValue : this.goback();
     if(user?.identificacion) {
       this.vacationForm.baseForm.get('maxDias')?.setValue(user.saldo);
@@ -115,7 +114,6 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
         }
       });
     }
-    this.calcularDias();
     this.vacationForm.baseForm.get('dias')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if(change) {
         this.hasDot = change.toString().includes('.');
@@ -164,8 +162,8 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
   }
 
   calcularDias(): any {
-    this.vacationForm.baseForm.get('fechaInicio')?.setValue(new Date(this.fechaInicio));
-      const result = new Date(this.fechaInicio);
+    this.vacationForm.baseForm.get('fechaInicio')?.setValue(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
+      const result = moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
       result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
       this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       this.fechaFin = result;
