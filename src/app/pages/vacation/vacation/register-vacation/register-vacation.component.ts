@@ -1,16 +1,17 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { VacationService } from '@pages/vacation/vacation.service';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
+import { PATH_URL_DATA } from '@shared/constants/constants';
 import { IDatosRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { BaseFormVacation } from '@shared/utils/base-form-vacation';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, debounceTime, tap, finalize, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,7 +19,7 @@ import Swal from 'sweetalert2';
   templateUrl: './register-vacation.component.html',
   styleUrls: ['./register-vacation.component.scss']
 })
-export class RegisterVacationComponent implements OnInit {
+export class RegisterVacationComponent implements OnInit, OnDestroy {
   @ViewChild('formReg') public formReg!: NgForm;
   today = new Date();
   fechaInicio = new Date();
@@ -33,21 +34,26 @@ export class RegisterVacationComponent implements OnInit {
   aprobadoCtrl = new FormControl('');
   aprobadoValue: any;
   filteredAprobado!: Observable<IEmpleadoAprobacion[]>  | undefined;
-  codReemplazoValue: any;
-  codAprobadoValue: any;
   steps = 0.5;
   hasDot = false;
+  isLoading = false;
+  private unsubscribe$ = new Subject();
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, 
               private datePipe: DatePipe, public dialog: MatDialog, public vacationForm: BaseFormVacation) {}
 
-  private _filterStatesReemplazo(value: string): IEmpleadosReemplazo[] {
-    const filterValue = value.toLowerCase();
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
+  }
+
+  private _filterStatesReemplazo(value: any): IEmpleadosReemplazo[] {
+    const filterValue = value.nombres.toLowerCase();
 
     return this.listaEmpleadosReemplazo.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
 
-  private _filterStatesAprobado(value: string): IEmpleadoAprobacion[] {
-    const filterValue = value.toLowerCase();
+  private _filterStatesAprobado(value: any): IEmpleadoAprobacion[] {
+    const filterValue = value.nombres.toLowerCase();
 
     return this.listaEmpleadoAprobacion.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
@@ -64,15 +70,14 @@ export class RegisterVacationComponent implements OnInit {
       this.bandejaService.getDatosRegistros({
         identificacion: this.usuario.identificacion,
         nombres: this.usuario.nombres
-      }).subscribe({
+      }).pipe(takeUntil(this.unsubscribe$)).subscribe({
         next: (data: IDatosRegistroResponse) => {
           this.registro = data;
           this.vacationForm.baseForm.updateValueAndValidity();
           this.pathFormData();
           this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
-          this.codAprobadoValue = this.listaEmpleadoAprobacion[0].identificacion;
-          this.vacationForm.baseForm.get('codEmplAprobacion')?.setValue(this.listaEmpleadoAprobacion[0].nombres);
+          this.vacationForm.baseForm.get('codEmplAprobacion')?.setValue(this.listaEmpleadoAprobacion[0]);
           this.vacationForm.baseForm.get('codEmplReemplazo')?.setValue('');
           dialogRef.close();
         },
@@ -81,18 +86,25 @@ export class RegisterVacationComponent implements OnInit {
         },
         complete: () => {
           this.filteredReemplazo = this.vacationForm.baseForm.get('codEmplReemplazo')?.valueChanges.pipe(
+            debounceTime(300),
+            tap(() => this.isLoading = true),
             startWith(''),
             map(state => (state ? this._filterStatesReemplazo(state) : this.listaEmpleadosReemplazo.slice())),
+            finalize(() => this.isLoading = false)
+
           );
           this.filteredAprobado = this.vacationForm.baseForm.get('codEmplAprobacion')?.valueChanges.pipe(
+            debounceTime(300),
+            tap(() => this.isLoading = true),
             startWith(''),
             map(state => (state ? this._filterStatesAprobado(state) : this.listaEmpleadoAprobacion.slice())),
+            finalize(() => this.isLoading = false)
           );
         }
       });
     }
     this.calcularDias();
-    this.vacationForm.baseForm.get('dias')?.valueChanges.subscribe(change => {
+    this.vacationForm.baseForm.get('dias')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if(change) {
         this.hasDot = change.toString().includes('.');
         const result = new Date(this.vacationForm.baseForm.get('fechaInicio')?.value);
@@ -100,7 +112,7 @@ export class RegisterVacationComponent implements OnInit {
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       }
     })
-    this.vacationForm.baseForm.get('fechaInicio')?.valueChanges.subscribe(change => {
+    this.vacationForm.baseForm.get('fechaInicio')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if(change) {
         this.hasDot = change.toString().includes('.');
         const result = new Date(change);
@@ -108,6 +120,7 @@ export class RegisterVacationComponent implements OnInit {
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       }
     })
+    
   }
 
   private pathFormData(): void {
@@ -122,7 +135,7 @@ export class RegisterVacationComponent implements OnInit {
   }
 
   goBandeja(): void {
-    this.router.navigate([`vacaciones/bandeja`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
   }
 
   calcularDias(): any {
@@ -134,7 +147,6 @@ export class RegisterVacationComponent implements OnInit {
   }
 
   registrar(): void {
-
     const body: IRegistroVacaionalBody = {
       identificacion: this.usuario.identificacion,
       nombres: this.usuario.nombres,
@@ -144,10 +156,9 @@ export class RegisterVacationComponent implements OnInit {
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
       fechaFin: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
       dias: this.vacationForm.baseForm.get('dias')?.value.toString(),
-      codEmplReemplazo: this.codReemplazoValue.toString(),
-      codEmplAprobacion: this.codAprobadoValue.toString()
+      codEmplReemplazo: this.vacationForm.baseForm.get('codEmplReemplazo')?.value.identificacion,
+      codEmplAprobacion: this.vacationForm.baseForm.get('codEmplAprobacion')?.value.identificacion
     }
-    console.log(body);
     this.bandejaService.postRegistro(body).subscribe({
       next: (data: IDatosRegistroResponse) => {
         Swal.fire(
@@ -171,15 +182,13 @@ export class RegisterVacationComponent implements OnInit {
     });
   }
 
-  OnReemplazoSelected(value: any): void {
-    this.codReemplazoValue = value.identificacion;
-    this.vacationForm.baseForm.get('codEmplReemplazo')?.setValue(value.nombres);
-    console.log(this.vacationForm.baseForm.value);
+
+  OnReemplazoSelected(value: any) {
+    if (value) { return value.nombres; }
   }
 
-  OnAprobacionSelected(value: any): void {
-    this.codAprobadoValue = value.identificacion;
-    this.vacationForm.baseForm.get('codEmplAprobacion')?.setValue(value.nombres);
+  OnAprobacionSelected(value: any) {
+    if (value) { return value.nombres; }
   }
 
 }

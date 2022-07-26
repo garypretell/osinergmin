@@ -153,10 +153,10 @@
                 name="reemplazoValue"
                 required
               />
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="OnReemplazoSelected">
+                <mat-option 
                   *ngFor="let state of filteredReemplazo | async"
-                  [value]="state.nombres"
+                  [value]="state"
                 >
                   <span>{{ state.nombres }}</span>
                 </mat-option>
@@ -178,10 +178,10 @@
                   name="aprobadoValue"
                   required
                 />
-                <mat-autocomplete #cmp="matAutocomplete">
-                  <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
+                <mat-autocomplete #cmp="matAutocomplete" [displayWith]="OnAprobacionSelected">
+                  <mat-option 
                     *ngFor="let state of filteredAprobado| async"
-                    [value]="state.nombres"
+                    [value]="state"
                   >
                     <span>{{ state.nombres }}</span>
                   </mat-option>

@@ -15,6 +15,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadlines-vacation.component';
 import { SharedModule } from '@shared/shared.module';
+import { RequestPendingComponent } from './vacation/request-pending/request-pending.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SharedModule } from '@shared/shared.module';
     DetailVacationComponent,
     RescheduleVacationComponent,
     InterruptionVacationComponent,
-    DeadlinesVacationComponent
+    DeadlinesVacationComponent,
+    RequestPendingComponent
   ],
   imports: [
     CommonModule,

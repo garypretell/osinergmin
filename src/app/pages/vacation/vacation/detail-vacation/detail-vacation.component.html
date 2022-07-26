@@ -10,7 +10,7 @@
     </ol>
   </nav>
   <mat-card> 
-    <form name="form" #f="ngForm" novalidate>
+    <form name="form" novalidate [formGroup]="vacationForm.baseForm">
     <div
       fxLayout="row wrap"
       fxLayoutGap="2%"
@@ -20,19 +20,19 @@
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Código de la solicitud</mat-label>
-          <input matInput type="text" [(ngModel)]="row.codSolicitud" readonly required name="code" />
+          <input matInput type="text" formControlName="codigoSolicitud" readonly required name="code" />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Estado</mat-label>
-          <input matInput type="text" [(ngModel)]="row.desEstado" readonly required name="estado">
+          <input matInput type="text" formControlName="desEstado" readonly required name="estado">
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Creado</mat-label>
-          <input matInput type="text" [(ngModel)]="registroVacional.fechaRegistro" name="fechaRegistro" readonly  required/>
+          <input matInput type="text" formControlName="fechaRegistro" name="fechaRegistro" readonly  required/>
         </mat-form-field>
       </div>
     </div>
@@ -45,19 +45,19 @@
       <div fxFlex="32">
       <mat-form-field appearance="legacy">
         <mat-label>Nombre del solicitante</mat-label>
-        <input matInput type="text" [(ngModel)]="detalle.nombres" name="nombres" readonly required/>
+        <input matInput type="text" formControlName="nombres" name="nombres" readonly required/>
       </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Tipo</mat-label>
-          <input matInput type="text" [(ngModel)]="row.descTipoGoce" name="tipoGoce" readonly required />
+          <input matInput type="text" formControlName="descTipoGoce" name="tipoGoce" readonly required />
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field appearance="legacy">
           <mat-label>Actualizado</mat-label>
-          <input matInput type="text" [(ngModel)]="registroVacional.fechaModificacion" name="fechaMod" readonly required />
+          <input matInput type="text" formControlName="fechaModificacion" name="fechaMod" readonly required />
         </mat-form-field>
       </div>
     </div>
@@ -70,22 +70,32 @@
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" [(ngModel)]="fechaInicio" name="fechaInit" required/>
+          <input matInput readonly [matDatepicker]="picker" formControlName="fechaInicio" name="fechaInit" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker [disabled]="!btnRegistrar"></mat-datepicker>
+          <mat-error>
+            <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('fechaInicio')))">
+              {{ vacationForm.handleError(error,'fechaInicio')}} <br>
+            </ng-container>
+          </mat-error>
         </mat-form-field>
       </div>
       <div fxFlex="32">
         <mat-form-field class="example-full-width" appearance="legacy">
           <mat-label>Fecha Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker1" [(ngModel)]="fechaFin" name="fechaF" required/>
+          <input matInput readonly [matDatepicker]="picker1"formControlName="fechaFin" name="fechaF" required/>
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle disabled
             matSuffix
             [for]="picker1"
           ></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
+          <mat-error>
+            <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('fechaFin')))">
+              {{ vacationForm.handleError(error,'fechaFin')}} <br>
+            </ng-container> 
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -102,8 +112,7 @@
           matInput
           type="number"
           step="{{steps}}"
-          [(ngModel)]="diasSolicitados" name="diasSolicitados"
-          (ngModelChange)="calcularDias()"
+          formControlName="dias"
           min="1"
           oninput="validity.valid||(value='');"
           required
@@ -111,11 +120,16 @@
           [readonly]="!btnRegistrar"
         />
         <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+        <mat-error>
+          <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('dias')))">
+            {{ vacationForm.handleError(error,'dias')}} <br>
+          </ng-container>
+        </mat-error>  
       </mat-form-field>
-      <p [ngStyle]="{'font-size': '10x'}" class="text-danger" *ngIf="diasSolicitados > saldo">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
+      <p [ngStyle]="{'font-size': '10x'}" class="text-danger" *ngIf="vacationForm.baseForm.hasError('scoreError')">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
       </div>
       <div fxFlex="32">
-        <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" >La fecha final considera solo medio día de vacaciones.</mat-checkbox>
+        <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" [ngModelOptions]="{standalone: true}">La fecha final considera solo medio día de vacaciones.</mat-checkbox>
     </div>
       
     </div>
@@ -133,22 +147,21 @@
                 matInput
                 aria-label="State"
                 [matAutocomplete]="auto"
-                [formControl]="reemplazoCtrl"
-                [(ngModel)]="reemplazoValue" 
+                formControlName="codEmplReemplazo"
                 name="reemplazoValue"
                 required
                 name="reemplazoValue"
                 [readonly]="!btnRegistrar"
               />
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="OnReemplazoSelected(state)"
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="OnReemplazoSelected">
+                <mat-option
                   *ngFor="let state of filteredReemplazo | async"
-                  [value]="state.nombres"
+                  [value]="state"
                 >
                   <span>{{ state.nombres }}</span>
                 </mat-option>
               </mat-autocomplete>
-              <button  type="button" mat-button *ngIf="reemplazoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="reemplazoValue = ''">
+              <button  type="button" mat-button *ngIf="reemplazoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="vacationForm.baseForm.get('codEmplReemplazo')?.setValue('')">
                 <mat-icon>close</mat-icon>
               </button>
         </mat-form-field>
@@ -161,33 +174,32 @@
                   matInput
                   aria-label="State"
                   [matAutocomplete]="cmp"
-                  [formControl]="aprobadoCtrl"
-                  [(ngModel)]="aprobadoValue"
+                  formControlName="codEmplAprobacion"
                   name="aprobadoValue"
                   required
                   name="aprobadoValue"
                   [readonly]="!btnRegistrar"
                 />
-                <mat-autocomplete #cmp="matAutocomplete">
-                  <mat-option (onSelectionChange)="OnAprobacionSelected(state)"
+                <mat-autocomplete #cmp="matAutocomplete" [displayWith]="OnAprobacionSelected">
+                  <mat-option
                     *ngFor="let state of filteredAprobado| async"
-                    [value]="state.nombres"
+                    [value]="state"
                   >
                     <span>{{ state.nombres }}</span>
                   </mat-option>
                 </mat-autocomplete>
-                <button type="button" mat-button *ngIf="aprobadoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="aprobadoValue = ''">
+                <button type="button" mat-button *ngIf="aprobadoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="vacationForm.baseForm.get('codEmplAprobacion')?.setValue('')">
                   <mat-icon>close</mat-icon>
                 </button>
         </mat-form-field>
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
-      <button type="button" [disabled]="!f.form.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()">
+      <button type="button" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()">
         Editar Solicitud
       </button>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
-        <button type="button" [disabled]="!f.form.valid || !btnRegistrar || diasSolicitados > saldo || btnEditar!==1" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="registrar()">
+        <button type="button"  [disabled]="!vacationForm.baseForm.valid || !btnRegistrar || btnEditar!==1"  mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="registrar()">
           Registrar Solicitud
         </button>
         <button type="button" mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">

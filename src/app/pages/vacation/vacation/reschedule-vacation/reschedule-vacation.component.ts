@@ -1,22 +1,24 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { IDatosRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { BaseFormReschedule } from '@shared/utils/base-form-reschedule';
-import { startWith, map, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, debounceTime, tap, finalize, takeUntil } from 'rxjs/operators';
 import { VacationService } from '../../vacation.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { PATH_URL_DATA } from '@shared/constants/constants';
 
 @Component({
   selector: 'app-reschedule-vacation',
   templateUrl: './reschedule-vacation.component.html',
   styleUrls: ['./reschedule-vacation.component.scss']
 })
-export class RescheduleVacationComponent implements OnInit {
+export class RescheduleVacationComponent implements OnInit, OnDestroy {
   today = new Date();
   fechaInicio = new Date();
   fechaFin = new Date();
@@ -38,17 +40,23 @@ export class RescheduleVacationComponent implements OnInit {
   steps = 0.5;
   hasDot = false;
   hasDotRep = false;
+  private unsubscribe$ = new Subject();
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService,
     private datePipe: DatePipe, public dialog: MatDialog, public rescheduleForm: BaseFormReschedule) { }
 
-  private _filterStatesReemplazo(value: string): IEmpleadosReemplazo[] {
-    const filterValue = value.toLowerCase();
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
+  }
+
+  private _filterStatesReemplazo(value: any): IEmpleadosReemplazo[] {
+    const filterValue = value.nombres.toLowerCase();
 
     return this.listaEmpleadosReemplazo.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
 
-  private _filterStatesAprobado(value: string): IEmpleadoAprobacion[] {
-    const filterValue = value.toLowerCase();
+  private _filterStatesAprobado(value: any): IEmpleadoAprobacion[] {
+    const filterValue = value.nombres.toLowerCase();
 
     return this.listaEmpleadoAprobacion.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
@@ -87,10 +95,12 @@ export class RescheduleVacationComponent implements OnInit {
         },
         complete: () => {
           this.filteredReemplazo = this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.valueChanges.pipe(
+            debounceTime(300),
             startWith(''),
             map(state => (state ? this._filterStatesReemplazo(state) : this.listaEmpleadosReemplazo.slice())),
           );
           this.filteredAprobado = this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.valueChanges.pipe(
+            debounceTime(300),
             startWith(''),
             map(state => (state ? this._filterStatesAprobado(state) : this.listaEmpleadoAprobacion.slice())),
           );
@@ -98,7 +108,7 @@ export class RescheduleVacationComponent implements OnInit {
       });
     }
     this.calcularDias();
-    this.rescheduleForm.baseForm.get('diasReprogramacion')?.valueChanges.subscribe(change => {
+    this.rescheduleForm.baseForm.get('diasReprogramacion')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if (change) {
         this.hasDotRep = change.toString().includes('.');
         const result = new Date(this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.value);
@@ -106,7 +116,7 @@ export class RescheduleVacationComponent implements OnInit {
         this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
       }
     })
-    this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.valueChanges.subscribe(change => {
+    this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if (change) {
         this.hasDotRep = change.toString().includes('.');
         const result = new Date(change);
@@ -140,18 +150,15 @@ export class RescheduleVacationComponent implements OnInit {
   }
 
   goback(): void {
-    this.router.navigate([`vacaciones/bandeja`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
   }
 
-  OnReemplazoSelected(value: any): void {
-    console.log(value);
-    this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.setValue(value.nombres);
-    this.codReemplazoValue = value.identificacion;
+  OnReemplazoSelected(value: any) {
+    if (value) { return value.nombres; }
   }
 
-  OnAprobacionSelected(value: any): void {
-    this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(value.nombres);
-    this.codAprobadoValue = value.identificacion;
+  OnAprobacionSelected(value: any) {
+    if (value) { return value.nombres; }
   }
 
   registrar(): void {
@@ -162,8 +169,8 @@ export class RescheduleVacationComponent implements OnInit {
       codRegistro:  this.rescheduleForm.baseForm.get('codRegistro')?.value,
       codRegistroReprogramacion: this.rescheduleForm.baseForm.get('codRegistroReprogramacion')?.value,
       codigoSolicitudReprogramacion: this.rescheduleForm.baseForm.get('codigoSolicitudReprogramacion')?.value,
-      codEmplReemplazoReprogramacion: this.codReemplazoValue,
-      codEmplAprobacionReprogramacion: this.codAprobadoValue,
+      codEmplReemplazoReprogramacion: this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.value.identificacion,
+      codEmplAprobacionReprogramacion: this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.value.identificacion,
       fechaInicioReprogramacion: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
       fechaFinReprogramacion: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
       diasReprogramacion: this.rescheduleForm.baseForm.get('diasReprogramacion')?.value || '',

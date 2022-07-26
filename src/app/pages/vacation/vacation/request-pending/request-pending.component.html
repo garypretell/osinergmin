@@ -1,0 +1,120 @@
+<div class="container-fluid">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['']" (click)="goBandeja()">Bandeja</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Solicitudes Pendientes por Aprobar
+      </li>
+    </ol>
+  </nav>
+  <mat-card> </mat-card>
+  <ngx-datatable
+  id="datatablele"
+  #tablePedidos
+  class="material contenedor"
+  [rows]="rows"
+  [columns]="columns"
+  [sortType]="SortType.multi"
+  [columnMode]="ColumnMode.force"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  rowHeight="auto"
+  [reorderable]="true"
+  [limit]="5"
+  [loadingIndicator]="loadingIndicator"
+  [scrollbarH]="true"
+  [messages]="{emptyMessage:'No hay resultados disponibles.',
+  totalMessage: 'solicitudes'}"
+>
+  <ngx-datatable-column
+    name="worker"
+    prop="worker"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="3"
+    [sortable]="false"
+    [frozenLeft]="true"
+  >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Trabajador</span>
+  </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    prop="fechaFin"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="2"
+    [sortable]="false"
+  >
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fas fa-clock"></i> Dias </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    name="Estado"
+    prop="desEstado"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="2"
+    [sortable]="false"
+  >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Estado</span>
+  </ng-template>
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{
+       row.desEstado
+      }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    name="Reemplazante"
+    prop="reemplazable"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="2"
+    [sortable]="true"
+  >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Reemplazante</span>
+  </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Solicitar"
+    prop="actions"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="3"
+    [sortable]="true"
+    [frozenRight]="true"
+  >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> </span>
+  </ng-template>
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <span class="badge bg-primary" role="button"
+        ><i class="fas fa-paper-plane"></i> Ver.</span
+      >
+      <span class="badge bg-success" role="button"
+        ><i class="fas fa-retweet"></i> Aprobar</span
+      >
+      <span class="badge bg-danger" role="button"
+        ><i class="fas fa-stopwatch"></i> Rechazar</span
+      >
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
+</div>

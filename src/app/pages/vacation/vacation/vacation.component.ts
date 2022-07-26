@@ -9,6 +9,9 @@ import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/b
 import {MatDialog} from '@angular/material/dialog';
 import { DeadlinesVacationComponent } from '../shared/deadlines-vacation/deadlines-vacation.component';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
+import { DetailVacationComponent } from './detail-vacation/detail-vacation.component';
+import { PATH_URL_DATA } from '@shared/constants/constants';
+
 
 @Component({
   selector: 'app-vacation',
@@ -81,7 +84,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
   goRegister(): void {
     this.vacationService.userSubjectObsData = this.usuario;
     // if (this.usuario.nombres) { this.router.navigate([`vacaciones/registrar`]); }
-    this.router.navigate([`vacaciones/registrar`]);
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlRegistrarVacaciones}`]);
   }
 
   async setPage(pageInfo: any): Promise<any> { }
@@ -206,12 +209,15 @@ export class VacationComponent implements OnInit, AfterViewInit {
 
   reprogramar(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate([`vacaciones/reprogramar-solicitud`, row.codSolicitud]);
+    const urlReprogramarVacaciones = PATH_URL_DATA.urlReprogramarVacaciones.replace(':solic', row.codSolicitud);
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${urlReprogramarVacaciones}`]);
   }
 
   interrumpir(row: any): void {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate([`vacaciones/interrumpir-solicitud`, row.codSolicitud]);
+    const urlInterrupcionVacaciones = PATH_URL_DATA.urlInterrupcionVacaciones.replace(':solic', row.codSolicitud);
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${urlInterrupcionVacaciones}`]);
+    // this.router.navigate([`vacaciones/interrumpir-solicitud`, row.codSolicitud]);
   }
 
   openModal(): void {
@@ -223,6 +229,11 @@ export class VacationComponent implements OnInit, AfterViewInit {
         saldo: this.rows[0]
       }
     });
-  } 
+  }
+  
+  solicitudesPendientes(): void {
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientes}`]);
+    // this.router.navigate([`vacaciones/solicitudes-pendientes`, row.codSolicitud]);
+  }
 
 }

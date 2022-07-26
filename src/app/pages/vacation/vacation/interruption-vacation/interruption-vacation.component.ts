@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PATH_URL_DATA } from '@shared/constants/constants';
 import { VacationService } from '../../vacation.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class InterruptionVacationComponent implements OnInit {
   }
 
   goback(): void {
-    this.router.navigate([`vacaciones/bandeja`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
   }
 
 }
