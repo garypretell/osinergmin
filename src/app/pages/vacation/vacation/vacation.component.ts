@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
@@ -11,6 +11,7 @@ import { DeadlinesVacationComponent } from '../shared/deadlines-vacation/deadlin
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { DetailVacationComponent } from './detail-vacation/detail-vacation.component';
 import { PATH_URL_DATA } from '@shared/constants/constants';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { PATH_URL_DATA } from '@shared/constants/constants';
   templateUrl: './vacation.component.html',
   styleUrls: ['./vacation.component.scss']
 })
-export class VacationComponent implements OnInit, AfterViewInit {
+export class VacationComponent implements OnInit {
   identificacion: any;
   usuario: IBandejaResponse = {} as IBandejaResponse;
   cantidad: any;
@@ -41,18 +42,10 @@ export class VacationComponent implements OnInit, AfterViewInit {
   reorderable = true;
   ColumnMode = ColumnMode;
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService,
-     private route: ActivatedRoute, public dialog: MatDialog) {
+     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService) {
     this.identificacion = +this.route.snapshot.queryParams['id'];
+    this.cookieService.set('identificacion', this.identificacion);
     this.vacationService.identificationSubjectObsData = this.identificacion;
-  }
-  ngAfterViewInit(): void {
-    // setTimeout(() => {
-    //   Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
-    //     .forEach(tooltipNode => new bootstrap.Tooltip(tooltipNode, {
-    //       container: 'body',
-    //       trigger: 'hover'
-    //     }))
-    // }, 100);
   }
 
   ngOnInit(): void {
@@ -232,6 +225,7 @@ export class VacationComponent implements OnInit, AfterViewInit {
   }
   
   solicitudesPendientes(): void {
+    this.vacationService.identificationSubjectObsData = this.identificacion;
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientes}`]);
     // this.router.navigate([`vacaciones/solicitudes-pendientes`, row.codSolicitud]);
   }

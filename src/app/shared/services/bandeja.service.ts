@@ -89,4 +89,25 @@ export class BandejaService {
     return this.apiService.post(BandejaEndpoint.PostReprogramar, body);
   }
 
+  /**
+   * Obtener Lista de Solicitudes de Jefe Inmediato
+   */
+   getListaSolicitudJefe(body: IBandejaRequest): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.GetListaSolicitudJefe, body);
+  }
+
+  /**
+   * Aprobar Solicitudes de Jefe Inmediato
+   */
+   postAprobar(body: IDetalleVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostAprobar, body);
+  }
+
+  /**
+   * Rechazar Solicitudes de Jefe Inmediato
+   */
+   postRechazar(body: IDetalleVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostRechazar, body);
+  }
+
 }

@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { PATH_URL_DATA } from '@shared/constants/constants';
 import { BaseFormEditVacation } from '@shared/utils/base-form-edit-vacation';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-detail-vacation',
@@ -45,7 +46,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
   btnEditar = 0;
   private unsubscribe$ = new Subject();
   constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, 
-              private datePipe: DatePipe, public dialog: MatDialog, public vacationForm: BaseFormEditVacation) {
+              private datePipe: DatePipe, public dialog: MatDialog, public vacationForm: BaseFormEditVacation, private cookieService: CookieService) {
    }
 
    private _filterStatesReemplazo(value: any): IEmpleadosReemplazo[] {
@@ -76,7 +77,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
         width: '400px', data: {}, disableClose: true
       });
       this.bandejaService.postDetalle({
-        identificacion: this.usuario.identificacion,
+        identificacion: this.cookieService.get('identificacion'),
         nombres: this.usuario.nombres,
         codRegistro: this.row.codRegistro,
         codSolicitud: this.row.codSolicitud
@@ -88,7 +89,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
           this.vacationForm.baseForm.updateValueAndValidity();
           this.pathFormData();
 
-          this.aprobadoValue = data.listaEmpleadoAprobacion.find(x => x.identificacion === data.registroVacional.codEmplAprobacion);
+          this.aprobadoValue = data.listaEmpleadoAprobacion[0];
           this.reemplazoValue = data.listaEmpleadosReemplazo.find(x => x.identificacion === data.registroVacional.codEmplReemplazo);
           this.listaEmpleadosReemplazo = data.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.listaEmpleadoAprobacion;
@@ -134,16 +135,16 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
 
   private pathFormData(): void {
     this.vacationForm.baseForm.patchValue({
-      identificacion: this.usuario.identificacion,
-      nombres: this.usuario.nombres,
-      codRegistro:  this.row.codRegistro,
-      codigoSolicitud: this.row.codSolicitud,
+      identificacion: this.cookieService.get('identificacion'),
+      nombres: this.detalle.nombres,
+      codRegistro:  this.detalle.registroVacional.codRegistro,
+      codigoSolicitud: this.detalle.registroVacional.codSolicitud,
       diaMedio: '1',
       maxDias: this.usuario.saldo,
       fechaModificacion: this.registroVacional.fechaModificacion,
-      descTipoGoce: this.row.descTipoGoce,
+      descTipoGoce: this.detalle.registroVacional.descTipoGoce,
       fechaRegistro: this.registroVacional.fechaRegistro,
-      desEstado: this.row.desEstado,
+      desEstado: this.detalle.registroVacional.desEstado,
       fechaInicio: moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate(),
       fechaFin: moment(this.detalle.registroVacional.fechaFin, "DD/MM/YYYY").toDate()
     });
@@ -176,7 +177,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
   registrar(): void {
 
     const body: IRegistroVacaionalBody = {
-      identificacion: this.usuario.identificacion,
+      identificacion: this.cookieService.get('identificacion'),
       nombres: this.usuario.nombres,
       codRegistro:  this.registroVacional.codRegistro,
       codigoSolicitud: this.registroVacional.codSolicitud,

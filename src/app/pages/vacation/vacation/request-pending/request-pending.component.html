@@ -9,7 +9,6 @@
       </li>
     </ol>
   </nav>
-  <mat-card> </mat-card>
   <ngx-datatable
   id="datatablele"
   #tablePedidos
@@ -29,8 +28,8 @@
   totalMessage: 'solicitudes'}"
 >
   <ngx-datatable-column
-    name="worker"
-    prop="worker"
+    name="nombreEmpleado"
+    prop="nombreEmpleado"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
     [flexGrow]="3"
@@ -80,8 +79,8 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    name="Reemplazante"
-    prop="reemplazable"
+    name="nombreReemplazo"
+    prop="nombreReemplazo"
     headerClass="my-custom-cell"
     [cellClass]="'my-custom-cell'"
     [flexGrow]="2"
@@ -105,14 +104,14 @@
     <span> </span>
   </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <span class="badge bg-primary" role="button"
+      <span class="badge bg-primary m-1" role="button" (click)="ver(row)"
         ><i class="fas fa-paper-plane"></i> Ver.</span
       >
-      <span class="badge bg-success" role="button"
-        ><i class="fas fa-retweet"></i> Aprobar</span
+      <span class="badge bg-success m-1" role="button" (click)="aprobar(row)"
+        ><i class="fas fa-check"></i> Aprobar</span
       >
-      <span class="badge bg-danger" role="button"
-        ><i class="fas fa-stopwatch"></i> Rechazar</span
+      <span class="badge bg-danger m-1" role="button" (click)="rechazar(row)"
+        ><i class="fas fa-times"></i> Rechazar</span
       >
     </ng-template>
   </ngx-datatable-column>

@@ -186,7 +186,6 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
       diaMedioReprogramacion: '0',
       maxDias: this.usuario.saldo
     }
-    console.log(body);
     this.bandejaService.postReprogramacion(body).subscribe({
       next: (data: any) => {
         Swal.fire(
