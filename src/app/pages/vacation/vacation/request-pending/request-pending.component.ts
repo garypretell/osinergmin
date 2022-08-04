@@ -107,7 +107,23 @@ export class RequestPendingComponent implements OnInit {
     })
   }
 
-  rechazar(row: any): void {
+  async rechazar(row: any): Promise<void> {
+    // const { value: text } = await Swal.fire({
+    //   input: 'textarea',
+    //   inputLabel: 'Message',
+    //   inputPlaceholder: 'Type your message here...',
+    //   inputAttributes: {
+    //     'aria-label': 'Type your message here'
+    //   },
+    //   showCancelButton: true
+    // }).then((result) => {
+    //   console.log(result);
+    //   return result;
+    // });
+    
+    // if (text) {
+    //   Swal.fire(text)
+    // }
     Swal.fire({
       title: `<p>¿Está seguro de rechazar la solicitud</p><p>${row.codSolicitud} ?</p>`,
       // text: "No podrás revertir el proceso!",

@@ -145,8 +145,8 @@
               />
            
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="OnReemplazoSelected">
-                <!-- <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="20"></mat-spinner></mat-option> -->
-                <mat-option   *ngFor="let state of filteredReemplazo | async"
+                <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="20"></mat-spinner></mat-option>
+                <mat-option    *ngFor="let state of filteredReemplazo | async"
                   [value]="state"
                 >
                   <span>{{ state.nombres }}</span>

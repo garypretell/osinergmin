@@ -50,13 +50,13 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
   }
 
   private _filterStatesReemplazo(value: any): IEmpleadosReemplazo[] {
-    const filterValue = value.nombres.toLowerCase();
+    const filterValue = value.nombres ? value.nombres.toLowerCase() : value.toLowerCase();
 
     return this.listaEmpleadosReemplazo.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
 
   private _filterStatesAprobado(value: any): IEmpleadoAprobacion[] {
-    const filterValue = value.nombres.toLowerCase();
+    const filterValue = value.nombres ? value.nombres.toLowerCase() : value.toLowerCase();
 
     return this.listaEmpleadoAprobacion.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
@@ -180,8 +180,8 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
       codigoSolicitudReprogramacion: this.rescheduleForm.baseForm.get('codigoSolicitudReprogramacion')?.value,
       codEmplReemplazoReprogramacion: this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.value.identificacion,
       codEmplAprobacionReprogramacion: this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.value.identificacion,
-      fechaInicioReprogramacion: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
-      fechaFinReprogramacion: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
+      fechaInicioReprogramacion: this.datePipe.transform(this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.value, 'dd/MM/yyyy')?.toString() || '',
+      fechaFinReprogramacion: this.datePipe.transform(this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.value, 'dd/MM/yyyy')?.toString() || '',
       diasReprogramacion: this.rescheduleForm.baseForm.get('diasReprogramacion')?.value || '',
       diaMedioReprogramacion: '0',
       maxDias: this.usuario.saldo

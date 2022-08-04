@@ -47,13 +47,13 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
   }
 
   private _filterStatesReemplazo(value: any): IEmpleadosReemplazo[] {
-    const filterValue = value.nombres.toLowerCase();
+    const filterValue = value.nombres ? value.nombres.toLowerCase() : value.toLowerCase();
 
     return this.listaEmpleadosReemplazo.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
 
   private _filterStatesAprobado(value: any): IEmpleadoAprobacion[] {
-    const filterValue = value.nombres.toLowerCase();
+    const filterValue = value.nombres ? value.nombres.toLowerCase() : value.toLowerCase();
 
     return this.listaEmpleadoAprobacion.filter(state => state.nombres.toLowerCase().includes(filterValue));
   }
@@ -86,16 +86,18 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.filteredReemplazo = this.vacationForm.baseForm.get('codEmplReemplazo')?.valueChanges.pipe(
-            debounceTime(300),
             tap(() => this.isLoading = true),
+            debounceTime(300),
             startWith(''),
-            map(state => (state ? this._filterStatesReemplazo(state) : this.listaEmpleadosReemplazo.slice())),
-            finalize(() => this.isLoading = false)
+            map(state => {
+              this.isLoading = false;
+              return state ? this._filterStatesReemplazo(state) : this.listaEmpleadosReemplazo.slice();
+            })
 
           );
           this.filteredAprobado = this.vacationForm.baseForm.get('codEmplAprobacion')?.valueChanges.pipe(
-            debounceTime(300),
             tap(() => this.isLoading = true),
+            debounceTime(300),
             startWith(''),
             map(state => (state ? this._filterStatesAprobado(state) : this.listaEmpleadoAprobacion.slice())),
             finalize(() => this.isLoading = false)
@@ -153,8 +155,8 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
       codRegistro:  this.registro.codRegistro,
       codigoSolicitud: this.registro.codigoSolicitud,
       diaMedio: '0',
-      fechaInicio: this.datePipe.transform(this.fechaInicio, 'dd/MM/yyyy')?.toString() || '',
-      fechaFin: this.datePipe.transform(this.fechaFin, 'dd/MM/yyyy')?.toString() || '',
+      fechaInicio: this.datePipe.transform(this.vacationForm.baseForm.get('fechaInicio')?.value, 'dd/MM/yyyy')?.toString() || '',
+      fechaFin: this.datePipe.transform(this.vacationForm.baseForm.get('fechaFin')?.value, 'dd/MM/yyyy')?.toString() || '',
       dias: this.vacationForm.baseForm.get('dias')?.value.toString(),
       codEmplReemplazo: this.vacationForm.baseForm.get('codEmplReemplazo')?.value.identificacion,
       codEmplAprobacion: this.vacationForm.baseForm.get('codEmplAprobacion')?.value.identificacion

@@ -195,7 +195,7 @@
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
-      <button type="button" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()">
+      <button type="button" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="editar()" [disabled]="btnEditar!==1">
         Editar Solicitud
       </button>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
