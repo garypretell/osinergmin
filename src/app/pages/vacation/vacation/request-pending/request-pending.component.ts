@@ -126,7 +126,12 @@ export class RequestPendingComponent implements OnInit {
     // }
     Swal.fire({
       title: `<p>¿Está seguro de rechazar la solicitud</p><p>${row.codSolicitud} ?</p>`,
-      // text: "No podrás revertir el proceso!",
+      html: `
+      <div class="mb-3">
+  <label for="exampleFormControlTextarea1" class="form-label">Motivo:</label>
+  <textarea class="form-control" id="comentario" placeholder="Comentario" rows="3"></textarea>
+</div>
+`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
