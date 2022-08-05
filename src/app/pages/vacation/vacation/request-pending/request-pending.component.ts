@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-request-pending',
   templateUrl: './request-pending.component.html',
-  styleUrls: ['./request-pending.component.scss']
+  styleUrls: ['./request-pending.component.scss'],
 })
 export class RequestPendingComponent implements OnInit {
   identificacion: any;
@@ -32,10 +32,16 @@ export class RequestPendingComponent implements OnInit {
   ];
   reorderable = true;
   ColumnMode = ColumnMode;
-  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService,
-    private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService) { 
-      this.identificacion =  this.vacationService.identificationValue;
-    }
+  constructor(
+    private bandejaService: BandejaService,
+    private router: Router,
+    private vacationService: VacationService,
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private cookieService: CookieService
+  ) {
+    this.identificacion = this.vacationService.identificationValue;
+  }
 
   ngOnInit(): void {
     this.identificacion ? this.getData() : this.goBandeja();
@@ -43,25 +49,32 @@ export class RequestPendingComponent implements OnInit {
 
   getData(): void {
     const dialogRef = this.dialog.open(LoaderComponent, {
-      width: '400px', data: {}, disableClose: true
+      width: '400px',
+      data: {},
+      disableClose: true,
     });
-    this.bandejaService.getListaSolicitudJefe({ identificacion: this.identificacion }).subscribe({
-      next: (data: any) => {
-        this.rows = data.solicitudesVacacionalesJefe;
-        dialogRef.close();
-      },
-      error: error => {
-        dialogRef.close();
-        // handle error
-      },
-      complete: () => {
-        console.log('Request complete');
-      }
-    });
+    this.bandejaService
+      .getListaSolicitudJefe({ identificacion: this.identificacion })
+      .subscribe({
+        next: (data: any) => {
+          this.rows = data.solicitudesVacacionalesJefe;
+          dialogRef.close();
+        },
+        error: (error) => {
+          dialogRef.close();
+          // handle error
+        },
+        complete: () => {
+          console.log('Request complete');
+        },
+      });
   }
 
   goBandeja(): void {
-    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate(
+      [`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`],
+      { queryParams: { id: this.vacationService.identificationValue } }
+    );
   }
 
   ver(row: any): void {
@@ -79,90 +92,96 @@ export class RequestPendingComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, aprobar!',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         const dialogRef = this.dialog.open(LoaderComponent, {
-          width: '400px', data: {}, disableClose: true
+          width: '400px',
+          data: {},
+          disableClose: true,
         });
-        this.bandejaService.postAprobar({
-          identificacion: this.identificacion,
-          nombres: row.nombres,
-          codRegistro: row.codRegistro,
-          codSolicitud: row.codSolicitud
-        }).subscribe({
-          next: (response: any) => { dialogRef.close(); },
-          error: error => { dialogRef.close(); },
-          complete: () => {
-            Swal.fire(
-              `Solicitud: ${row.codSolicitud}`,
-              'La solicitud ha sido aprobada.',
-              'success'
-            ).then(() => {
-              this.getData();
-            });
-          }
-        });
+        this.bandejaService
+          .postAprobar({
+            identificacion: this.identificacion,
+            nombres: row.nombres,
+            codRegistro: row.codRegistro,
+            codSolicitud: row.codSolicitud,
+          })
+          .subscribe({
+            next: (response: any) => {
+              dialogRef.close();
+            },
+            error: (error) => {
+              dialogRef.close();
+            },
+            complete: () => {
+              Swal.fire(
+                `Solicitud: ${row.codSolicitud}`,
+                'La solicitud ha sido aprobada.',
+                'success'
+              ).then(() => {
+                this.getData();
+              });
+            },
+          });
       }
-    })
+    });
   }
 
   async rechazar(row: any): Promise<void> {
-    // const { value: text } = await Swal.fire({
-    //   input: 'textarea',
-    //   inputLabel: 'Message',
-    //   inputPlaceholder: 'Type your message here...',
-    //   inputAttributes: {
-    //     'aria-label': 'Type your message here'
-    //   },
-    //   showCancelButton: true
-    // }).then((result) => {
-    //   console.log(result);
-    //   return result;
-    // });
-    
-    // if (text) {
-    //   Swal.fire(text)
-    // }
     Swal.fire({
       title: `<p>¿Está seguro de rechazar la solicitud</p><p>${row.codSolicitud} ?</p>`,
-      html: `
-      <div class="mb-3">
-  <label for="exampleFormControlTextarea1" class="form-label">Motivo:</label>
-  <textarea class="form-control" id="comentario" placeholder="Comentario" rows="3"></textarea>
-</div>
-`,
+      html: `<div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Motivo:</label>
+              <textarea class="form-control" id="comentario" placeholder="Comentario" rows="3"></textarea>
+            </div>`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, rechazar!',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const inputElement = Swal.getPopup()?.querySelector('#comentario') as HTMLInputElement;
+        const comentario: any = inputElement.value;
+        if (!comentario ) {
+          Swal.showValidationMessage(`Ingrese Motivo de rechazo`);
+        }
+        return { comentario }
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         const dialogRef = this.dialog.open(LoaderComponent, {
-          width: '400px', data: {}, disableClose: true
+          width: '400px',
+          data: {},
+          disableClose: true,
         });
-        this.bandejaService.postRechazar({
-          identificacion: this.identificacion,
-          nombres: row.nombres,
-          codRegistro: row.codRegistro,
-          codSolicitud: row.codSolicitud
-        }).subscribe({
-          next: (response: any) => { dialogRef.close(); },
-          error: error => { dialogRef.close(); },
-          complete: () => {
-            Swal.fire(
-              `Solicitud: ${row.codSolicitud}`,
-              'La solicitud ha sido rechazada.',
-              'success'
-            ).then(() => {
-              this.getData();
-            });
-          }
-        });
+        this.bandejaService
+          .postRechazar({
+            identificacion: this.identificacion,
+            nombres: row.nombres,
+            codRegistro: row.codRegistro,
+            codSolicitud: row.codSolicitud,
+            comentario: result?.value?.comentario ? result?.value?.comentario : '',
+          })
+          .subscribe({
+            next: (response: any) => {
+              dialogRef.close();
+            },
+            error: (error) => {
+              dialogRef.close();
+            },
+            complete: () => {
+              Swal.fire(
+                `Solicitud: ${row.codSolicitud}`,
+                'La solicitud ha sido rechazada.',
+                'success'
+              ).then(() => {
+                this.getData();
+              });
+            },
+          });
       }
-    })
+    });
   }
-
 }
