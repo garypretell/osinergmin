@@ -13,7 +13,8 @@ import { DetailVacationComponent } from './detail-vacation/detail-vacation.compo
 import { PATH_URL_DATA } from '@shared/constants/constants';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -29,8 +30,6 @@ export class VacationComponent implements OnInit {
 
   @ViewChild('fruitInput')
   fruitInput!: ElementRef<HTMLInputElement>;
-
-
 
 
   identificacion: any;
@@ -54,11 +53,25 @@ export class VacationComponent implements OnInit {
   ];
   reorderable = true;
   ColumnMode = ColumnMode;
-  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService,
-     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService) {
+
+
+  filtros: any[] = [];
+  public addFilterForm: FormGroup;
+  selectable = true;
+  removable = true;
+  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe, 
+     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
     this.identificacion = +this.route.snapshot.queryParams['id'];
     this.cookieService.set('identificacion', this.identificacion);
     this.vacationService.identificationSubjectObsData = this.identificacion;
+
+    this.addFilterForm = this.formBuilder.group({
+      fecha_Inicio: ['', []],
+      fecha_Fin: ['', []],
+      tipo_contratacion: ['', []],
+      area: ['', []],
+      periodo: ['', []],
+    });
   }
 
   ngOnInit(): void {
@@ -241,6 +254,57 @@ export class VacationComponent implements OnInit {
     this.vacationService.identificationSubjectObsData = this.identificacion;
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientes}`]);
     // this.router.navigate([`vacaciones/solicitudes-pendientes`, row.codSolicitud]);
+  }
+
+  filtrar(): void {
+    if (this.addFilterForm.value.fecha_Inicio && this.addFilterForm.value.fecha_Fin){
+      if (this.addFilterForm.value.fecha_Inicio > this.addFilterForm.value.fecha_Fin){
+        Swal.fire(
+          'Advertencia!',
+          'Fecha de Inicio debe ser menor a Fecha Fin!',
+          'info'
+        );
+        return;
+      }
+    }
+    this.filtros = [];
+    
+    this.filtro();
+  }
+
+  remove(filtro: any): void {
+    this.addFilterForm.get(filtro.id)?.setValue('');
+    const index = this.filtros.indexOf(filtro);
+    if (index >= 0) {
+      this.filtros.splice(index, 1);
+    }
+    this.filtrar();
+  }
+
+  clearAll(): void {
+    this.filtros = [];
+    Object.keys(this.addFilterForm.value).forEach((key) => {
+      this.addFilterForm.get(key)?.setValue('');
+    });
+    this.filtrar();
+  }
+
+  filtro(): any {
+    Object.keys(this.addFilterForm.value).forEach((key) => {
+      if (this.addFilterForm.value[key]) {
+        switch (key) {
+          case 'area':
+          case 'periodo':
+            this.filtros.push({ id: key, name: this.addFilterForm.value[key] });
+            break;
+          case 'tipo_contratacion':
+            this.filtros.push({ id: key, name: this.addFilterForm.value[key].descripcion });
+            break;
+          default:
+            this.filtros.push({ id: key, name: this.datePipe.transform(this.addFilterForm.value[key], 'dd/MM/yyyy') });
+        }
+      }
+    });
   }
 
 }

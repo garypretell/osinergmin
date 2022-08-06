@@ -16,6 +16,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadlines-vacation.component';
 import { SharedModule } from '@shared/shared.module';
 import { RequestPendingComponent } from './vacation/request-pending/request-pending.component';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RequestPendingComponent } from './vacation/request-pending/request-pend
     NgxDatatableModule,
     MaterialModule,
     FlexLayoutModule,
-    SharedModule
+    SharedModule,
+    PipesModule
   ],
   providers: [
     DatePipe,

@@ -60,223 +60,220 @@
 </mat-card>
 <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
   <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
-    <div fxFlex="30">
-      <mat-form-field class="example-full-width" appearance="legacy">
-        <mat-label>Fecha Inicio de Vacaciones</mat-label>
-        <input matInput readonly [matDatepicker]="picker"  name="fechaInicio" />
-        <mat-hint>DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle 
-          matSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+    <div fxFlex="20">
+      <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
+        <form [formGroup]="addFilterForm" (ngSubmit)="filtrar()">
+          <div  fxLayoutGap="25px" fxLayout="column" [ngStyle]="{ 'margin-bottom': '10px' }">
+            <div>
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Fecha Inicio de Vacaciones</mat-label>
+                <input matInput readonly [matDatepicker]="picker" formControlName="fecha_Inicio"  name="fechaInicio" />
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle 
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Fecha Fin de Vacaciones</mat-label>
+                <input matInput readonly [matDatepicker]="picker1" formControlName="fecha_Fin"  name="fechaFin"/>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="legacy">
+                <mat-label>Tipo contratación</mat-label>
+                <mat-select formControlName="tipo_contratacion">
+                  <mat-option>-- None --</mat-option>
+                  <mat-option value="option">Option</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Area</mat-label>
+                        <input
+                          name="area"
+                          formControlName="area"
+                          matInput
+                          type="text"
+                        />
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Periodo</mat-label>
+                        <input
+                          name="periodo"
+                          formControlName="periodo"
+                          matInput
+                          type="text"
+                        />
+              </mat-form-field>
+            </div>
+            <div class="d-grid gap-2">
+              <button mat-raised-button color="primary"  type="submit">Filtrar</button>
+            </div>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+    <div fxFlex="80">
+      <mat-form-field class="example-chip-list" appearance="legacy">
+        <mat-label>Filtros</mat-label>
+        <mat-chip-list #chipList aria-label="Mock selection">
+          <mat-chip
+            *ngFor="let filtro of filtros"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(filtro)"
+            color="primary"
+            selected
+          >
+            {{ filtro.id | uppercase | filter_format }}: {{ filtro.name }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
       </mat-form-field>
-    </div>
-    <div fxFlex="30">
-      <mat-form-field class="example-full-width" appearance="legacy">
-        <mat-label>Fecha Fin de Vacaciones</mat-label>
-        <input matInput readonly [matDatepicker]="picker1"  name="fechaFin"/>
-        <mat-hint>DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle disabled
-          matSuffix
-          [for]="picker1"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div fxFlex="30">
-      <mat-form-field appearance="legacy">
-        <mat-label>Tipo contratación</mat-label>
-        <mat-select>
-          <mat-option>-- None --</mat-option>
-          <mat-option value="option">Option</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div fxFlex="5">
-      <mat-icon (click)="openModal()"
-          class="info-icon"
-          aria-label="Example home icon"
-          [ngStyle]="{ 'cursor': 'pointer' }"
-          >filter_alt</mat-icon
-        >
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
-    <div fxFlex="30">
-      <mat-form-field class="example-full-width" appearance="legacy">
-        <mat-label>Area</mat-label>
-                <input
-                  name="area"
-                  matInput
-                  type="text"
-                />
-      </mat-form-field>
-    </div>
-    <div fxFlex="30">
-      <mat-form-field class="example-full-width" appearance="legacy">
-        <mat-label>Periodo</mat-label>
-                <input
-                  name="periodo"
-                  matInput
-                  type="text"
-                />
-      </mat-form-field>
-    </div>
-  </div>
-  <mat-form-field class="example-chip-list" appearance="legacy">
-    <mat-label>Filtros</mat-label>
-    <mat-chip-list #chipList aria-label="Fruit selection">
-      <mat-chip
-        *ngFor="let fruit of fruits">
-        Periodo: {{fruit}}
-        <button matChipRemove>
-          <mat-icon>cancel</mat-icon>
+      <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign.lg="end center" [fxLayoutAlign.lt-lg]="'center center'" [ngStyle]="{ 'margin-bottom': '10px' }">
+        <button mat-button class="btnpdf" type="submit" >
+          <i class="fas fa-file-pdf"></i>
+          <span> Pdf</span>
         </button>
-      </mat-chip>
-      <input
-        #fruitInput
-        [formControl]="fruitCtrl"
-        [matAutocomplete]="auto"
-        [matChipInputFor]="chipList"
->
-    </mat-chip-list>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-        {{fruit}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" fxLayoutAlign="end center" [ngStyle]="{ 'margin-bottom': '10px' }">
-    <button mat-button class="btnpdf" type="submit" >
-      <i class="fas fa-file-pdf"></i>
-      <span> Pdf</span>
-    </button>
-    <button mat-button class="btnexcel" type="submit" >
-      <i class="fas fa-file-excel"></i>
-      <span> Xls</span>
-    </button>
+        <button mat-button class="btnexcel" type="submit" >
+          <i class="fas fa-file-excel"></i>
+          <span> Xls</span>
+        </button>
+      </div>
+      <ngx-datatable
+      id="datatablele"
+      #tablePedidos
+      class="material contenedor"
+      [rows]="rows"
+      [columns]="columns"
+      [sortType]="SortType.multi"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [reorderable]="true"
+      [limit]="5"
+      [loadingIndicator]="loadingIndicator"
+      [scrollbarH]="true"
+      [messages]="{emptyMessage:'No hay resultados disponibles.',
+      totalMessage: 'solicitudes'}"
+    >
+      <ngx-datatable-column
+        name="Acciones"
+        prop="actions"
+        headerClass="my-custom-cell"
+        [cellClass]="'my-custom-cell'"
+        [flexGrow]="3"
+        [sortable]="false"
+        [frozenLeft]="true"
+      >
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span> Acciones</span>
+      </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
+            <i class="fas fa-eye"></i></button
+          >
+          <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
+            ><i class="fas fa-trash"></i></button
+          >
+          <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
+            ><i class="fas fa-trash-restore"></i> </button
+          >
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> <i class="fas fa-calendar"></i> Creación</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Cod. Solicitud </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        prop="fechaFin"
+        headerClass="my-custom-cell"
+        [cellClass]="'my-custom-cell'"
+        [flexGrow]="2"
+        [sortable]="false"
+      >
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> <i class="fas fa-clock"></i> Dias </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Estado"
+        prop="desEstado"
+        headerClass="my-custom-cell"
+        [cellClass]="'my-custom-cell'"
+        [flexGrow]="2"
+        [sortable]="false"
+      >
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span> Estado</span>
+      </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{
+           row.desEstado
+          }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Solicitar"
+        prop="actions"
+        headerClass="my-custom-cell"
+        [cellClass]="'my-custom-cell'"
+        [flexGrow]="3"
+        [sortable]="true"
+        [frozenRight]="true"
+      >
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span> </span>
+      </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1" (click)="enviarJefe(row)"
+            ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
+          >
+          <span class="badge bg-success" role="button" (click)="reprogramar(row)" *ngIf="row.codEstado === 4"
+            ><i class="fas fa-retweet"></i> Reprogramar</span
+          >
+          <span class="badge bg-primary" role="button" (click)="interrumpir(row)" *ngIf="row.codEstado === 4"
+            ><i class="fas fa-stopwatch"></i> Interrumpir</span
+          >
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    </div>
   </div>
-
-  <ngx-datatable
-  id="datatablele"
-  #tablePedidos
-  class="material contenedor"
-  [rows]="rows"
-  [columns]="columns"
-  [sortType]="SortType.multi"
-  [columnMode]="ColumnMode.force"
-  [headerHeight]="50"
-  [footerHeight]="50"
-  rowHeight="auto"
-  [reorderable]="true"
-  [limit]="5"
-  [loadingIndicator]="loadingIndicator"
-  [scrollbarH]="true"
-  [messages]="{emptyMessage:'No hay resultados disponibles.',
-  totalMessage: 'solicitudes'}"
->
-  <ngx-datatable-column
-    name="Acciones"
-    prop="actions"
-    headerClass="my-custom-cell"
-    [cellClass]="'my-custom-cell'"
-    [flexGrow]="3"
-    [sortable]="false"
-    [frozenLeft]="true"
-  >
-  <ng-template let-column="column" ngx-datatable-header-template>
-    <span> Acciones</span>
-  </ng-template>
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
-        <i class="fas fa-eye"></i></button
-      >
-      <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
-        ><i class="fas fa-trash"></i></button
-      >
-      <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
-        ><i class="fas fa-trash-restore"></i> </button
-      >
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="true">
-    <ng-template let-column="column" ngx-datatable-header-template>
-      <span> <i class="fas fa-calendar"></i> Creación</span>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="true">
-    <ng-template let-column="column" ngx-datatable-header-template>
-      <span> Cod. Solicitud </span>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="true">
-    <ng-template let-column="column" ngx-datatable-header-template>
-      <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="true">
-    <ng-template let-column="column" ngx-datatable-header-template>
-      <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column
-    prop="fechaFin"
-    headerClass="my-custom-cell"
-    [cellClass]="'my-custom-cell'"
-    [flexGrow]="2"
-    [sortable]="false"
-  >
-    <ng-template let-column="column" ngx-datatable-header-template>
-      <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
-    <ng-template let-column="column" ngx-datatable-header-template>
-      <span> <i class="fas fa-clock"></i> Dias </span>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column
-    name="Estado"
-    prop="desEstado"
-    headerClass="my-custom-cell"
-    [cellClass]="'my-custom-cell'"
-    [flexGrow]="2"
-    [sortable]="false"
-  >
-  <ng-template let-column="column" ngx-datatable-header-template>
-    <span> Estado</span>
-  </ng-template>
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      {{
-       row.desEstado
-      }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column
-    name="Solicitar"
-    prop="actions"
-    headerClass="my-custom-cell"
-    [cellClass]="'my-custom-cell'"
-    [flexGrow]="3"
-    [sortable]="true"
-    [frozenRight]="true"
-  >
-  <ng-template let-column="column" ngx-datatable-header-template>
-    <span> </span>
-  </ng-template>
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1" (click)="enviarJefe(row)"
-        ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
-      >
-      <span class="badge bg-success" role="button" (click)="reprogramar(row)" *ngIf="row.codEstado === 4"
-        ><i class="fas fa-retweet"></i> Reprogramar</span
-      >
-      <span class="badge bg-primary" role="button" (click)="interrumpir(row)" *ngIf="row.codEstado === 4"
-        ><i class="fas fa-stopwatch"></i> Interrumpir</span
-      >
-    </ng-template>
-  </ngx-datatable-column>
-</ngx-datatable>
 </mat-card>
 
