@@ -58,101 +58,9 @@
     </button>
   </div>
 </mat-card>
-<mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
+
   <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
-    <div fxFlex="20">
-      <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
-        <form [formGroup]="addFilterForm" (ngSubmit)="filtrar()">
-          <div  fxLayoutGap="25px" fxLayout="column" [ngStyle]="{ 'margin-bottom': '10px' }">
-            <div>
-              <mat-form-field class="example-full-width" appearance="legacy">
-                <mat-label>Fecha Inicio de Vacaciones</mat-label>
-                <input matInput readonly [matDatepicker]="picker" formControlName="fecha_Inicio"  name="fechaInicio" />
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle 
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field class="example-full-width" appearance="legacy">
-                <mat-label>Fecha Fin de Vacaciones</mat-label>
-                <input matInput readonly [matDatepicker]="picker1" formControlName="fecha_Fin"  name="fechaFin"/>
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker1"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field appearance="legacy">
-                <mat-label>Tipo contratación</mat-label>
-                <mat-select formControlName="tipo_contratacion">
-                  <mat-option>-- None --</mat-option>
-                  <mat-option value="option">Option</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field class="example-full-width" appearance="legacy">
-                <mat-label>Area</mat-label>
-                        <input
-                          name="area"
-                          formControlName="area"
-                          matInput
-                          type="text"
-                        />
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field class="example-full-width" appearance="legacy">
-                <mat-label>Periodo</mat-label>
-                        <input
-                          name="periodo"
-                          formControlName="periodo"
-                          matInput
-                          type="text"
-                        />
-              </mat-form-field>
-            </div>
-            <div class="d-grid gap-2">
-              <button mat-raised-button color="primary"  type="submit">Filtrar</button>
-            </div>
-          </div>
-        </form>
-      </mat-card>
-    </div>
-    <div fxFlex="80">
-      <mat-form-field class="example-chip-list" appearance="legacy">
-        <mat-label>Filtros</mat-label>
-        <mat-chip-list #chipList aria-label="Mock selection">
-          <mat-chip
-            *ngFor="let filtro of filtros"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(filtro)"
-            color="primary"
-            selected
-          >
-            {{ filtro.id | uppercase | filter_format }}: {{ filtro.name }}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-list>
-      </mat-form-field>
-      <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign.lg="end center" [fxLayoutAlign.lt-lg]="'center center'" [ngStyle]="{ 'margin-bottom': '10px' }">
-        <button mat-button class="btnpdf" type="submit" >
-          <i class="fas fa-file-pdf"></i>
-          <span> Pdf</span>
-        </button>
-        <button mat-button class="btnexcel" type="submit" >
-          <i class="fas fa-file-excel"></i>
-          <span> Xls</span>
-        </button>
-      </div>
+    <div fxFlex="100">
       <ngx-datatable
       id="datatablele"
       #tablePedidos
@@ -275,5 +183,5 @@
     </ngx-datatable>
     </div>
   </div>
-</mat-card>
+
 

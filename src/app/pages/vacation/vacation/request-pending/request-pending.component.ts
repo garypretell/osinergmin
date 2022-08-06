@@ -77,12 +77,6 @@ export class RequestPendingComponent implements OnInit {
     );
   }
 
-  ver(row: any): void {
-    this.vacationService.vacationSubjectObsData = row;
-    // this.vacationService.userSubjectObsData = this.identificacion;
-    this.router.navigate([`vacaciones/solicitud`, row.codSolicitud]);
-  }
-
   aprobar(row: any): void {
     Swal.fire({
       title: `<p>¿Está seguro de aprobar la solicitud</p><p>${row.codSolicitud} ?</p>`,
@@ -184,4 +178,10 @@ export class RequestPendingComponent implements OnInit {
       }
     });
   }
+
+  goDetail(row: any) {
+    this.vacationService.vacationSubjectObsData = row;
+    this.router.navigate([`vacaciones/solicitudes-pendientes`, row.codSolicitud]);
+  }
+
 }

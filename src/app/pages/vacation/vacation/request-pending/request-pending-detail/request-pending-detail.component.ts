@@ -8,19 +8,19 @@ import { IDatosRegistroResponse, IDetalleRegistroResponse, IEmpleadoAprobacion, 
 import { BandejaService } from '@shared/services/bandeja.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
-import { VacationService } from '../../vacation.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { PATH_URL_DATA } from '@shared/constants/constants';
 import { BaseFormEditVacation } from '@shared/utils/base-form-edit-vacation';
 import { CookieService } from 'ngx-cookie-service';
+import { VacationService } from '@pages/vacation/vacation.service';
 
 @Component({
-  selector: 'app-detail-vacation',
-  templateUrl: './detail-vacation.component.html',
-  styleUrls: ['./detail-vacation.component.scss']
+  selector: 'app-request-pending-detail',
+  templateUrl: './request-pending-detail.component.html',
+  styleUrls: ['./request-pending-detail.component.scss']
 })
-export class DetailVacationComponent implements OnInit, OnDestroy {
+export class RequestPendingDetailComponent implements OnInit, OnDestroy {
   fechaInicio = new Date();
   fechaFin = new Date();
   diasSolicitados = 1;
@@ -133,6 +133,15 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
     })
   }
 
+  calcularDias(): any {
+    
+    // this.vacationForm.baseForm.get('fechaInicio')?.setValue(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
+    //   const result = moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
+    //   result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
+    //   this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
+    //   this.fechaFin = result;
+  }
+
   private pathFormData(): void {
     this.vacationForm.baseForm.patchValue({
       identificacion: this.cookieService.get('identificacion'),
@@ -152,7 +161,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
   }
 
   goback(): void {
-    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientes}`]);
   }
 
   OnReemplazoSelected(value: any) {
@@ -163,51 +172,107 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
     if (value) { return value.nombres; }
   }
 
-  calcularDias(): any {
-    console.log(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
-    console.log(this.vacationForm.baseForm.get('dias')?.value);
-    this.vacationForm.baseForm.get('fechaInicio')?.setValue(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
-      const result = moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
-      result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
-      this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
-      this.fechaFin = result;
-  }
-
-  editar(): void {
-    this.btnRegistrar = true;
-  }
-
-  registrar(): void {
-
-    const body: IRegistroVacaionalBody = {
-      identificacion: this.cookieService.get('identificacion'),
-      nombres: this.usuario.nombres,
-      codRegistro:  this.registroVacional.codRegistro,
-      codigoSolicitud: this.registroVacional.codSolicitud,
-      codEmplReemplazo: this.vacationForm.baseForm.get('codEmplReemplazo')?.value?.identificacion,
-      codEmplAprobacion: this.vacationForm.baseForm.get('codEmplAprobacion')?.value?.identificacion,
-      fechaInicio: this.datePipe.transform(this.vacationForm.baseForm.get('fechaInicio')?.value, 'dd/MM/yyyy')?.toString() || '',
-      fechaFin: this.datePipe.transform(this.vacationForm.baseForm.get('fechaFin')?.value, 'dd/MM/yyyy')?.toString() || '',
-      dias: this.vacationForm.baseForm.get('dias')?.value,
-      diaMedio: '0'
-    }
-    this.bandejaService.postActualizar(body).subscribe({
-      next: (data: IDatosRegistroResponse) => {
-        Swal.fire(
-          `Solicitud : ${this.registroVacional.codSolicitud}`,
-          'Actualización exitosa!',
-          'success'
-        ).then(() => {
-          this.goback();
+  aprobar(): void {
+    const row = this.vacationService.vacationValue;
+    Swal.fire({
+      title: `<p>¿Está seguro de aprobar la solicitud</p><p>${row.codSolicitud} ?</p>`,
+      // text: "No podrás revertir el proceso!",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, aprobar!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const dialogRef = this.dialog.open(LoaderComponent, {
+          width: '400px',
+          data: {},
+          disableClose: true,
         });
-      },
-      error: error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Error en el registro!'
-        })
-      },
+        this.bandejaService
+          .postAprobar({
+            identificacion: this.identificacion,
+            nombres: row.nombres,
+            codRegistro: row.codRegistro,
+            codSolicitud: row.codSolicitud,
+          })
+          .subscribe({
+            next: (response: any) => {
+              dialogRef.close();
+            },
+            error: (error) => {
+              dialogRef.close();
+            },
+            complete: () => {
+              Swal.fire(
+                `Solicitud: ${row.codSolicitud}`,
+                'La solicitud ha sido aprobada.',
+                'success'
+              ).then(() => {
+                this.goback();
+              });
+            },
+          });
+      }
+    });
+  }
+
+  async rechazar(): Promise<void> {
+    const row = this.vacationService.vacationValue;
+    Swal.fire({
+      title: `<p>¿Está seguro de rechazar la solicitud</p><p>${row.codSolicitud} ?</p>`,
+      html: `<div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Motivo:</label>
+              <textarea class="form-control" id="comentario" placeholder="Comentario" rows="3"></textarea>
+            </div>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, rechazar!',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const inputElement = Swal.getPopup()?.querySelector('#comentario') as HTMLInputElement;
+        const comentario: any = inputElement.value;
+        if (!comentario ) {
+          Swal.showValidationMessage(`Ingrese Motivo de rechazo`);
+        }
+        return { comentario }
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const dialogRef = this.dialog.open(LoaderComponent, {
+          width: '400px',
+          data: {},
+          disableClose: true,
+        });
+        this.bandejaService
+          .postRechazar({
+            identificacion: this.identificacion,
+            nombres: row.nombres,
+            codRegistro: row.codRegistro,
+            codSolicitud: row.codSolicitud,
+            comentario: result?.value?.comentario ? result?.value?.comentario : '',
+          })
+          .subscribe({
+            next: (response: any) => {
+              dialogRef.close();
+            },
+            error: (error) => {
+              dialogRef.close();
+            },
+            complete: () => {
+              Swal.fire(
+                `Solicitud: ${row.codSolicitud}`,
+                'La solicitud ha sido rechazada.',
+                'success'
+              ).then(() => {
+                this.goback();
+              });
+            },
+          });
+      }
     });
   }
 

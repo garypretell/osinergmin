@@ -17,6 +17,8 @@ import { DeadlinesVacationComponent } from './shared/deadlines-vacation/deadline
 import { SharedModule } from '@shared/shared.module';
 import { RequestPendingComponent } from './vacation/request-pending/request-pending.component';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { ReportComponent } from './vacation/report/report.component';
+import { RequestPendingDetailComponent } from './vacation/request-pending/request-pending-detail/request-pending-detail.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     RescheduleVacationComponent,
     InterruptionVacationComponent,
     DeadlinesVacationComponent,
-    RequestPendingComponent
+    RequestPendingComponent,
+    ReportComponent,
+    RequestPendingDetailComponent
   ],
   imports: [
     CommonModule,
