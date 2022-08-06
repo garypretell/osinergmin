@@ -85,7 +85,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
           this.listaEmpleadosReemplazo = data.datosReprogramacionVacional.listaEmpleadosReemplazo;
           this.listaEmpleadoAprobacion = data.datosReprogramacionVacional.listaEmpleadoAprobacion;
           this.codAprobadoValue = this.listaEmpleadoAprobacion[0].identificacion;
-          this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(this.listaEmpleadoAprobacion[0].nombres);
+          this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(this.listaEmpleadoAprobacion[0]);
           this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.setValue('');
           this.hasDot = this.rescheduleForm.baseForm.get('diasReprogramacion')?.value.toString().includes('.');
           this.calcularDias();

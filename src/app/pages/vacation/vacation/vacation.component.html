@@ -1,12 +1,12 @@
-<mat-card [ngStyle]="{ 'margin-bottom': '20px' }">
+<mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
   <div
     fxLayout="row wrap"
     fxLayoutAlign="end center"
     fxLayout.xs="column"
     fxFlexFill
-    [ngStyle]="{ 'margin-bottom': '20px' }"
+    [ngStyle]="{ 'margin-bottom': '10px' }"
   >
-  <button type="button" mat-raised-button color="primary" class="position-relative me-3" *ngIf="usuario?.esJefe === 1" (click)="solicitudesPendientes()">
+  <button type="button" mat-raised-button color="primary" class="position-relative me-1" *ngIf="usuario?.esJefe === 1" (click)="solicitudesPendientes()">
     Solicitudes pendientes de aprobar
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
       {{usuario.cantidaPorAprobar}}
@@ -51,14 +51,114 @@
     fxLayoutAlign="end center"
     fxLayout.xs="column"
     fxFlexFill
-    [ngStyle]="{ 'margin-bottom': '20px' }"
+    [ngStyle]="{ 'margin-bottom': '5px' }"
   >
     <button mat-raised-button color="primary" (click)="goRegister()" [ngStyle]="{ 'margin-right': '16px' }">
       Registrar Solicitud de Vacaciones
     </button>
   </div>
 </mat-card>
-<ngx-datatable
+<mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
+  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
+    <div fxFlex="30">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>Fecha Inicio de Vacaciones</mat-label>
+        <input matInput readonly [matDatepicker]="picker"  name="fechaInicio" />
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle 
+          matSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div fxFlex="30">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>Fecha Fin de Vacaciones</mat-label>
+        <input matInput readonly [matDatepicker]="picker1"  name="fechaFin"/>
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle disabled
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div fxFlex="30">
+      <mat-form-field appearance="legacy">
+        <mat-label>Tipo contratación</mat-label>
+        <mat-select>
+          <mat-option>-- None --</mat-option>
+          <mat-option value="option">Option</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="5">
+      <mat-icon (click)="openModal()"
+          class="info-icon"
+          aria-label="Example home icon"
+          [ngStyle]="{ 'cursor': 'pointer' }"
+          >filter_alt</mat-icon
+        >
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
+    <div fxFlex="30">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>Area</mat-label>
+                <input
+                  name="area"
+                  matInput
+                  type="text"
+                />
+      </mat-form-field>
+    </div>
+    <div fxFlex="30">
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>Periodo</mat-label>
+                <input
+                  name="periodo"
+                  matInput
+                  type="text"
+                />
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-form-field class="example-chip-list" appearance="legacy">
+    <mat-label>Filtros</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let fruit of fruits">
+        Periodo: {{fruit}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        #fruitInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+>
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+        {{fruit}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" fxLayoutAlign="end center" [ngStyle]="{ 'margin-bottom': '10px' }">
+    <button mat-button class="btnpdf" type="submit" >
+      <i class="fas fa-file-pdf"></i>
+      <span> Pdf</span>
+    </button>
+    <button mat-button class="btnexcel" type="submit" >
+      <i class="fas fa-file-excel"></i>
+      <span> Xls</span>
+    </button>
+  </div>
+
+  <ngx-datatable
   id="datatablele"
   #tablePedidos
   class="material contenedor"
@@ -178,3 +278,5 @@
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>
+</mat-card>
+

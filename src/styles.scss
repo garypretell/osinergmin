@@ -10,3 +10,31 @@ body {background-color: rgb(238, 225, 225);}
 mat-form-field {
     width: 100% !important;
   }
+
+  .btnexcel {
+    background-color: #008000;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  .btnpdf {
+    background-color: #ff0000;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    outline: none;
+  }

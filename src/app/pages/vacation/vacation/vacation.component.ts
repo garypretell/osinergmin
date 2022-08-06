@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { VacationService } from '../vacation.service';
@@ -12,6 +12,8 @@ import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { DetailVacationComponent } from './detail-vacation/detail-vacation.component';
 import { PATH_URL_DATA } from '@shared/constants/constants';
 import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -20,6 +22,17 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./vacation.component.scss']
 })
 export class VacationComponent implements OnInit {
+  fruitCtrl = new FormControl('');
+  filteredFruits!: Observable<string[]>;
+  fruits: string[] = ['2001'];
+  allFruits: string[] = ['2001', '2002', '2003', '2004', '2005'];
+
+  @ViewChild('fruitInput')
+  fruitInput!: ElementRef<HTMLInputElement>;
+
+
+
+
   identificacion: any;
   usuario: IBandejaResponse = {} as IBandejaResponse;
   cantidad: any;
