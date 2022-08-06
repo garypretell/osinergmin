@@ -219,7 +219,7 @@ export class VacationComponent implements OnInit {
       autoFocus: false,
       closeOnNavigation: true,
       data: {
-        saldo: this.rows[0]
+        saldo: this.usuario
       }
     });
   }
