@@ -18,7 +18,7 @@ export class BaseFormEditVacation {
     diaMedio: ['', []],
     fechaInicio: ['', [Validators.required]],
     fechaFin: ['', [Validators.required]],
-    dias: [1, [Validators.required]],
+    dias: [0, [Validators.required, Validators.min(0.5)]],
     codEmplReemplazo: ['', [Validators.required]],
     codEmplAprobacion: ['', [Validators.required]],
     maxDias: ['', [Validators.required]],
@@ -37,10 +37,12 @@ export class BaseFormEditVacation {
     const { errors }  = this.baseForm.get(field) as FormArray;
     const minlenght = errors?.['minlength']?.requiredLength;
     const maxlenght = errors?.['maxlength']?.requiredLength;
+    const min = errors?.['min']?.min;
     const messages: any = {
       required: 'Campo requerido.',
       minlength: `Este campo debe ser mayor a ${minlenght} caracteres`,
       maxlength: `Este campo debe ser menor a ${maxlenght} caracteres`,
+      min: `Días mínimos a solicitar: ${min} `,
       email: 'Ingrese correo válido.',
       pattern: field === 'correoElectronico' ? 'Ingrese correo válido.' : 'Existen caracteres no válidos'
     };

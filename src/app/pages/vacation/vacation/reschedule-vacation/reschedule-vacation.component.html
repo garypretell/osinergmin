@@ -85,7 +85,7 @@
         <mat-form-field appearance="legacy">
           <mat-label>Dias solicitados reprogramacion</mat-label>
           <input matInput type="number"
-          step="{{steps}}" formControlName="diasReprogramacion"  min="1"
+          step="{{steps}}" formControlName="diasReprogramacion"  min="0"
           oninput="validity.valid||(value='');" />
           <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
         </mat-form-field>
