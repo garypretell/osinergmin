@@ -148,7 +148,7 @@ export class RequestPendingDetailComponent implements OnInit, OnDestroy {
       nombres: this.detalle.nombres,
       codRegistro:  this.detalle.registroVacional.codRegistro,
       codigoSolicitud: this.detalle.registroVacional.codSolicitud,
-      diaMedio: '1',
+      diaMedio: this.detalle.registroVacional.dias.toString().includes('.') ? '1' : '0',
       maxDias: this.usuario.saldo,
       fechaModificacion: this.registroVacional.fechaModificacion,
       descTipoGoce: this.detalle.registroVacional.descTipoGoce,
@@ -253,7 +253,7 @@ export class RequestPendingDetailComponent implements OnInit, OnDestroy {
             nombres: row.nombres,
             codRegistro: row.codRegistro,
             codSolicitud: row.codSolicitud,
-            comentario: result?.value?.comentario ? result?.value?.comentario : '',
+            motivo: result?.value?.comentario ? result?.value?.comentario : '',
           })
           .subscribe({
             next: (response: any) => {

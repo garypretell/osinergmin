@@ -48,7 +48,7 @@ export interface IDetalleVacacionalBody {
     nombres: string;
     codRegistro: number;
     codSolicitud?: any;
-    comentario?: string;
+    motivo?: string;
 }
 
 export interface IRegistroVacaionalBody {
@@ -62,6 +62,21 @@ export interface IRegistroVacaionalBody {
     fechaFin: string;
     dias: string;
     diaMedio: string;
+}
+
+export interface IInterrupcionVacacionalBody {
+    identificacion: string;
+    nombres: string;
+    codRegistro: string;
+    codRegistroInterruptida: string;
+    codigoSolicitudInterruptida: string;
+    codEmplReemplazoInterruptida: string;
+    codEmplAprobacionInterruptida: string;
+    fechaInicioReprogramacion: string;
+    fechaInterruptida: string;
+    diasInterruptidas: string;
+    diaMedioInterruptida: string;
+    dias: any;
 }
 
 export interface IDatosRegistroResponse {

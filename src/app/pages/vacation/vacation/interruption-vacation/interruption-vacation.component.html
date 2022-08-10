@@ -5,105 +5,106 @@
         <a [routerLink]="['']" (click)="goback()">Bandeja</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
-        Interrumpir solicitud ({{detalle?.code}}) 
+        Interrumpir solicitud ({{registro?.verRegistroVacacional?.registroVacional?.codSolicitud}}) 
       </li>
     </ol>
   </nav>
   <mat-card> 
-    <div
-      fxLayout="row wrap"
-      fxLayoutGap="2%"
-      fxLayout.xs="column"
-      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-    >
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Código de la solicitud</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.nombres" readonly />
-        </mat-form-field>
+    <form name="form" novalidate [formGroup]="rescheduleForm.baseForm">
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="49">
+          <mat-form-field appearance="legacy">
+            <mat-label>Código de la solicitud</mat-label>
+            <input matInput type="text" formControlName="codSolicitud"  readonly />
+          </mat-form-field>
+        </div>
+        <div fxFlex="49">
+          <mat-form-field appearance="legacy">
+            <mat-label>Código de la solicitud original</mat-label>
+            <input matInput type="text"  formControlName="codigoSolicitudInterruptida" readonly />
+          </mat-form-field>
+        </div>
       </div>
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Código de la solicitud original</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
-        </mat-form-field>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="49">
+          <mat-form-field appearance="legacy">
+            <mat-label>Nombre del solicitante</mat-label>
+            <input matInput type="text"  formControlName="nombres" readonly />
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-    <div
-      fxLayout="row wrap"
-      fxLayoutGap="2%"
-      fxLayout.xs="column"
-      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-    >
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Nombre del solicitante</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
-        </mat-form-field>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="49">
+          <mat-form-field class="example-full-width" appearance="legacy">
+            <mat-label>Programacion original Inicio de Vacaciones</mat-label>
+            <input matInput readonly [matDatepicker]="picker" formControlName="fechaInicio" />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker" disabled></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxFlex="49">
+          <mat-form-field class="example-full-width" appearance="legacy">
+            <mat-label>Programacion original Fin de Vacaciones</mat-label>
+            <input matInput readonly [matDatepicker]="picker2" formControlName="fechaFin" />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2" disabled></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-    <div
-      fxLayout="row wrap"
-      fxLayoutGap="2%"
-      fxLayout.xs="column"
-      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-    >
-      <div fxFlex="49">
-        <mat-form-field class="example-full-width" appearance="legacy">
-          <mat-label>Programacion original Inicio de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker" />
-          <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="49">
+          <mat-form-field appearance="legacy">
+            <mat-label>Dias originalmente solicitados</mat-label>
+            <input matInput type="text" formControlName="dias" readonly />
+            <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+          </mat-form-field>
+        </div>
+        <div fxFlex="49">
+          <mat-form-field class="example-full-width" appearance="legacy">
+            <mat-label>Interrupcion desde</mat-label>
+            <input formControlName="fechaInterruptida"   matInput readonly [matDatepicker]="picker1" [min]="this.rescheduleForm.baseForm.get('fechaInicio')?.value" [max]="this.rescheduleForm.baseForm.get('fechaFin')?.value" />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
       </div>
-      <div fxFlex="49">
-        <mat-form-field class="example-full-width" appearance="legacy">
-          <mat-label>Programacion original Fin de Vacaciones</mat-label>
-          <input matInput readonly [matDatepicker]="picker3" />
-          <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-          <mat-datepicker #picker3></mat-datepicker>
-        </mat-form-field>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="49">
+          <mat-form-field appearance="legacy">
+            <mat-label>Dias interrumpidos</mat-label>
+            <input matInput type="text" formControlName="diasInterruptidas" readonly />
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-    <div
-      fxLayout="row wrap"
-      fxLayoutGap="2%"
-      fxLayout.xs="column"
-      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-    >
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Dias originalmente solicitados</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
-        </mat-form-field>
-      </div>
-      <div fxFlex="49">
-        <mat-form-field class="example-full-width" appearance="legacy">
-          <mat-label>Interrupcion desde</mat-label>
-          <input matInput readonly [matDatepicker]="picker1" />
-          <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </div>
-    </div>
-    <div
-      fxLayout="row wrap"
-      fxLayoutGap="2%"
-      fxLayout.xs="column"
-      [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
-    >
-      <div fxFlex="49">
-        <mat-form-field appearance="legacy">
-          <mat-label>Dias interrumpidos</mat-label>
-          <input matInput type="text" [(ngModel)]="detalle.cantidad" readonly />
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div
+      <div
       fxLayout="row wrap"
       fxLayoutGap="2%"
       fxLayout.xs="column"
@@ -112,31 +113,63 @@
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Persona que reemplazará/apoyo</mat-label>
-          <mat-select>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-          </mat-select>
+          <input
+                id="reemplazo"
+                matInput
+                aria-label="State"
+                [matAutocomplete]="auto"  
+                formControlName="codEmplReemplazoInterruptida"
+                name="reemplazoValue"
+                required
+              />
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="OnReemplazoSelected">
+                <mat-option 
+                  *ngFor="let state of filteredReemplazo | async"
+                  [value]="state"
+                >
+                  <span>{{ state.nombres }}</span>
+                </mat-option>
+              </mat-autocomplete>
+              <button type="button" mat-button *ngIf="rescheduleForm.baseForm.get('codEmplReemplazoInterruptida')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="rescheduleForm.baseForm.get('codEmplReemplazoInterruptida')?.setValue('')">
+                <mat-icon>close</mat-icon>
+              </button>
         </mat-form-field>
       </div>
       <div fxFlex="49">
         <mat-form-field appearance="legacy">
           <mat-label>Persona que aprobará la solicitud</mat-label>
-          <mat-select>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-          </mat-select>
+          <input
+                  id="aprobar"
+                  matInput
+                  aria-label="State"
+                  [matAutocomplete]="cmp"
+                  formControlName="codEmplAprobacionInterruptida"
+                  name="aprobadoValue"
+                  required
+                />
+                <mat-autocomplete #cmp="matAutocomplete" [displayWith]="OnAprobacionSelected">
+                  <mat-option 
+                    *ngFor="let state of filteredAprobado| async"
+                    [value]="state"
+                  >
+                    <span>{{ state.nombres }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <button type="button" mat-button *ngIf="rescheduleForm.baseForm.get('codEmplAprobacionInterruptida')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="rescheduleForm.baseForm.get('codEmplAprobacionInterruptida')?.setValue('')">
+                  <mat-icon>close</mat-icon>
+                </button>
         </mat-form-field>
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="end center" fxLayout.xs="column">
-      <button mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }">
+      <button [disabled]="!rescheduleForm.baseForm.valid" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="interrumpir()" >
         Registrar Solicitud
       </button>
       <button mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
         Cancelar
       </button>
     </div>
+    </form>
+
   </mat-card>
 </div>

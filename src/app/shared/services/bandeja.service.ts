@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IPlazosBody, IPlazosResponse, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
+import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IPlazosResponse, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaEndpoint } from '@shared/providers/bandeja.endpoint';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
@@ -87,6 +87,13 @@ export class BandejaService {
    */
    postReprogramacion(body: IDetalleVacacionalBody): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostReprogramar, body);
+  }
+
+  /**
+   * Registrar Interrupcion
+   */
+   postInterrupcion(body: IInterrupcionVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostInterrupcion, body);
   }
 
   /**

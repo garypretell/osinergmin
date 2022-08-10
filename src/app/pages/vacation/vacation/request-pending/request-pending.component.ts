@@ -156,7 +156,7 @@ export class RequestPendingComponent implements OnInit {
             nombres: row.nombres,
             codRegistro: row.codRegistro,
             codSolicitud: row.codSolicitud,
-            comentario: result?.value?.comentario ? result?.value?.comentario : '',
+            motivo: result?.value?.comentario ? result?.value?.comentario : '',
           })
           .subscribe({
             next: (response: any) => {

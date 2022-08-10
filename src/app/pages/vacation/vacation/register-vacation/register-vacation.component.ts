@@ -154,7 +154,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
       nombres: this.usuario.nombres,
       codRegistro:  this.registro.codRegistro,
       codigoSolicitud: this.registro.codigoSolicitud,
-      diaMedio: '0',
+      diaMedio: this.vacationForm.baseForm.get('dias')?.value.toString().includes('.') ? '1' : '0',
       fechaInicio: this.datePipe.transform(this.vacationForm.baseForm.get('fechaInicio')?.value, 'dd/MM/yyyy')?.toString() || '',
       fechaFin: this.datePipe.transform(this.vacationForm.baseForm.get('fechaFin')?.value, 'dd/MM/yyyy')?.toString() || '',
       dias: this.vacationForm.baseForm.get('dias')?.value.toString(),

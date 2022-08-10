@@ -32,11 +32,11 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
 
   listaEmpleadosReemplazo: Array<IEmpleadosReemplazo> = [];
   reemplazoValue: any;
-  filteredReemplazo: Observable<IEmpleadosReemplazo[]> | undefined;;
+  filteredReemplazo: Observable<IEmpleadosReemplazo[]> | undefined;
 
   listaEmpleadoAprobacion: Array<IEmpleadoAprobacion> = [];
   aprobadoValue: any;
-  filteredAprobado: Observable<IEmpleadoAprobacion[]> | undefined;;
+  filteredAprobado: Observable<IEmpleadoAprobacion[]> | undefined;
 
   steps = 0.5;
   hasDot = false;
@@ -139,7 +139,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
       nombres: this.detalle.nombres,
       codRegistro:  this.detalle.registroVacional.codRegistro,
       codigoSolicitud: this.detalle.registroVacional.codSolicitud,
-      diaMedio: '1',
+      diaMedio: this.detalle.registroVacional.dias.toString().includes('.') ? '1' : '0',
       maxDias: this.usuario.saldo,
       fechaModificacion: this.registroVacional.fechaModificacion,
       descTipoGoce: this.detalle.registroVacional.descTipoGoce,
@@ -164,8 +164,6 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
   }
 
   calcularDias(): any {
-    console.log(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
-    console.log(this.vacationForm.baseForm.get('dias')?.value);
     this.vacationForm.baseForm.get('fechaInicio')?.setValue(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
       const result = moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
       result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
