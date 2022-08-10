@@ -159,7 +159,7 @@ export class InterruptionVacationComponent implements OnInit {
       fechaInterruptida: this.datePipe.transform(this.rescheduleForm.baseForm.get('fechaInterruptida')?.value, 'dd/MM/yyyy')?.toString() || '',
       diaMedioInterruptida: this.rescheduleForm.baseForm.get('diasInterruptidas')?.value.toString().includes('.') ? 1 : 0,
       diasInterruptidas: this.rescheduleForm.baseForm.get('diasInterruptidas')?.value || '',
-      dias: +this.rescheduleForm.baseForm.get('diasInterruptidas')?.value - +this.rescheduleForm.baseForm.get('dias')?.value ,
+      dias: (+this.rescheduleForm.baseForm.get('dias')?.value) - (+this.rescheduleForm.baseForm.get('diasInterruptidas')?.value) ,
     }
 
     console.log(body);
