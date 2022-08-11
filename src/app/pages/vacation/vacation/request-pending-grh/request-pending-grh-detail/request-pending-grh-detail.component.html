@@ -1,0 +1,213 @@
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" [routerLinkActive]="['active']">
+          <a [routerLink]="['']" (click)="goback()">Solicitudes Pendientes GRH</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Detalle de la Solicitud ({{ row?.codSolicitud }})
+        </li>
+      </ol>
+    </nav>
+    <mat-card> 
+      <form name="form" novalidate [formGroup]="vacationForm.baseForm">
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Código de la solicitud</mat-label>
+            <input matInput type="text" formControlName="codigoSolicitud" readonly required name="code" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Estado</mat-label>
+            <input matInput type="text" formControlName="desEstado" readonly required name="estado">
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Creado</mat-label>
+            <input matInput type="text" formControlName="fechaRegistro" name="fechaRegistro" readonly  required/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="32">
+        <mat-form-field appearance="legacy">
+          <mat-label>Nombre del solicitante</mat-label>
+          <input matInput type="text" formControlName="nombres" name="nombres" readonly required/>
+        </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Tipo</mat-label>
+            <input matInput type="text" formControlName="descTipoGoce" name="tipoGoce" readonly required />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Actualizado</mat-label>
+            <input matInput type="text" formControlName="fechaModificacion" name="fechaMod" readonly required />
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="32">
+          <mat-form-field class="example-full-width" appearance="legacy">
+            <mat-label>Fecha Inicio de Vacaciones</mat-label>
+            <input matInput readonly [matDatepicker]="picker" formControlName="fechaInicio" name="fechaInit" required/>
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker [disabled]="!btnRegistrar"></mat-datepicker>
+            <mat-error>
+              <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('fechaInicio')))">
+                {{ vacationForm.handleError(error,'fechaInicio')}} <br>
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="example-full-width" appearance="legacy">
+            <mat-label>Fecha Fin de Vacaciones</mat-label>
+            <input matInput readonly [matDatepicker]="picker1"formControlName="fechaFin" name="fechaF" required/>
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle disabled
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error>
+              <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('fechaFin')))">
+                {{ vacationForm.handleError(error,'fechaFin')}} <br>
+              </ng-container> 
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Dias solicitados</mat-label>
+            <input
+            matInput
+            type="number"
+            step="{{steps}}"
+            formControlName="dias"
+            min="0"
+            oninput="validity.valid||(value='');"
+            required
+            name="diasSolicitados"
+            [readonly]="!btnRegistrar"
+          />
+          <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+          <mat-error>
+            <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('dias')))">
+              {{ vacationForm.handleError(error,'dias')}} <br>
+            </ng-container>
+          </mat-error>  
+        </mat-form-field>
+        <p [ngStyle]="{'font-size': '10x'}" class="text-danger" *ngIf="vacationForm.baseForm.hasError('scoreError')">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
+        </div>
+        <div fxFlex="32">
+          <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" [ngModelOptions]="{standalone: true}">La fecha final considera solo medio día de vacaciones.</mat-checkbox>
+      </div>
+        
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="2%"
+        fxLayout.xs="column"
+        [ngStyle]="{ 'margin-bottom': '20px', 'margin-top': '20px' }"
+      >
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Persona que reemplazará/apoyo</mat-label>
+                <input
+                  id="reemplazo"
+                  matInput
+                  aria-label="State"
+                  [matAutocomplete]="auto"
+                  formControlName="codEmplReemplazo"
+                  name="reemplazoValue"
+                  required
+                  name="reemplazoValue"
+                  [readonly]="!btnRegistrar"
+                />
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="OnReemplazoSelected">
+                  <mat-option
+                    *ngFor="let state of filteredReemplazo | async"
+                    [value]="state"
+                  >
+                    <span>{{ state.nombres }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <button  type="button" mat-button *ngIf="reemplazoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="vacationForm.baseForm.get('codEmplReemplazo')?.setValue('')">
+                  <mat-icon>close</mat-icon>
+                </button>
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field appearance="legacy">
+            <mat-label>Persona que aprobará la solicitud</mat-label>
+                  <input
+                    id="aprobar"
+                    matInput
+                    aria-label="State"
+                    [matAutocomplete]="cmp"
+                    formControlName="codEmplAprobacion"
+                    name="aprobadoValue"
+                    required
+                    name="aprobadoValue"
+                    [readonly]="!btnRegistrar"
+                  />
+                  <mat-autocomplete #cmp="matAutocomplete" [displayWith]="OnAprobacionSelected">
+                    <mat-option
+                      *ngFor="let state of filteredAprobado| async"
+                      [value]="state"
+                    >
+                      <span>{{ state.nombres }}</span>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <button type="button" mat-button *ngIf="aprobadoValue && btnRegistrar" matSuffix mat-icon-button aria-label="Clear" (click)="vacationForm.baseForm.get('codEmplAprobacion')?.setValue('')">
+                    <mat-icon>close</mat-icon>
+                  </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
+        <button type="button" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="aprobar()" >
+          Aprobar Solicitud
+        </button>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
+          <button type="button"  mat-raised-button color="warn" [ngStyle]="{ margin: '5px' }" (click)="rechazar()">
+            Rechazar Solicitud
+          </button>
+          <button type="button" mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+    </mat-card>
+  </div>
+  

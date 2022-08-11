@@ -104,6 +104,13 @@ export class BandejaService {
   }
 
   /**
+   * Obtener Lista de Solicitudes de Jefe Inmediato
+   */
+   getListaSolicitudGrh(body: IBandejaRequest): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.GetListaSolicitudGrh, body);
+  }
+
+  /**
    * Aprobar Solicitudes de Jefe Inmediato
    */
    postAprobar(body: IDetalleVacacionalBody): Observable<any> {
@@ -115,6 +122,20 @@ export class BandejaService {
    */
    postRechazar(body: IDetalleVacacionalBody): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostRechazar, body);
+  }
+
+  /**
+   * Aprobar Solicitudes de Jefe Inmediato
+   */
+   postAprobarGrh(body: IDetalleVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostAprobarGrh, body);
+  }
+
+  /**
+   * Rechazar Solicitudes de Jefe Inmediato
+   */
+   postRechazarGrh(body: IDetalleVacacionalBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostRechazarGrh, body);
   }
 
 }

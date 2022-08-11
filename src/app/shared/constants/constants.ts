@@ -8,6 +8,8 @@ export const PATH_URL_DATA = {
     urlReprogramarVacaciones : 'reprogramar-solicitud/:solic',
     urlSolicitudesPendientes : 'solicitudes-pendientes',
     urlSolicitudesPendientesDetalle : 'solicitudes-pendientes/:solic',
+    urlSolicitudesPendientesGrh : 'solicitudes-pendientes-grh',
+    urlSolicitudesPendientesDetalleGrh : 'solicitudes-pendientes-grh/:solic',
     ulrError: 'error',
     urlDefault: '',
     urlDefault2: '**'

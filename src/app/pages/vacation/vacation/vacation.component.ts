@@ -253,7 +253,11 @@ export class VacationComponent implements OnInit {
   solicitudesPendientes(): void {
     this.vacationService.identificationSubjectObsData = this.identificacion;
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientes}`]);
-    // this.router.navigate([`vacaciones/solicitudes-pendientes`, row.codSolicitud]);
+  }
+
+  solicitudesPendientesGrh(): void {
+    this.vacationService.identificationSubjectObsData = this.identificacion;
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientesGrh}`]);
   }
 
   filtrar(): void {

@@ -19,6 +19,8 @@ import { RequestPendingComponent } from './vacation/request-pending/request-pend
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ReportComponent } from './vacation/report/report.component';
 import { RequestPendingDetailComponent } from './vacation/request-pending/request-pending-detail/request-pending-detail.component';
+import { RequestPendingGrhComponent } from './vacation/request-pending-grh/request-pending-grh.component';
+import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh/request-pending-grh-detail/request-pending-grh-detail.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { RequestPendingDetailComponent } from './vacation/request-pending/reques
     DeadlinesVacationComponent,
     RequestPendingComponent,
     ReportComponent,
-    RequestPendingDetailComponent
+    RequestPendingDetailComponent,
+    RequestPendingGrhComponent,
+    RequestPendingGrhDetailComponent
   ],
   imports: [
     CommonModule,

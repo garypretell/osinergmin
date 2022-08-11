@@ -1,12 +1,20 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
   <div
-    fxLayout="row wrap"
+    fxLayout="row"
     fxLayoutAlign="end center"
     fxLayout.xs="column"
     fxFlexFill
+    fxLayoutGap="80px !important"
     [ngStyle]="{ 'margin-bottom': '10px' }"
   >
-  <button type="button" mat-raised-button color="primary" class="position-relative me-1" *ngIf="usuario?.esJefe === 1" (click)="solicitudesPendientes()">
+  <button type="button" mat-raised-button class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="solicitudesPendientesGrh()">
+    Solicitudes pendientes de aprobar GRH
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      {{usuario.cantidaPorAprobarGrh}}
+      <span class="visually-hidden">unread messages</span>
+    </span>
+  </button>
+  <button type="button" mat-raised-button color="primary" class="position-relative m-1" *ngIf="usuario?.esJefe === 1" (click)="solicitudesPendientes()">
     Solicitudes pendientes de aprobar
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
       {{usuario.cantidaPorAprobar}}

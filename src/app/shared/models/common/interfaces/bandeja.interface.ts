@@ -3,8 +3,10 @@ export interface IBandejaResponse {
     saldo: number;
     fechaVencimiento: string;
     esJefe: number;
+    esGrh?: number;
     email: string;
     cantidaPorAprobar: number;
+    cantidaPorAprobarGrh?: number;
     solicitudesVacacionales: ISolicitud[];
 }
 

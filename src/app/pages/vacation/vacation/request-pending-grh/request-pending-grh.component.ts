@@ -10,11 +10,11 @@ import { CookieService } from 'ngx-cookie-service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-request-pending',
-  templateUrl: './request-pending.component.html',
-  styleUrls: ['./request-pending.component.scss'],
+  selector: 'app-request-pending-grh',
+  templateUrl: './request-pending-grh.component.html',
+  styleUrls: ['./request-pending-grh.component.scss']
 })
-export class RequestPendingComponent implements OnInit {
+export class RequestPendingGrhComponent implements OnInit {
   identificacion: any;
   cantidad: any;
   pageNumber: any = 0;
@@ -42,7 +42,7 @@ export class RequestPendingComponent implements OnInit {
     private cookieService: CookieService
   ) {
     this.identificacion = this.vacationService.identificationValue;
-  }
+   }
 
   ngOnInit(): void {
     this.identificacion ? this.getData() : this.goBandeja();
@@ -55,9 +55,10 @@ export class RequestPendingComponent implements OnInit {
       disableClose: true,
     });
     this.bandejaService
-      .getListaSolicitudJefe({ identificacion: this.identificacion })
+      .getListaSolicitudGrh({ identificacion: this.identificacion })
       .subscribe({
         next: (data: any) => {
+          console.log(data);
           this.rows = data.solicitudesVacacionalesJefe;
           dialogRef.close();
         },
@@ -96,7 +97,7 @@ export class RequestPendingComponent implements OnInit {
           disableClose: true,
         });
         this.bandejaService
-          .postAprobar({
+          .postAprobarGrh({
             identificacion: this.identificacion,
             nombres: row.nombres,
             codRegistro: row.codRegistro,
@@ -152,7 +153,7 @@ export class RequestPendingComponent implements OnInit {
           disableClose: true,
         });
         this.bandejaService
-          .postRechazar({
+          .postRechazarGrh({
             identificacion: this.identificacion,
             nombres: row.nombres,
             codRegistro: row.codRegistro,
@@ -182,7 +183,7 @@ export class RequestPendingComponent implements OnInit {
 
   goDetail(row: any) {
     this.vacationService.vacationSubjectObsData = row;
-    this.router.navigate([`vacaciones/solicitudes-pendientes`, row.codSolicitud]);
+    this.router.navigate([`vacaciones/solicitudes-pendientes-grh`, row.codSolicitud]);
   }
 
 }

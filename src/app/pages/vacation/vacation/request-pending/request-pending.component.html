@@ -28,6 +28,19 @@
   totalMessage: 'solicitudes'}"
 >
   <ngx-datatable-column
+    name="codSolicitud"
+    prop="codSolicitud"
+    headerClass="my-custom-cell"
+    [cellClass]="'my-custom-cell'"
+    [flexGrow]="2"
+    [sortable]="false"
+    [frozenLeft]="true"
+  >
+  <ng-template let-column="column" ngx-datatable-header-template>
+    <span> Cod. Solicitud</span>
+  </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
     name="nombreEmpleado"
     prop="nombreEmpleado"
     headerClass="my-custom-cell"
@@ -40,6 +53,7 @@
     <span> Trabajador</span>
   </ng-template>
   </ngx-datatable-column>
+  
   <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="true">
     <ng-template let-column="column" ngx-datatable-header-template>
       <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
