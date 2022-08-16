@@ -120,7 +120,6 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
     })
     this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if (change) {
-        this.hasDotRep = change.toString().includes('.');
         const result = new Date(change);
         result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value);
         this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);

@@ -125,7 +125,6 @@ export class RequestPendingGrhDetailComponent implements OnInit, OnDestroy {
     })
     this.vacationForm.baseForm.get('fechaInicio')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if(change) {
-        this.hasDot = change.toString().includes('.');
         const result = new Date(change);
         result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value);
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
