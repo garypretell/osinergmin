@@ -106,7 +106,6 @@ export class InterruptionVacationComponent implements OnInit {
         const fecha2 = moment(change);
         const fecha1 = moment(this.rescheduleForm.baseForm.get('fechaInicio')?.value);
         this.rescheduleForm.baseForm.get('diasInterruptidas')?.setValue(+this.rescheduleForm.baseForm.get('dias')?.value-fecha2.diff(fecha1, 'days') );
-        console.log(fecha2.diff(fecha1, 'days'), ' dias de diferencia');
       }
     })
 
@@ -162,7 +161,6 @@ export class InterruptionVacationComponent implements OnInit {
       dias: (+this.rescheduleForm.baseForm.get('dias')?.value) - (+this.rescheduleForm.baseForm.get('diasInterruptidas')?.value) ,
     }
 
-    console.log(body);
     this.bandejaService.postInterrupcion(body).subscribe({
       next: (data: any) => {
         Swal.fire(

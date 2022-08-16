@@ -68,7 +68,6 @@ export class RequestPendingGrhComponent implements OnInit {
       .getListaSolicitudGrh({ identificacion: this.identificacion, estadoVacional: this.estadoVacional.value })
       .subscribe({
         next: (data: any) => {
-          console.log(data);
           this.rows = data.solicitudesVacacionalesJefe;
           dialogRef.close();
         },

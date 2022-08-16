@@ -195,11 +195,11 @@
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
-        <button type="button" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="aprobar()" >
+        <button [disabled]="registroVacional.codEstado === 3 ? false : true" type="button" mat-raised-button color="primary" [ngStyle]="{ margin: '5px' }" (click)="aprobar()" >
           Aprobar Solicitud
         </button>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
-          <button type="button"  mat-raised-button color="warn" [ngStyle]="{ margin: '5px' }" (click)="rechazar()">
+          <button [disabled]="registroVacional.codEstado === 3 ? false : true" type="button"  mat-raised-button color="warn" [ngStyle]="{ margin: '5px' }" (click)="rechazar()">
             Rechazar Solicitud
           </button>
           <button type="button" mat-raised-button [ngStyle]="{ margin: '5px' }" (click)="goback()">

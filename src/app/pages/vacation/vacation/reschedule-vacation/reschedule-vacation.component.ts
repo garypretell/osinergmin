@@ -66,7 +66,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
     user && user.identificacion ? this.usuario = user : this.goback();
     this.vacationService.vacationValue ? this.row = this.vacationService.vacationValue : this.goback();
     this.rescheduleForm.baseForm.reset();
-    this.rescheduleForm.baseForm.get('diasReprogramacion')?.setValue(1);
+    this.rescheduleForm.baseForm.get('diasReprogramacion')?.setValue(0);
     if (user?.identificacion) {
       this.rescheduleForm.baseForm.get('maxDias')?.setValue(user.saldo);
       const dialogRef = this.dialog.open(LoaderComponent, {

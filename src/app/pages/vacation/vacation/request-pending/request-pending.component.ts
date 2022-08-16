@@ -32,8 +32,8 @@ export class RequestPendingComponent implements OnInit {
     { name: 'action', sortable: true },
   ];
   filter = [
-    { value:2, description: 'Pendiente de aprobación por grh' },
-    { value:3, description: 'Pendiente de aprobación por el jefe inmediato' },
+    { value:2, description: 'Pendiente de aprobación por el jefe inmediato' },
+    { value:3, description: 'Pendiente de aprobación por grh' },
     { value:6, description: 'Devuelto por el jefe inmediato' }
   ];
   reorderable = true;
