@@ -31,8 +31,14 @@ export class RequestPendingGrhComponent implements OnInit {
     { name: 'nombreReemplazo', sortable: true },
     { name: 'action', sortable: true },
   ];
+  filter = [
+    { value:3, description: 'Pendiente de aprobación por grh' },
+    { value:4, description: 'Aprobado' },
+    { value:7, description: 'Devuelto por grh' }
+  ];
   reorderable = true;
   ColumnMode = ColumnMode;
+  estadoVacional = this.filter[0];
   constructor(
     private bandejaService: BandejaService,
     private router: Router,
@@ -43,6 +49,10 @@ export class RequestPendingGrhComponent implements OnInit {
   ) {
     this.identificacion = this.vacationService.identificationValue;
    }
+
+  selectFilter() {
+    this.getData();
+  }
 
   ngOnInit(): void {
     this.identificacion ? this.getData() : this.goBandeja();
@@ -55,7 +65,7 @@ export class RequestPendingGrhComponent implements OnInit {
       disableClose: true,
     });
     this.bandejaService
-      .getListaSolicitudGrh({ identificacion: this.identificacion })
+      .getListaSolicitudGrh({ identificacion: this.identificacion, estadoVacional: this.estadoVacional.value })
       .subscribe({
         next: (data: any) => {
           console.log(data);

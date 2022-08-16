@@ -31,8 +31,14 @@ export class RequestPendingComponent implements OnInit {
     { name: 'nombreReemplazo', sortable: true },
     { name: 'action', sortable: true },
   ];
+  filter = [
+    { value:2, description: 'Pendiente de aprobación por grh' },
+    { value:3, description: 'Pendiente de aprobación por el jefe inmediato' },
+    { value:6, description: 'Devuelto por el jefe inmediato' }
+  ];
   reorderable = true;
   ColumnMode = ColumnMode;
+  estadoVacional = this.filter[0];
   constructor(
     private bandejaService: BandejaService,
     private router: Router,
@@ -42,6 +48,10 @@ export class RequestPendingComponent implements OnInit {
     private cookieService: CookieService
   ) {
     this.identificacion = this.vacationService.identificationValue;
+  }
+
+  selectFilter() {
+    this.getData();
   }
 
   ngOnInit(): void {
@@ -55,7 +65,7 @@ export class RequestPendingComponent implements OnInit {
       disableClose: true,
     });
     this.bandejaService
-      .getListaSolicitudJefe({ identificacion: this.identificacion })
+      .getListaSolicitudJefe({ identificacion: this.identificacion, estadoVacional: this.estadoVacional.value })
       .subscribe({
         next: (data: any) => {
           this.rows = data.solicitudesVacacionalesJefe;

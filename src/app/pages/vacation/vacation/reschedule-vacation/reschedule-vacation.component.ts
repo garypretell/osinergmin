@@ -66,7 +66,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
     user && user.identificacion ? this.usuario = user : this.goback();
     this.vacationService.vacationValue ? this.row = this.vacationService.vacationValue : this.goback();
     this.rescheduleForm.baseForm.reset();
-    this.rescheduleForm.baseForm.get('diasReprogramacion')?.setValue(0.5);
+    this.rescheduleForm.baseForm.get('diasReprogramacion')?.setValue(1);
     if (user?.identificacion) {
       this.rescheduleForm.baseForm.get('maxDias')?.setValue(user.saldo);
       const dialogRef = this.dialog.open(LoaderComponent, {
@@ -87,7 +87,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
           this.codAprobadoValue = this.listaEmpleadoAprobacion[0].identificacion;
           this.rescheduleForm.baseForm.get('codEmplAprobacionReprogramacion')?.setValue(this.listaEmpleadoAprobacion[0]);
           this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.setValue('');
-          this.hasDot = this.rescheduleForm.baseForm.get('diasReprogramacion')?.value.toString().includes('.');
+          this.hasDot = this.rescheduleForm.baseForm.get('dias')?.value.toString().includes('.');
           this.calcularDias();
           this.calcularDiasBefore();
           dialogRef.close();

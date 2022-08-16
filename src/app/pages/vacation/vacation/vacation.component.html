@@ -1,13 +1,13 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
   <div
     fxLayout="row"
-    fxLayoutAlign="end center"
+    fxLayoutAlign="space-between center"
     fxLayout.xs="column"
     fxFlexFill
     fxLayoutGap="80px !important"
     [ngStyle]="{ 'margin-bottom': '10px' }"
   >
-  <button type="button" mat-raised-button class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="solicitudesPendientesGrh()">
+  <button type="button" mat-raised-button color="accent" class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="solicitudesPendientesGrh()">
     Solicitudes pendientes de aprobar GRH
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
       {{usuario.cantidaPorAprobarGrh}}
@@ -62,7 +62,7 @@
     [ngStyle]="{ 'margin-bottom': '5px' }"
   >
     <button mat-raised-button color="primary" (click)="goRegister()" [ngStyle]="{ 'margin-right': '16px' }">
-      Registrar Solicitud de Vacaciones
+      Registrar Solicitud de Vacaciones - Goce Efectivo
     </button>
   </div>
 </mat-card>

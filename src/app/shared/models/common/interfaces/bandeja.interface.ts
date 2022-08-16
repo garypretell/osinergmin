@@ -29,6 +29,7 @@ export interface ISolicitud {
 
 export interface IBandejaRequest {
     identificacion: string;
+    estadoVacional?: any;
 }
 
 export interface IPlazosBody {
