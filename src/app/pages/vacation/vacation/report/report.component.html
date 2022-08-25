@@ -84,11 +84,11 @@
           </mat-chip-list>
         </mat-form-field>
         <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign.lg="end center" [fxLayoutAlign.lt-lg]="'center center'" [ngStyle]="{ 'margin-bottom': '10px' }">
-          <button mat-button class="btnpdf" type="submit" >
+          <button mat-button class="btnpdf" type="button" >
             <i class="fas fa-file-pdf"></i>
             <span> Pdf</span>
           </button>
-          <button mat-button class="btnexcel" type="submit" >
+          <button mat-button class="btnexcel" type="button" (click)="downloadExcelRecord()" >
             <i class="fas fa-file-excel"></i>
             <span> Xls</span>
           </button>

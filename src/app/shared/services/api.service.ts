@@ -103,6 +103,31 @@ export class ApiService {
 
     }
 
+    postDownload<T>(endPoint: string, body: any, options: any = {}): Observable<T> {
+        this.beforeRequest(options.preloader || false);
+
+        if (options.params) {
+            let httpParamsQuery = new HttpParams();
+            Object.keys(options.params).forEach((key: string) => {
+                if (endPoint.indexOf(`{${key}}`) === -1) {
+                    httpParamsQuery = httpParamsQuery.append(key, options.params[key]);
+                } else {
+                    // tslint:disable-next-line: no-parameter-reassignment
+                    endPoint = endPoint.replace(`{${key}}`, options.params[key]);
+                }
+            });
+
+            options.params = httpParamsQuery;
+        }
+
+        const pipes = this.getPipesDefault(options);
+
+        // return this.httpClient.post<T>(endPoint, body, options).pipe(...pipes);
+        return pipes
+            .reduce((obs, op) => obs.pipe(op), (this.httpClient.post<T>(endPoint, body, options)))
+            .pipe(distinctUntilChanged());
+    }
+
     private getPipesDefault(options?: any): Array<any> {
         const pipes = [];
 

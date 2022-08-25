@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { VacationService } from '@pages/vacation/vacation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -21,6 +22,8 @@ import { VacationService } from '@pages/vacation/vacation.service';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
+  private _recordDownloadSub!: Subscription;
+  showLoading = false;
   fruitCtrl = new FormControl('');
   filteredFruits!: Observable<string[]>;
   fruits: string[] = ['2001'];
@@ -294,6 +297,49 @@ export class ReportComponent implements OnInit {
         }
       }
     });
+  }
+
+  unSubscribe(): void {
+    this.showLoading = false;
+    if (this._recordDownloadSub) {
+      this._recordDownloadSub.unsubscribe();
+    }
+  }
+
+  downloadExcelRecord(): void {
+    const year = new Date().getFullYear();
+    this.showLoading = true;
+    const dialogRef = this.dialog.open(LoaderComponent, {
+      width: '400px', data: {}, disableClose: true
+    });
+    this._recordDownloadSub = this.bandejaService
+      .retrieveExcelReport(
+        {
+        },
+        {}
+      )
+      .subscribe({
+        next: (record: any) => {
+          const blob = new Blob([record.body], { type: 'application/octet-stream' });
+          const url = window.URL.createObjectURL(blob);
+          const element = document.createElement('a');
+          element.setAttribute('download', 'report.xls');
+          element.setAttribute('href', url);
+          element.style.display = 'none';
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+          this.unSubscribe();
+          dialogRef.close();
+        },
+        error: error => {
+          dialogRef.close();
+          this.unSubscribe();
+        },
+        complete: () => {
+          console.log('Request complete');
+        }
+      });
   }
 
 }

@@ -138,4 +138,15 @@ export class BandejaService {
     return this.apiService.post(BandejaEndpoint.PostRechazarGrh, body);
   }
 
+  /**
+   * Descargar Excel
+   */
+   retrieveExcelReport(body: any, params: any): Observable<any> {
+    return this.apiService.postDownload(BandejaEndpoint.RetrieveExcelReport, body, {
+      params,
+      responseType: 'arraybuffer' as 'json',
+      observe: 'response' as 'body'
+    });
+  }
+
 }

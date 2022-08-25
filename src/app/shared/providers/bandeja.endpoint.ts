@@ -19,4 +19,5 @@ export class BandejaEndpoint {
   public static PostRechazar = `${environment.urlService}api/vacaciones/bandeja/rechazarJefeRegistroVacacional`;
   public static PostAprobarGrh = `${environment.urlService}api/vacaciones/bandeja/aprobarGrhRegistroVacacional`;
   public static PostRechazarGrh = `${environment.urlService}api/vacaciones/bandeja/rechazarGrhRegistroVacacional`;
+  public static RetrieveExcelReport = `${environment.urlService}api/vacaciones/bandeja/retrieveExcelReport`;
 }
