@@ -149,4 +149,11 @@ export class BandejaService {
     });
   }
 
+  /**
+   * Obtener Lista Reporte
+   */
+   getListaReporte(body: any): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.GetListaReporte, body);
+  }
+  
 }

@@ -94,7 +94,7 @@
           </button>
         </div>
         <ngx-datatable
-        id="datatablele"
+        id="datatable"
         #tablePedidos
         class="material contenedor"
         [rows]="rows"
@@ -112,8 +112,8 @@
         totalMessage: 'solicitudes'}"
       >
         <ngx-datatable-column
-          name="Acciones"
-          prop="actions"
+          name="identificacion"
+          prop="identificacion"
           headerClass="my-custom-cell"
           [cellClass]="'my-custom-cell'"
           [flexGrow]="3"
@@ -121,96 +121,73 @@
           [frozenLeft]="true"
         >
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Acciones</span>
+          <span> Identificacion</span>
         </ng-template>
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
-              <i class="fas fa-eye"></i></button
-            >
-            <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
-              ><i class="fas fa-trash"></i></button
-            >
-            <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
-              ><i class="fas fa-trash-restore"></i> </button
-            >
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="apellidos" [flexGrow]="2" [sortable]="true">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <span> <i class="fas fa-calendar"></i> Apellidos</span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="true">
+        <ngx-datatable-column prop="nombres" [flexGrow]="2" [sortable]="true">
           <ng-template let-column="column" ngx-datatable-header-template>
-            <span> <i class="fas fa-calendar"></i> Creación</span>
+            <span> Nombres </span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="true">
+        <ngx-datatable-column prop="mosalidad" [flexGrow]="2" [sortable]="true">
           <ng-template let-column="column" ngx-datatable-header-template>
-            <span> Cod. Solicitud </span>
+            <span> <i class="fa fa-file-image"></i> Salida </span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="true">
+        <ngx-datatable-column prop="gerencia" [flexGrow]="2" [sortable]="true">
           <ng-template let-column="column" ngx-datatable-header-template>
-            <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
+            <span> <i class="fas fa-calendar"></i> Gerencia </span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="fechaInicio" [flexGrow]="2" [sortable]="true">
+        <ngx-datatable-column prop="obsrvacion" [flexGrow]="2" [sortable]="true">
           <ng-template let-column="column" ngx-datatable-header-template>
-            <span> <i class="fas fa-calendar"></i> Inicio Vac. </span>
+            <span> <i class="fas fa-calendar"></i> Observacion </span>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
-          prop="fechaFin"
+          prop="fechaIngreso"
           headerClass="my-custom-cell"
           [cellClass]="'my-custom-cell'"
           [flexGrow]="2"
           [sortable]="false"
         >
           <ng-template let-column="column" ngx-datatable-header-template>
-            <span> <i class="far fa-calendar-alt"></i> Fin Vac. </span>
+            <span> <i class="far fa-calendar-alt"></i> Fin Ing. </span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
+        <ngx-datatable-column prop="periodo" [flexGrow]="1" [sortable]="true">
           <ng-template let-column="column" ngx-datatable-header-template>
-            <span> <i class="fas fa-clock"></i> Dias </span>
+            <span> <i class="fas fa-clock"></i> Periodo </span>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
-          name="Estado"
-          prop="desEstado"
+          name="fechaVencimiento"
+          prop="fechaVencimiento"
           headerClass="my-custom-cell"
           [cellClass]="'my-custom-cell'"
           [flexGrow]="2"
           [sortable]="false"
         >
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Estado</span>
+          <span> Fecha Vencimiento</span>
         </ng-template>
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{
-             row.desEstado
-            }}
-          </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
-          name="Solicitar"
-          prop="actions"
+          name="saldo"
+          prop="saldo"
           headerClass="my-custom-cell"
           [cellClass]="'my-custom-cell'"
           [flexGrow]="3"
           [sortable]="true"
-          [frozenRight]="true"
         >
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> </span>
+          <span> Saldo</span>
         </ng-template>
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1" (click)="enviarJefe(row)"
-              ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
-            >
-            <span class="badge bg-success" role="button" (click)="reprogramar(row)" *ngIf="row.codEstado === 4"
-              ><i class="fas fa-retweet"></i> Reprogramar</span
-            >
-            <span class="badge bg-primary" role="button" (click)="interrumpir(row)" *ngIf="row.codEstado === 4"
-              ><i class="fas fa-stopwatch"></i> Interrumpir</span
-            >
-          </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
       </div>

@@ -41,16 +41,18 @@ export class ReportComponent implements OnInit {
   sortData = { place: 1, volume: 1 };
   SortType = SortType;
   sortOrder = [{ prop: 'place', dir: 'asc' }, { prop: 'volume', dir: 'asc' }];
-  rows: Array<ISolicitud> = [];
+  rows = [];
   columns = [
-    { name: 'created', sortable: true },
-    { name: 'code', sortable: true },
-    { name: 'type', sortable: true },
-    { name: 'init', sortable: true },
-    { name: 'end', sortable: true },
-    { name: 'days', sortable: true },
-    { name: 'state', sortable: true },
-    { name: 'action', sortable: true },
+    { name: 'identificacion', sortable: true },
+    { name: 'apellidos', sortable: true },
+    { name: 'nombres', sortable: true },
+    { name: 'mosalidad', sortable: true },
+    { name: 'gerencia', sortable: true },
+    { name: 'obsrvacion', sortable: true },
+    { name: 'fechaIngreso', sortable: true },
+    { name: 'periodo', sortable: true },
+    { name: 'fechaVencimiento', sortable: true },
+    { name: 'saldo', sortable: true }
   ];
   reorderable = true;
   ColumnMode = ColumnMode;
@@ -82,16 +84,13 @@ export class ReportComponent implements OnInit {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
-    this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe({
-      next: (user: IBandejaResponse) => {
-        this.usuario = user;
-        this.vacationService.userSubjectObsData = user;
-        this.rows = user.solicitudesVacacionales;
+    this.bandejaService.getListaReporte({}).subscribe({
+      next: (data: any) => {
+        this.rows = data;
         dialogRef.close();
       },
       error: error => {
         dialogRef.close();
-        this.usuario = {} as IBandejaResponse;
         // handle error
       },
       complete: () => {

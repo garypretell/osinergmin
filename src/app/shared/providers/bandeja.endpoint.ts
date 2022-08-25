@@ -14,6 +14,7 @@ export class BandejaEndpoint {
   public static PostReprogramar = `${environment.urlService}api/vacaciones/bandeja/registrarReprogramacionVacacional`;
   public static PostInterrupcion = `${environment.urlService}api/vacaciones/bandeja/registrarInterrupcionnVacacional`;
   public static GetListaSolicitudJefe = `${environment.urlService}api/vacaciones/bandeja/listarSolicitudesJefeInmediato`;
+  public static GetListaReporte = `${environment.urlService}api/vacaciones/bandeja/listaReporte`;
   public static GetListaSolicitudGrh = `${environment.urlService}api/vacaciones/bandeja/listarSolicitudesGrh`;
   public static PostAprobar = `${environment.urlService}api/vacaciones/bandeja/aprobarJefeRegistroVacacional`;
   public static PostRechazar = `${environment.urlService}api/vacaciones/bandeja/rechazarJefeRegistroVacacional`;
