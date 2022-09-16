@@ -21,6 +21,7 @@ import { SharedModule } from '@shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CookieService } from 'ngx-cookie-service';
+import { HomeComponent } from '@pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CookieService } from 'ngx-cookie-service';
     LeftNavComponent,
     LeftNavMenuComponent,
     SkeletonComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

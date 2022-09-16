@@ -22,6 +22,7 @@ import { RequestPendingDetailComponent } from './vacation/request-pending/reques
 import { RequestPendingGrhComponent } from './vacation/request-pending-grh/request-pending-grh.component';
 import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh/request-pending-grh-detail/request-pending-grh-detail.component';
 
+
 @NgModule({
   declarations: [
     VacationComponent,

@@ -1,0 +1,27 @@
+<div fxLayout="row" [ngStyle.lt-lg]="{'margin-top': '25vh'}">
+    <div class="shape" fxFlexOffset.gt-md="72%" fxFlexOffset.lt-lg="calc(50% - 9rem)"  [ngStyle]="{'margin-top': '30px'}">
+      <div fxLayout="column" fxLayoutAlign="space-around center" class="m-3">
+          
+        <mat-toolbar class="text-center header-color">
+            <span class="fill-remaining-space"><strong>OSINERGMIN</strong></span>
+          </mat-toolbar>
+          
+          <div class="container" [ngStyle]="{'margin-top': '20px'}" > 
+            <form [formGroup]="formGroup" (ngSubmit)="goVacation()" class="form">
+              
+              <mat-form-field class="form-element">
+                <input type="number" matInput placeholder="Número de Documento" formControlName="documento">
+                <mat-error *ngIf="!formGroup.controls['documento'].valid && formGroup.controls['documento'].touched">
+                  {{ getErrorDocument() }}
+                </mat-error>
+              </mat-form-field>
+          
+              <div class="form-element">
+                <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Ingresar</button>
+              </div>
+          
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
