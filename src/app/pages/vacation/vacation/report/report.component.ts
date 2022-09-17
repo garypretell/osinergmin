@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { VacationService } from '@pages/vacation/vacation.service';
+import { MatAccordion } from '@angular/material/expansion'
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,6 +23,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
   private _recordDownloadSub!: Subscription;
   showLoading = false;
   fruitCtrl = new FormControl('');
