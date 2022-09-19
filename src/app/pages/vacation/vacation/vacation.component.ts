@@ -106,6 +106,12 @@ export class VacationComponent implements OnInit {
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlRegistrarVacaciones}`]);
   }
 
+  goReport(): void {
+    this.vacationService.userSubjectObsData = this.usuario;
+    // if (this.usuario.nombres) { this.router.navigate([`vacaciones/registrar`]); }
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlReporte}`]);
+  }
+
   async setPage(pageInfo: any): Promise<any> { }
 
   async onSort(event: any): Promise<any> { }

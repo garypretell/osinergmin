@@ -8,6 +8,9 @@
       <span class="visually-hidden">unread messages</span>
     </span>
   </button>
+    <button type="button" mat-raised-button  class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="goReport()">
+    Reporte
+  </button>
   </div>
   <div class="ms-auto p-2 bd-highlight">
     <button type="button" mat-raised-button color="primary" class="position-relative m-1" *ngIf="usuario?.esJefe === 1" (click)="solicitudesPendientes()">
