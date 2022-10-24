@@ -21,7 +21,7 @@ import { ReportComponent } from './vacation/report/report.component';
 import { RequestPendingDetailComponent } from './vacation/request-pending/request-pending-detail/request-pending-detail.component';
 import { RequestPendingGrhComponent } from './vacation/request-pending-grh/request-pending-grh.component';
 import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh/request-pending-grh-detail/request-pending-grh-detail.component';
-
+import { RequestReportComponent } from './vacation/request-report/request-report.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh
     ReportComponent,
     RequestPendingDetailComponent,
     RequestPendingGrhComponent,
-    RequestPendingGrhDetailComponent
+    RequestPendingGrhDetailComponent,
+    RequestReportComponent
   ],
   imports: [
     CommonModule,

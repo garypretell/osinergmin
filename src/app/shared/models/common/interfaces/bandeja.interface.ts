@@ -135,3 +135,68 @@ export interface IPlazosResponse {
     saldo: string;
     fecVencimiento: string;
 }
+
+export interface ICabeceraResponse {
+    listaGerencias: IListaGerencias[];
+    listaModalidades: IListaModalidades[];
+    listaPeriodos: IListaPeriodos[];
+}
+
+export interface IHeaderRequestResponse {
+    listaTipoGoceVacionales: IListaTipoGoceVacionales[];
+    listaEstadosVacionales: IListaEstadosVacionales[];
+}
+
+export interface IListaGerencias {
+    codTabla: number;
+    codItem: number;
+    descripcion: string;
+    codEstado: string;
+}
+
+export interface IListaTipoGoceVacionales {
+    codTipoGoce: number;
+    descTipoGoce: string;
+    estado: string;
+}
+
+export interface IListaEstadosVacionales {
+    codEstadoVacional: number;
+    descEstadoVacacional: string;
+    estado: string;
+}
+
+export interface IListaModalidades {
+    codTabla: number;
+    codItem: number;
+    descripcion: string;
+    codEstado: string;
+}
+
+export interface IListaPeriodos {
+    codPeriodo: number;
+    descPeriodo: string;
+    estado: string;
+}
+
+export interface IFiltrosReporte {
+    identificacion: string;
+    apellidos: string;
+    nombres: string;
+    modalidad: string;
+    gerencia: string;
+    periodo: string;
+    fechaIngreso: string | null;
+    fechaVencimiento: string | null;
+}
+
+export interface IFiltrosReporteSolicitudes {
+    identificacion: string;
+    apellidos: string;
+    nombres: string;
+    tipoGoce: string;
+    tipoEstado: string;
+    fechaInicio: string | null;
+    fechaFin: string | null;
+    codigoSolicitud: string | null;
+}

@@ -21,4 +21,8 @@ export class BandejaEndpoint {
   public static PostAprobarGrh = `${environment.urlService}api/vacaciones/bandeja/aprobarGrhRegistroVacacional`;
   public static PostRechazarGrh = `${environment.urlService}api/vacaciones/bandeja/rechazarGrhRegistroVacacional`;
   public static RetrieveExcelReport = `${environment.urlService}api/vacaciones/bandeja/retrieveExcelReport`;
+  public static PostCabeceraFiltros = `${environment.urlService}api/vacaciones/bandeja/cargaFiltrosReporte`;
+  public static PostCabeceraFiltrosSolicitudes = `${environment.urlService}api/vacaciones/bandeja/cargaFiltrosReporteSolicitudes`;
+  public static PostFiltrosReporte = `${environment.urlService}api/vacaciones/bandeja/buscarFiltrosReporte`;
+  public static PostFiltrosReporteSolicitudes = `${environment.urlService}api/vacaciones/bandeja/buscarFiltrosReporteSolicitudes`;
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IPlazosResponse, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
+import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IFiltrosReporte, IRegistroVacaionalBody, IFiltrosReporteSolicitudes } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaEndpoint } from '@shared/providers/bandeja.endpoint';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
@@ -24,6 +24,20 @@ export class BandejaService {
    */
    getPlazos(body: IPlazosBody): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostDeadlines, body);
+  }
+
+  /**
+   * Obtener Filtros para Cabecera
+   */
+   getCabeceraFiltros(): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostCabeceraFiltros, {});
+  }
+
+  /**
+   * Obtener Filtros Solicitudes para Cabecera
+   */
+   getCabeceraFiltrosSolicitudes(): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostCabeceraFiltrosSolicitudes, {});
   }
 
   /**
@@ -152,8 +166,22 @@ export class BandejaService {
   /**
    * Obtener Lista Reporte
    */
-   getListaReporte(body: any): Observable<any> {
-    return this.apiService.post(BandejaEndpoint.GetListaReporte, body);
+   getListaReporte(): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.GetListaReporte, {});
+  }
+
+  /**
+   * Obtener Datos por Filtro
+   */
+   postFiltroReporte(body: IFiltrosReporte): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostFiltrosReporte, body);
+  }
+
+  /**
+   * Obtener Datos por Filtro
+   */
+   postFiltroReporteSolicitudes(body: IFiltrosReporteSolicitudes): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostFiltrosReporteSolicitudes, body);
   }
   
 }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlService: 'http://localhost:8080/',
+  urlService: 'http://localhost:8080/sisva/',
   // urlService: 'https://rickandmortyapi.com/api/',
   urlHome: 'http://localhost:4200/',
 };

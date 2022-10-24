@@ -10,6 +10,7 @@ import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh
 import { RequestPendingGrhComponent } from './vacation/request-pending-grh/request-pending-grh.component';
 import { RequestPendingDetailComponent } from './vacation/request-pending/request-pending-detail/request-pending-detail.component';
 import { RequestPendingComponent } from './vacation/request-pending/request-pending.component';
+import { RequestReportComponent } from './vacation/request-report/request-report.component';
 import { RescheduleVacationComponent } from './vacation/reschedule-vacation/reschedule-vacation.component';
 import { VacationComponent } from './vacation/vacation.component';
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: PATH_URL_DATA.urlSolicitudesPendientesGrh, component: RequestPendingGrhComponent, pathMatch: 'full' },
   { path: PATH_URL_DATA.urlSolicitudesPendientesDetalleGrh, component: RequestPendingGrhDetailComponent, pathMatch: 'full' },
   { path: PATH_URL_DATA.urlReporte, component: ReportComponent, pathMatch: 'full' },
+  { path: PATH_URL_DATA.urlReporteSolicitudes, component: RequestReportComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

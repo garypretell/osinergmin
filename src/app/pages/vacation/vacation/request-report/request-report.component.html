@@ -1,5 +1,5 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
-  <h1>Reporte de Saldos Vacacionales</h1>
+  <h1>Reporte de Solicitudes Vacacionales</h1>
   <div
     fxLayout="row"
     fxLayoutGap="25px"
@@ -38,7 +38,7 @@
                     class="example-full-width"
                     appearance="legacy"
                   >
-                    <mat-label>Número de Identificación</mat-label>
+                    <mat-label>Número de Documento</mat-label>
                     <input
                       name="identificacion"
                       formControlName="identificacion"
@@ -78,19 +78,15 @@
                   </mat-form-field>
                 </div>
                 <div fxFlex="23">
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="legacy"
-                  >
-                    <mat-label>Periodo</mat-label>
-                    <mat-select formControlName="periodo">
-                      <mat-option>-- None --</mat-option>
-                      <mat-option
-                        *ngFor="let item of listaPeriodos"
-                        [value]="item"
-                        >{{ item.descPeriodo }}</mat-option
-                      >
-                    </mat-select>
+                  <mat-form-field appearance="legacy">
+                    <mat-label>Codigo Solicitud</mat-label>
+                    <input
+                    name="codigo_Solicitud"
+                    formControlName="codigo_Solicitud"
+                    matInput
+                    type="text"
+                    class="text-uppercase"
+                  />
                   </mat-form-field>
                 </div>
               </div>
@@ -106,12 +102,12 @@
                     class="example-full-width"
                     appearance="legacy"
                   >
-                    <mat-label>Fecha de Ingreso</mat-label>
+                    <mat-label>Fecha de Inicio</mat-label>
                     <input
                       matInput
                       readonly
                       [matDatepicker]="picker"
-                      formControlName="fecha_Ingreso"
+                      formControlName="fecha_Inicio"
                       name="fechaInicio"
                     />
                     <mat-hint>DD/MM/YYYY</mat-hint>
@@ -127,12 +123,12 @@
                     class="example-full-width"
                     appearance="legacy"
                   >
-                    <mat-label>Fecha de Vencimiento</mat-label>
+                    <mat-label>Fecha Fin</mat-label>
                     <input
                       matInput
                       readonly
                       [matDatepicker]="picker1"
-                      formControlName="fecha_Vencimiento"
+                      formControlName="fecha_Fin"
                       name="fechaFin"
                     />
                     <mat-hint>DD/MM/YYYY</mat-hint>
@@ -145,26 +141,29 @@
                 </div>
                 <div fxFlex="23">
                   <mat-form-field appearance="legacy">
-                    <mat-label>Gerencia</mat-label>
-                    <mat-select formControlName="gerencia">
+                    <mat-label>Estado Vacacional</mat-label>
+                    <mat-select formControlName="tipo_Estado">
                       <mat-option>-- None --</mat-option>
                       <mat-option
-                        *ngFor="let item of listaGerencias"
+                        *ngFor="let item of listaEstadosVacionales"
                         [value]="item"
-                        >{{ item.descripcion }}</mat-option
+                        >{{ item.descEstadoVacacional }}</mat-option
                       >
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div fxFlex="23">
-                  <mat-form-field appearance="legacy">
-                    <mat-label>Modalidad</mat-label>
-                    <mat-select formControlName="modalidad">
+                  <mat-form-field
+                    class="example-full-width"
+                    appearance="legacy"
+                  >
+                    <mat-label>Tipo Goce</mat-label>
+                    <mat-select formControlName="tipo_Goce">
                       <mat-option>-- None --</mat-option>
                       <mat-option
-                        *ngFor="let item of listaModalidades"
+                        *ngFor="let item of listaTipoGoceVacionales"
                         [value]="item"
-                        >{{ item.descripcion }}</mat-option
+                        >{{ item.descTipoGoce }}</mat-option
                       >
                     </mat-select>
                   </mat-form-field>
@@ -244,7 +243,7 @@
         id="datatable"
         class="material contenedor"
         [rows]="rows"
-        [columns]="columnas"
+        [columns]="columns"
         [sortType]="SortType.multi"
         [columnMode]="ColumnMode.standard"
         [headerHeight]="50"
@@ -259,6 +258,81 @@
           totalMessage: 'solicitudes'
         }"
       >
+      <ngx-datatable-column prop="codEmpl" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Num. de documento </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="apellidos" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Apellidos </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="nombres" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Nombres </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Dias Tomados </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="fechaInicio" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Fecha Inicio Vac. </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="fechaFin" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Fecha Fin Vac. </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="codSolicitud" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Numero Solicitud </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="descTipoGoce" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Tipo Goce </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="desEstado" [flexGrow]="1" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Estado </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column
+        name="Acciones"
+        prop="actions"
+        headerClass="my-custom-cell"
+        [cellClass]="'my-custom-cell'"
+        [flexGrow]="3"
+        [sortable]="false"
+      >
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span> Acciones</span>
+      </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button class="btn btn-sm btn-success me-1" role="button"
+           #tooltip="matTooltip"
+           matTooltip="Ver Detalle"
+           id="myElementwithTooltip">
+           Trazabilidad</button
+          >
+        </ng-template>
+      </ngx-datatable-column>
       </ngx-datatable>
     </div>
   </div>

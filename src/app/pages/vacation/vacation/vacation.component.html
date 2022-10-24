@@ -9,7 +9,10 @@
     </span>
   </button>
     <button type="button" mat-raised-button  class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="goReport()">
-    Reporte
+    Reporte de Saldos Vacacionales
+  </button>
+    <button type="button" mat-raised-button color="warn"  class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="goRequestReport()">
+    Reporte de Solicitudes Vacacionales
   </button>
   </div>
   <div class="ms-auto p-2 bd-highlight">
@@ -100,13 +103,20 @@
         <span> Acciones</span>
       </ng-template>
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)" title="Ver" data-bs-toggle="tooltip" data-bs-placement="top" id="myElementwithTooltip">
+          <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)"
+           #tooltip="matTooltip"
+           matTooltip="Ver Detalle"
+           id="myElementwithTooltip">
             <i class="fas fa-eye"></i></button
           >
-          <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null" title="Anular" data-bs-toggle="tooltip" data-bs-placement="top"
+          <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null"
+          #tooltip="matTooltip"
+          matTooltip="Anular"
             ><i class="fas fa-trash"></i></button
           >
-          <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null" title="Recuperar" data-bs-toggle="tooltip" data-bs-placement="top"
+          <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null"
+          #tooltip="matTooltip"
+          matTooltip="Recuperar"
             ><i class="fas fa-trash-restore"></i> </button
           >
         </ng-template>

@@ -2,6 +2,14 @@ import { Injectable } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { DatePipe } from '@angular/common';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset= UTF-8';
+const EXCEL_EXT = '.xlsx'
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -61,5 +69,31 @@ export class VacationService {
 
   isBelowXl(): Observable<BreakpointState> {
     return this.observer.observe(['(max-width: 1199px)']);
+  }
+
+  exportToExcel(json: any[], excelFileName: string): void {
+
+    // var Heading =[
+    //   [ "EMPLOYEE","SCORES","COMMENTS"]  
+    // ];
+      
+    // const myworksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.emp ,{skipHeader:true});
+    // XLSX.utils.sheet_add_json(myworksheet,this.emp,{skipHeader:true , origin: 'A2'});
+    // XLSX.utils.sheet_add_aoa(myworksheet, Heading);
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    XLSX.utils.sheet_add_json(worksheet, json, {skipHeader:true , origin: 'A2'});
+    const workbook: XLSX.WorkBook = {
+      Sheets: {'data': worksheet},
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
+    this.saveAsExcel(excelBuffer, excelFileName);
+
+  }
+
+  private saveAsExcel(buffer: any, fileName: string): void {
+    const data: Blob =  new Blob([buffer], {type: EXCEL_TYPE});
+    FileSaver.saveAs(data, fileName + '_export_' + Date.now() + EXCEL_EXT);
   }
 }
