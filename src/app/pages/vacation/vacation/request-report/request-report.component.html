@@ -223,11 +223,10 @@
         [fxLayoutAlign.lt-lg]="'center center'"
         [ngStyle]="{ 'margin-bottom': '10px', 'margin-top': '10px' }"
       >
-        <a  [ngStyle]="{ 'cursor': 'pointer' }" (click)="exportAsXLSX()">Download</a>
-        <!-- <button mat-button class="btnpdf" type="button">
-          <i class="fas fa-file-pdf"></i>
-          <span> Pdf</span>
-        </button> -->
+        <!-- <a  [ngStyle]="{ 'cursor': 'pointer' }" (click)="exportAsXLSX()">Download</a> -->
+        <button mat-button class="btnpdf" type="button" (click)="exportAsXLSX()">
+          <span> Descargar</span>
+        </button>
         <button
           mat-button
           class="btnexcel"
@@ -312,7 +311,6 @@
         </ng-template>
       </ngx-datatable-column>
 
-
       <ngx-datatable-column
         name="Acciones"
         prop="actions"
@@ -325,11 +323,8 @@
         <span> Acciones</span>
       </ng-template>
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <button class="btn btn-sm btn-success me-1" role="button"
-           #tooltip="matTooltip"
-           matTooltip="Ver Detalle"
-           id="myElementwithTooltip">
-           Trazabilidad</button
+          <span class="badge bg-primary" role="button" (click)="verTrazabilidad(row)"
+            ><i class="fas fa-list-ol"></i> Trazabilidad</span
           >
         </ng-template>
       </ngx-datatable-column>

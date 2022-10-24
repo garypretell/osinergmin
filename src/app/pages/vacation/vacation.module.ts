@@ -22,6 +22,7 @@ import { RequestPendingDetailComponent } from './vacation/request-pending/reques
 import { RequestPendingGrhComponent } from './vacation/request-pending-grh/request-pending-grh.component';
 import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh/request-pending-grh-detail/request-pending-grh-detail.component';
 import { RequestReportComponent } from './vacation/request-report/request-report.component';
+import { TrazabilityVacationComponent } from './shared/trazability-vacation/trazability-vacation.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { RequestReportComponent } from './vacation/request-report/request-report
     RequestPendingDetailComponent,
     RequestPendingGrhComponent,
     RequestPendingGrhDetailComponent,
-    RequestReportComponent
+    RequestReportComponent,
+    TrazabilityVacationComponent
   ],
   imports: [
     CommonModule,

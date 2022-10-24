@@ -36,6 +36,10 @@ export interface IPlazosBody {
     codSaldo: number;
 }
 
+export interface ITrazaBody {
+    codRegistro: string;
+}
+
 export interface IDatosRegistroBody {
     identificacion: string;
     nombres: string;

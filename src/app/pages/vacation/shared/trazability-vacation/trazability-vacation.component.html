@@ -1,0 +1,27 @@
+<div mat-dialog-content>
+  <div class="d-flex justify-content-end mb-1">
+    <button type="button" class="btn-close" aria-label="Close" mat-dialog-close [autofocus]="false"></button>
+  </div>
+    <h2>TRAZABILIDAD DE LA SOLICITUD: {{data[0].codSolicitud}}</h2>
+    <div class="text-center">
+       <h3> TIPO: {{data[0].descTipoGoce | uppercase}}</h3>
+    </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="text-center">FECHA DE REGISTRO</th>
+            <th>ESTADO DE LA SOLICITUD </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td class="text-center">{{ d.fechaRegistro }}</td>
+            <td >{{ d.desEstado }}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  

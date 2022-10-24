@@ -16,6 +16,7 @@ import { VacationService } from '@pages/vacation/vacation.service';
 import { MatAccordion } from '@angular/material/expansion'
 import { Subscription, forkJoin, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { TrazabilityVacationComponent } from '@pages/vacation/shared/trazability-vacation/trazability-vacation.component';
 
 @Component({
   selector: 'app-request-report',
@@ -58,7 +59,7 @@ export class RequestReportComponent implements OnInit {
     { prop: 'codSolicitud', name: 'Numero Solicitud', sortable: true },
     { prop: 'descTipoGoce', name: 'Tipo Goce', sortable: true },
     { prop: 'desEstado', name: 'Estado', sortable: true },
-    { prop:'actions', name: 'actions', sortable: true,  cellTemplate: this.toppingTemplate }
+    { prop: 'actions', name: 'actions', sortable: true, cellTemplate: this.toppingTemplate }
   ];
 
   filtrosReporte: IFiltrosReporteSolicitudes = {
@@ -70,7 +71,7 @@ export class RequestReportComponent implements OnInit {
     fechaInicio: "",
     fechaFin: "",
     codigoSolicitud: ""
-};
+  };
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe,
     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
     this.identificacion = +this.cookieService.get('identificacion');
@@ -162,7 +163,7 @@ export class RequestReportComponent implements OnInit {
       tipoGoce: this.addFilterForm.value.tipo_Goce.descTipoGoce ? this.addFilterForm.value.tipo_Goce.descTipoGoce : '',
       tipoEstado: this.addFilterForm.value.tipo_Estado.descEstadoVacacional ? this.addFilterForm.value.tipo_Estado.descEstadoVacacional : '',
       codigoSolicitud: this.addFilterForm.value.codigo_Solicitud ? this.addFilterForm.value.codigo_Solicitud : '',
-      fechaInicio: this.addFilterForm.value.fecha_Inicio ?  this.datePipe.transform(this.addFilterForm.value.fecha_Inicio, 'dd/MM/yyyy')  : '',
+      fechaInicio: this.addFilterForm.value.fecha_Inicio ? this.datePipe.transform(this.addFilterForm.value.fecha_Inicio, 'dd/MM/yyyy') : '',
       fechaFin: this.addFilterForm.value.fecha_Fin ? this.datePipe.transform(this.addFilterForm.value.fecha_Fin, 'dd/MM/yyyy') : ''
     }
 
@@ -264,22 +265,42 @@ export class RequestReportComponent implements OnInit {
 
   exportAsXLSX(): void {
     let arr: any = [];
-    
+
     this.rows.map((r: any, y) => {
-        const obj: any = {};
-        obj.numero_documento = r.codEmpl;
-        obj.apellidos = r.apellidos;
-        obj.nombres = r.nombres;
-        obj.dias_tomados = r.dias;
-        obj.fecha_inicio = r.fechaInicio;
-        obj.fecha_fin = r.fechaFin;
-        obj.numero_solicitud = r.codSolicitud;
-        obj.tipo_goce = r.descTipoGoce;
-        obj.estado = r.desEstado;
-        arr.push(obj);
-      });
+      const obj: any = {};
+      obj.numero_documento = r.codEmpl;
+      obj.apellidos = r.apellidos;
+      obj.nombres = r.nombres;
+      obj.dias_tomados = r.dias;
+      obj.fecha_inicio = r.fechaInicio;
+      obj.fecha_fin = r.fechaFin;
+      obj.numero_solicitud = r.codSolicitud;
+      obj.tipo_goce = r.descTipoGoce;
+      obj.estado = r.desEstado;
+      arr.push(obj);
+    });
 
     this.vacationService.exportToExcel(arr, 'reporte');
+  }
+
+  verTrazabilidad(row: any): void {
+    const dialogRef = this.dialog.open(LoaderComponent, {
+      width: '400px', data: {}, disableClose: true
+    });
+    this.bandejaService.getListaTraza({codRegistro: row.codRegistro}).subscribe({
+      next: (record: any) => {
+        dialogRef.close();
+        this.dialog.open(TrazabilityVacationComponent, {
+          width: '600px',
+          autoFocus: false,
+          closeOnNavigation: true,
+          data: record
+        });
+      },
+      error: error => {
+        dialogRef.close();
+      },
+    })
   }
 
 }

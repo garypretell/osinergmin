@@ -25,4 +25,5 @@ export class BandejaEndpoint {
   public static PostCabeceraFiltrosSolicitudes = `${environment.urlService}api/vacaciones/bandeja/cargaFiltrosReporteSolicitudes`;
   public static PostFiltrosReporte = `${environment.urlService}api/vacaciones/bandeja/buscarFiltrosReporte`;
   public static PostFiltrosReporteSolicitudes = `${environment.urlService}api/vacaciones/bandeja/buscarFiltrosReporteSolicitudes`;
+  public static PostListaTraza= `${environment.urlService}api/vacaciones/bandeja/listaReporteTraza`;
 }
