@@ -17,7 +17,7 @@ export class BaseFormInterruption {
     codSolicitud: ['', [Validators.required]],
     codRegistroInterruptida: ['', [Validators.required]],
     codigoSolicitudInterruptida: ['', [Validators.required]],
-    codEmplReemplazoInterruptida: ['', [Validators.required]],
+    codEmplReemplazoInterruptida: [''],
     codEmplAprobacionInterruptida: ['', [Validators.required]],
     fechaInicio: ['', []],
     fechaInterruptida: ['', [Validators.required]],

@@ -19,7 +19,7 @@ export class BaseFormEditVacation {
     fechaInicio: ['', [Validators.required]],
     fechaFin: ['', [Validators.required]],
     dias: [0, [Validators.required, Validators.min(0.5)]],
-    codEmplReemplazo: ['', [Validators.required]],
+    codEmplReemplazo: [''],
     codEmplAprobacion: ['', [Validators.required]],
     maxDias: ['', [Validators.required]],
     fechaModificacion: ['', [Validators.required]],

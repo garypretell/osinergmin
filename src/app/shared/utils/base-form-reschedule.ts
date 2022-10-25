@@ -17,7 +17,7 @@ export class BaseFormReschedule {
     codRegistroReprogramacion: ['', [Validators.required]],
     codSolicitud: ['', [Validators.required]],
     codigoSolicitudReprogramacion: ['', [Validators.required]],
-    codEmplReemplazoReprogramacion: ['', [Validators.required]],
+    codEmplReemplazoReprogramacion: [''],
     codEmplAprobacionReprogramacion: ['', [Validators.required]],
     fechaInicioReprogramacion: ['', []],
     fechaInicio: ['', []],
