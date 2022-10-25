@@ -76,6 +76,7 @@ export class VacationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    console.log('25-10-2022')
   }
 
   getData(): void {
