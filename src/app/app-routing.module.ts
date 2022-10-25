@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: PATH_URL_DATA.urlHome, pathMatch: 'full' },
   { path: PATH_URL_DATA.urlHome,component: HomeComponent },
   { path: PATH_URL_DATA.urlVacaciones, loadChildren: () => import('./pages/vacation/vacation.module').then(m => m.VacationModule) },
+  { path: PATH_URL_DATA.urlUsuarios, loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule) }
 ];
 
 @NgModule({

@@ -427,4 +427,8 @@ export class ReportComponent implements OnInit {
     this.vacationService.exportToExcel(arr, 'reporte');
   }
 
+  goback(): void {
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+  }
+
 }

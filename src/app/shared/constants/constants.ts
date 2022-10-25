@@ -1,6 +1,7 @@
 export const PATH_URL_DATA = {
     urlHome: 'home',
     urlVacaciones: 'vacaciones',
+    urlUsuarios: 'usuarios',
     urlBandejaVacaciones: 'bandeja',
     urlRegistrarVacaciones: 'registrar',
     urlReporte: 'reporte',

@@ -1,0 +1,133 @@
+<div class="container">
+  <h3 mat-dialog-title>{{ data.tittle }}</h3>
+  <a mat-list-item style="color: red">{{ data.errorMssg }}</a>
+  <form [formGroup]="userForm.baseForm">
+    <mat-dialog-content class="mat-typography">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          margin: 1rem auto;
+          max-height: 600px;
+          max-width: 600px;
+          padding: 1rem;
+        "
+      >
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Codigo Empleado</mat-label>
+        <input
+          matInput
+          maxlength="50"
+          class="e-input"
+          formControlName="codEmpl"
+          type="number"
+          placeholder="Codigo Empleado"
+          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+          required
+        />
+        <mat-error>
+          <ng-container
+
+            *ngFor="let error of userForm.errors($any(userForm.baseForm.get('codEmpl')))"
+          >
+            {{ userForm.handleError(error, "codEmpl") }} <br />
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Apellidos </mat-label>
+        <input
+          matInput
+          maxlength="50"
+          class="e-input"
+          formControlName="apeEmpl"
+          type="text"
+          placeholder="Apellidos"
+          required
+        />
+        <mat-error>
+          <ng-container
+
+            *ngFor="let error of userForm.errors($any(userForm.baseForm.get('apeEmpl')))"
+          >
+            {{ userForm.handleError(error, "apeEmpl") }} <br />
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Nombres </mat-label>
+        <input
+          matInput
+          maxlength="50"
+          class="e-input"
+          formControlName="nomEmpl"
+          type="text"
+          placeholder="Nombres"
+          required
+        />
+        <mat-error>
+          <ng-container
+
+            *ngFor="let error of userForm.errors($any(userForm.baseForm.get('nomEmpl')))"
+          >
+            {{ userForm.handleError(error, "nomEmpl") }} <br />
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Correo Electrónico </mat-label>
+        <input
+          matInput
+          maxlength="50"
+          class="e-input"
+          formControlName="boxMail"
+          type="email"
+          placeholder="Correo Electrónico"
+          required
+        />
+        <mat-error>
+          <ng-container
+
+            *ngFor="let error of userForm.errors($any(userForm.baseForm.get('boxMail')))"
+          >
+            {{ userForm.handleError(error, "boxMail") }} <br />
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Tipo Usuario</mat-label>
+        <mat-select formControlName="tipoUsuario" [value]="data.user.tipoUsuario">
+          <mat-option value="GRH">GRH</mat-option>
+          <mat-option value="ADM">ADM</mat-option>
+        </mat-select>
+        <mat-error>
+          <ng-container
+          *ngFor="let error of userForm.errors($any(userForm.baseForm.get('tipoUsuario')))"
+          >
+            {{ userForm.handleError(error, "tipoUsuario") }} <br />
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+      
+      </div>
+      
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="cancelar()">Cancelar</button>
+      <button
+        mat-raised-button
+        [mat-dialog-close]="data"
+        color="primary"
+        (click)="onSave()"
+        ckdFocusInitial
+        [disabled]="!userForm.baseForm.valid"
+      >
+        Aceptar
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

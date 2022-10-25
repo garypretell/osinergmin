@@ -18,12 +18,23 @@
         </span>
       </button>
       <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        class="position-relative m-1"
+        *ngIf="usuario?.esGrh === 1"
+        (click)="goUser()">
+        Usuario
+      </button>
+      <button
         class="ms-3"
         mat-raised-button
         [matMenuTriggerFor]="animals"
         *ngIf="usuario?.esGrh === 1"
       >
         Reportes
+      
+        
       </button>
       <mat-menu #animals="matMenu">
         <button mat-menu-item (click)="goReport()">
@@ -33,6 +44,7 @@
           Reporte de Solicitudes Vacacionales
         </button>
       </mat-menu>
+      
     </div>
     <div class="ms-auto p-2 bd-highlight">
       <button

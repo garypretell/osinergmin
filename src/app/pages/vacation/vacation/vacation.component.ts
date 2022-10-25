@@ -112,6 +112,12 @@ export class VacationComponent implements OnInit {
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlReporte}`]);
   }
 
+  goUser(): void {
+    this.vacationService.userSubjectObsData = this.usuario;
+    // if (this.usuario.nombres) { this.router.navigate([`vacaciones/usuarios`]); }
+    this.router.navigate([`${PATH_URL_DATA.urlUsuarios}`]);
+  }
+
   goRequestReport(): void {
     this.vacationService.userSubjectObsData = this.usuario;
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlReporteSolicitudes}`]);

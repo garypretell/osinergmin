@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IFiltrosReporte, IRegistroVacaionalBody, IFiltrosReporteSolicitudes, ITrazaBody } from '@shared/models/common/interfaces/bandeja.interface';
+import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IFiltrosReporte, IRegistroVacaionalBody, IFiltrosReporteSolicitudes, ITrazaBody, IDeleteUserBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaEndpoint } from '@shared/providers/bandeja.endpoint';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
@@ -189,6 +189,41 @@ export class BandejaService {
    */
    getListaTraza(body: ITrazaBody): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostListaTraza, body);
+  }
+
+  /**
+   * Obtener Lista Usuarios
+   */
+   getListaUsuario(): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostListaUsuarios, {});
+  }
+
+  /**
+   * Inactivar Usuario
+   */
+   deleteUsuario(body: IDeleteUserBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostInactivarUsuario, body);
+  }
+
+  /**
+   * Activar Usuario
+   */
+   activeUsuario(body: IDeleteUserBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostActivarUsuario, body);
+  }
+
+  /**
+   * Crear Usuario
+   */
+   crearUsuario(body: any): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostCrearUsuario, body);
+  }
+
+  /**
+   * Actualizar Usuario
+   */
+   actualizarUsuario(body: any): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostActualizarUsuario, body);
   }
   
 }

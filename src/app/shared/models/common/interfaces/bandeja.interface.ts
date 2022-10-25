@@ -40,6 +40,10 @@ export interface ITrazaBody {
     codRegistro: string;
 }
 
+export interface IDeleteUserBody {
+    codUsuario: string;
+}
+
 export interface IDatosRegistroBody {
     identificacion: string;
     nombres: string;
