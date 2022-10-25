@@ -14,13 +14,15 @@
       >
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Filtrar </mat-panel-title>
-            <mat-panel-description>
-              <ng-container *ngIf="filtros.length > 0; else space">
+            <mat-panel-title> 
+              <ng-container *ngIf="filtros.length > 0; else filter">
                 Filtros ({{filtros.length }})
               </ng-container>
-              <ng-template #space> &nbsp;</ng-template>
-              <!-- <mat-icon>filter_list</mat-icon> -->
+              <ng-template #filter> Filtrar</ng-template>
+              
+            </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -179,7 +181,7 @@
               >
                 <div>
                   <button mat-raised-button color="primary" type="submit">
-                    Filtrar
+                    Buscar
                   </button>
                 </div>
                 <div></div>
@@ -259,7 +261,7 @@
       >
       <ngx-datatable-column prop="codEmpl" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Num. de documento </span>
+          <span> <i class="fas fa-hashtag"></i>Num. Documento </span>
         </ng-template>
       </ngx-datatable-column>
 
@@ -277,37 +279,37 @@
 
       <ngx-datatable-column prop="dias" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Dias Tomados </span>
+          <span> <i class="fas fa-calendar-day"></i> Dias Tomados </span>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="fechaInicio" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Fecha Inicio Vac. </span>
+          <span> <i class="fas fa-calendar"></i> Fecha Inicio Vac. </span>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="fechaFin" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Fecha Fin Vac. </span>
+          <span> <i class="fas fa-calendar"></i>Fecha Fin Vac. </span>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="codSolicitud" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Numero Solicitud </span>
+          <span> <i class="fas fa-list-alt"></i>Numero Solicitud </span>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="descTipoGoce" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Tipo Goce </span>
+          <span> <i class="fas fa-file"></i> Tipo Goce </span>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="desEstado" [flexGrow]="1" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span> Estado </span>
+          <span> <i class="far fa-lightbulb"></i>Estado </span>
         </ng-template>
       </ngx-datatable-column>
 

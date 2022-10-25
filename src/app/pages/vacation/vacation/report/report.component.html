@@ -14,13 +14,15 @@
       >
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Filtrar </mat-panel-title>
-            <mat-panel-description>
-              <ng-container *ngIf="filtros.length > 0; else space">
+            <mat-panel-title> 
+              <ng-container *ngIf="filtros.length > 0; else filter">
                 Filtros ({{filtros.length }})
               </ng-container>
-              <ng-template #space> &nbsp;</ng-template>
-              <!-- <mat-icon>filter_list</mat-icon> -->
+              <ng-template #filter> Filtrar</ng-template>
+              
+            </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -180,7 +182,7 @@
               >
                 <div>
                   <button mat-raised-button color="primary" type="submit">
-                    Filtrar
+                    Buscar
                   </button>
                 </div>
                 <div></div>
@@ -239,12 +241,11 @@
       </div>
       
       <ngx-datatable
-        id="datatable"
         class="material contenedor"
         [rows]="rows"
         [columns]="columnas"
         [sortType]="SortType.multi"
-        [columnMode]="ColumnMode.standard"
+        [columnMode]="ColumnMode.force"
         [headerHeight]="50"
         [footerHeight]="50"
         rowHeight="auto"
@@ -257,6 +258,122 @@
           totalMessage: 'solicitudes'
         }"
       >
+      <ng-container *ngFor='let column of columnas' >
+        <ng-container [ngSwitch]="column.name">
+          <ng-container *ngSwitchCase="'Identificacion'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> <i class="fas fa-hashtag"></i> Identificacion</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Modalidad'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> <i class="fas fa-directions"></i> Modalidad</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Fecha de Ingreso'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span><i class="far fa-calendar-alt"></i> Fecha de Ingreso</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Gerencia'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> <i class="fas fa-building"></i> Gerencia</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Saldo Vacacional'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> <i class="fas fa-check"></i> Saldo Vacacional</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Observación'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> <i class="fas fa-sticky-note"></i> Observación</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Fecha de Vencimiento'">
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> <i class="far fa-calendar-alt"></i> Fecha Vencimiento</span>
+              </ng-template>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span> {{column.name}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+        </ng-container>
+    </ng-container>
       </ngx-datatable>
     </div>
   </div>

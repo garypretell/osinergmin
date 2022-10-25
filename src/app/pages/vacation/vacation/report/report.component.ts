@@ -347,7 +347,7 @@ export class ReportComponent implements OnInit {
         switch (key) {
           case 'nombres':
           case 'apellidos':
-            this.filtros.push({ id: key, name: this.addFilterForm.value[key] });
+            this.filtros.push({ id: key, name: this.addFilterForm.value[key].toUpperCase() });
             break;
           case 'periodo':
             this.filtros.push({ id: key, name: this.addFilterForm.value[key].descPeriodo });

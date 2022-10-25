@@ -1,39 +1,72 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
   <div class="d-flex bd-highlight mb-3">
-  <div class="p-2 bd-highlight">
-    <button type="button" mat-raised-button color="accent" class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="solicitudesPendientesGrh()">
-    Solicitudes pendientes de aprobar GRH
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-      {{usuario.cantidaPorAprobarGrh}}
-      <span class="visually-hidden">unread messages</span>
-    </span>
-  </button>
-    <button type="button" mat-raised-button  class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="goReport()">
-    Reporte de Saldos Vacacionales
-  </button>
-    <button type="button" mat-raised-button color="warn"  class="position-relative m-1" *ngIf="usuario?.esGrh === 1" (click)="goRequestReport()">
-    Reporte de Solicitudes Vacacionales
-  </button>
+    <div class="p-2 bd-highlight">
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        class="position-relative m-1"
+        *ngIf="usuario?.esGrh === 1"
+        (click)="solicitudesPendientesGrh()"
+      >
+        Solicitudes pendientes de aprobar GRH
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          {{ usuario.cantidaPorAprobarGrh }}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </button>
+      <button
+        class="ms-3"
+        mat-raised-button
+        [matMenuTriggerFor]="animals"
+        *ngIf="usuario?.esGrh === 1"
+      >
+        Reportes
+      </button>
+      <mat-menu #animals="matMenu">
+        <button mat-menu-item (click)="goReport()">
+          Reporte de Saldos Vacacionales
+        </button>
+        <button mat-menu-item (click)="goRequestReport()">
+          Reporte de Solicitudes Vacacionales
+        </button>
+      </mat-menu>
+    </div>
+    <div class="ms-auto p-2 bd-highlight">
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        class="position-relative m-1"
+        *ngIf="usuario?.esJefe === 1"
+        (click)="solicitudesPendientes()"
+      >
+        Solicitudes pendientes de aprobar
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          {{ usuario.cantidaPorAprobar }}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </button>
+    </div>
   </div>
-  <div class="ms-auto p-2 bd-highlight">
-    <button type="button" mat-raised-button color="primary" class="position-relative m-1" *ngIf="usuario?.esJefe === 1" (click)="solicitudesPendientes()">
-      Solicitudes pendientes de aprobar
-      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {{usuario.cantidaPorAprobar}}
-        <span class="visually-hidden">unread messages</span>
-      </span>
-    </button>
-  </div>
-</div>
 
-  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
+  <div
+    fxLayout="row"
+    fxLayoutGap="25px"
+    fxLayout.xs="column"
+    [ngStyle]="{ 'margin-bottom': '10px' }"
+  >
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
         <mat-label><b>Trabajador</b></mat-label>
         <input matInput type="text" [(ngModel)]="usuario.nombres" readonly />
       </mat-form-field>
     </div>
-    <div fxFlex="9" *ngIf="usuario?.esJefe === 1" fxHide >
+    <div fxFlex="9" *ngIf="usuario?.esJefe === 1" fxHide>
       <span class="badge bg-primary">Cambiar trabajador</span>
     </div>
     <div fxFlex="30">
@@ -45,16 +78,22 @@
     <div fxFlex="30">
       <mat-form-field appearance="legacy">
         <mat-label><b>Fecha de Vencimiento</b></mat-label>
-        <input matInput type="text" [(ngModel)]="usuario.fechaVencimiento" readonly />
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="usuario.fechaVencimiento"
+          readonly
+        />
       </mat-form-field>
     </div>
     <div fxFlex="5">
-      <mat-icon (click)="openModal()"
-          class="info-icon"
-          aria-label="Example home icon"
-          [ngStyle]="{ 'cursor': 'pointer' }"
-          >info</mat-icon
-        >
+      <mat-icon
+        (click)="openModal()"
+        class="info-icon"
+        aria-label="Example home icon"
+        [ngStyle]="{ cursor: 'pointer' }"
+        >info</mat-icon
+      >
     </div>
   </div>
   <div
@@ -64,15 +103,25 @@
     fxFlexFill
     [ngStyle]="{ 'margin-bottom': '5px' }"
   >
-    <button mat-raised-button color="primary" (click)="goRegister()" [ngStyle]="{ 'margin-right': '16px' }">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="goRegister()"
+      [ngStyle]="{ 'margin-right': '16px' }"
+    >
       Registrar Solicitud de Vacaciones - Goce Efectivo
     </button>
   </div>
 </mat-card>
 
-  <div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" [ngStyle]="{ 'margin-bottom': '10px' }">
-    <div fxFlex="100">
-      <ngx-datatable
+<div
+  fxLayout="row"
+  fxLayoutGap="25px"
+  fxLayout.xs="column"
+  [ngStyle]="{ 'margin-bottom': '10px' }"
+>
+  <div fxFlex="100">
+    <ngx-datatable
       id="datatablele"
       #tablePedidos
       class="material contenedor"
@@ -87,8 +136,10 @@
       [limit]="5"
       [loadingIndicator]="loadingIndicator"
       [scrollbarH]="true"
-      [messages]="{emptyMessage:'No hay resultados disponibles.',
-      totalMessage: 'solicitudes'}"
+      [messages]="{
+        emptyMessage: 'No hay resultados disponibles.',
+        totalMessage: 'solicitudes'
+      }"
     >
       <ngx-datatable-column
         name="Acciones"
@@ -99,39 +150,69 @@
         [sortable]="false"
         [frozenLeft]="true"
       >
-      <ng-template let-column="column" ngx-datatable-header-template>
-        <span> Acciones</span>
-      </ng-template>
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <button class="btn btn-sm btn-success me-1" role="button" (click)="goDetail(row)"
-           #tooltip="matTooltip"
-           matTooltip="Ver Detalle"
-           id="myElementwithTooltip">
-            <i class="fas fa-eye"></i></button
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Acciones</span>
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <button
+            class="btn btn-sm btn-success me-1"
+            role="button"
+            (click)="goDetail(row)"
+            #tooltip="matTooltip"
+            matTooltip="Ver Detalle"
+            id="myElementwithTooltip"
           >
-          <button class="btn btn-sm btn-danger me-1" role="button" (click)="anular(row)" [disabled]="row.codEstado !== 1 ? 'disabled': null"
-          #tooltip="matTooltip"
-          matTooltip="Anular"
-            ><i class="fas fa-trash"></i></button
+            <i class="fas fa-eye"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-danger me-1"
+            role="button"
+            (click)="anular(row)"
+            [disabled]="row.codEstado !== 1 ? 'disabled' : null"
+            #tooltip="matTooltip"
+            matTooltip="Anular"
           >
-          <button class="btn btn-sm btn-primary me-1" role="button" (click)="recuperar(row)" [disabled]="row.codEstado !== 2 ? 'disabled': null"
-          #tooltip="matTooltip"
-          matTooltip="Recuperar"
-            ><i class="fas fa-trash-restore"></i> </button
+            <i class="fas fa-trash"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-primary me-1"
+            role="button"
+            (click)="recuperar(row)"
+            [disabled]="row.codEstado !== 2 ? 'disabled' : null"
+            #tooltip="matTooltip"
+            matTooltip="Recuperar"
           >
+            <i class="fas fa-trash-restore"></i>
+          </button>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column prop="fechaRegistro" [flexGrow]="2" [sortable]="true">
+      <ngx-datatable-column
+        prop="fechaRegistro"
+        [flexGrow]="2"
+        [sortable]="true"
+      >
         <ng-template let-column="column" ngx-datatable-header-template>
           <span> <i class="fas fa-calendar"></i> Creación</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column prop="codSolicitud" [flexGrow]="2" [sortable]="true">
+      <ngx-datatable-column
+        prop="codSolicitud"
+        [flexGrow]="2"
+        [sortable]="true"
+      >
         <ng-template let-column="column" ngx-datatable-header-template>
           <span> Cod. Solicitud </span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column prop="descTipoGoce" [flexGrow]="2" [sortable]="true">
+      <ngx-datatable-column
+        prop="descTipoGoce"
+        [flexGrow]="2"
+        [sortable]="true"
+      >
         <ng-template let-column="column" ngx-datatable-header-template>
           <span> <i class="fa fa-file-image"></i> Tipo Sol. </span>
         </ng-template>
@@ -165,13 +246,15 @@
         [flexGrow]="2"
         [sortable]="false"
       >
-      <ng-template let-column="column" ngx-datatable-header-template>
-        <span> Estado</span>
-      </ng-template>
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{
-           row.desEstado
-          }}
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> Estado</span>
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{ row.desEstado }}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
@@ -183,23 +266,37 @@
         [sortable]="true"
         [frozenRight]="true"
       >
-      <ng-template let-column="column" ngx-datatable-header-template>
-        <span> </span>
-      </ng-template>
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <span class="badge bg-info" role="button" *ngIf="row.codEstado === 1" (click)="enviarJefe(row)"
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span> </span>
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span
+            class="badge bg-info"
+            role="button"
+            *ngIf="row.codEstado === 1"
+            (click)="enviarJefe(row)"
             ><i class="fas fa-paper-plane"></i> Enviar a jefe inm.</span
           >
-          <span class="badge bg-success" role="button" (click)="reprogramar(row)" *ngIf="row.codEstado === 4"
+          <span
+            class="badge bg-success"
+            role="button"
+            (click)="reprogramar(row)"
+            *ngIf="row.codEstado === 4"
             ><i class="fas fa-retweet"></i> Reprogramar</span
           >
-          <span class="badge bg-primary" role="button" (click)="interrumpir(row)" *ngIf="row.codEstado === 4"
+          <span
+            class="badge bg-primary"
+            role="button"
+            (click)="interrumpir(row)"
+            *ngIf="row.codEstado === 4"
             ><i class="fas fa-stopwatch"></i> Interrumpir</span
           >
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
-    </div>
   </div>
-
-
+</div>

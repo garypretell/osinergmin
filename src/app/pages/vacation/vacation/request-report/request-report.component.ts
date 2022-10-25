@@ -205,7 +205,7 @@ export class RequestReportComponent implements OnInit {
           case 'nombres':
           case 'apellidos':
           case 'codigo_Solicitud':
-            this.filtros.push({ id: key, name: this.addFilterForm.value[key] });
+            this.filtros.push({ id: key, name: this.addFilterForm.value[key].toUpperCase() });
             break;
           case 'tipo_Goce':
             this.filtros.push({ id: key, name: this.addFilterForm.value[key].descTipoGoce });
@@ -291,7 +291,7 @@ export class RequestReportComponent implements OnInit {
       next: (record: any) => {
         dialogRef.close();
         this.dialog.open(TrazabilityVacationComponent, {
-          width: '600px',
+          width: '650px',
           autoFocus: false,
           closeOnNavigation: true,
           data: record
