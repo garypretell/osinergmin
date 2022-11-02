@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 @import '~@swimlane/ngx-datatable/index.css';
@@ -37,4 +38,23 @@ mat-form-field {
     margin: 4px 2px;
     border-radius: 8px;
     outline: none;
+  }
+
+  .btnxls {
+    background-color: #083a08;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  .placeholder {
+    background-color: transparent !important;
+    cursor: pointer;
   }

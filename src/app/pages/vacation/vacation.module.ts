@@ -6,6 +6,7 @@ import { VacationRoutingModule } from './vacation-routing.module';
 import { VacationComponent } from './vacation/vacation.component';
 import { RegisterVacationComponent } from './vacation/register-vacation/register-vacation.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxFileDragDropModule } from 'ngx-file-drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DetailVacationComponent } from './vacation/detail-vacation/detail-vacation.component';
 import { RescheduleVacationComponent } from './vacation/reschedule-vacation/reschedule-vacation.component';
@@ -23,6 +24,9 @@ import { RequestPendingGrhComponent } from './vacation/request-pending-grh/reque
 import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh/request-pending-grh-detail/request-pending-grh-detail.component';
 import { RequestReportComponent } from './vacation/request-report/request-report.component';
 import { TrazabilityVacationComponent } from './shared/trazability-vacation/trazability-vacation.component';
+import { UploadExcelVacationComponent } from './shared/upload-excel-vacation/upload-excel-vacation.component';
+import { ReportHistoryComponent } from './vacation/report-history/report-history.component';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +42,9 @@ import { TrazabilityVacationComponent } from './shared/trazability-vacation/traz
     RequestPendingGrhComponent,
     RequestPendingGrhDetailComponent,
     RequestReportComponent,
-    TrazabilityVacationComponent
+    TrazabilityVacationComponent,
+    UploadExcelVacationComponent,
+    ReportHistoryComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +55,8 @@ import { TrazabilityVacationComponent } from './shared/trazability-vacation/traz
     MaterialModule,
     FlexLayoutModule,
     SharedModule,
-    PipesModule
+    PipesModule,
+    NgxFileDragDropModule
   ],
   providers: [
     DatePipe,

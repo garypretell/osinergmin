@@ -6,7 +6,7 @@ import { BandejaService } from '@shared/services/bandeja.service';
 declare var bootstrap: any;
 import Swal from 'sweetalert2';
 import { IBandejaResponse, ISolicitud } from '@shared/models/common/interfaces/bandeja.interface';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeadlinesVacationComponent } from '../shared/deadlines-vacation/deadlines-vacation.component';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { DetailVacationComponent } from './detail-vacation/detail-vacation.component';
@@ -15,6 +15,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { TrazabilityVacationComponent } from '../shared/trazability-vacation/trazability-vacation.component';
 
 
 @Component({
@@ -59,8 +60,10 @@ export class VacationComponent implements OnInit {
   public addFilterForm: FormGroup;
   selectable = true;
   removable = true;
-  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe, 
-     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
+
+  fileToUpload: any;
+  constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe,
+    private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
     this.identificacion = +this.route.snapshot.queryParams['id'];
     this.cookieService.set('identificacion', this.identificacion);
     this.vacationService.identificationSubjectObsData = this.identificacion;
@@ -111,6 +114,12 @@ export class VacationComponent implements OnInit {
     this.vacationService.userSubjectObsData = this.usuario;
     // if (this.usuario.nombres) { this.router.navigate([`vacaciones/registrar`]); }
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlReporte}`]);
+  }
+
+  goReportHistory(): void {
+    this.vacationService.userSubjectObsData = this.usuario;
+    // if (this.usuario.nombres) { this.router.navigate([`vacaciones/registrar`]); }
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlReporteHistorico}`]);
   }
 
   goUser(): void {
@@ -257,6 +266,52 @@ export class VacationComponent implements OnInit {
     // this.router.navigate([`vacaciones/interrumpir-solicitud`, row.codSolicitud]);
   }
 
+  actualizar(row: any) {
+    const dialogRef = this.dialog.open(LoaderComponent, {
+      width: '400px', data: {}, disableClose: true
+    });
+    this.bandejaService.getActualizar().subscribe({
+      next: (response: any) => {
+        this.usuario.saldo--;
+        dialogRef.close();
+      },
+      error: error => { dialogRef.close(); },
+    })
+  }
+
+  eliminar(row: any) {
+    Swal.fire({
+      title: `<p>¿Está seguro de eliminar la solicitud</p><p>${row.codSolicitud} ?</p>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const dialogRef = this.dialog.open(LoaderComponent, {
+          width: '400px', data: {}, disableClose: true
+        });
+        this.bandejaService.postEliminar({
+          codRegistro: row.codRegistro
+        }).subscribe({
+          next: (response: any) => { dialogRef.close(); },
+          error: error => { dialogRef.close(); },
+          complete: () => {
+            Swal.fire(
+              `Solicitud: ${row.codSolicitud}`,
+              'La solicitud ha sido eliminada.',
+              'success'
+            ).then(() => {
+              this.getData();
+            });
+          }
+        });
+      }
+    })
+  }
+
   openModal(): void {
     this.dialog.open(DeadlinesVacationComponent, {
       width: '400px',
@@ -267,7 +322,7 @@ export class VacationComponent implements OnInit {
       }
     });
   }
-  
+
   solicitudesPendientes(): void {
     this.vacationService.identificationSubjectObsData = this.identificacion;
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlSolicitudesPendientes}`]);
@@ -279,8 +334,8 @@ export class VacationComponent implements OnInit {
   }
 
   filtrar(): void {
-    if (this.addFilterForm.value.fecha_Inicio && this.addFilterForm.value.fecha_Fin){
-      if (this.addFilterForm.value.fecha_Inicio > this.addFilterForm.value.fecha_Fin){
+    if (this.addFilterForm.value.fecha_Inicio && this.addFilterForm.value.fecha_Fin) {
+      if (this.addFilterForm.value.fecha_Inicio > this.addFilterForm.value.fecha_Fin) {
         Swal.fire(
           'Advertencia!',
           'Fecha de Inicio debe ser menor a Fecha Fin!',
@@ -290,7 +345,7 @@ export class VacationComponent implements OnInit {
       }
     }
     this.filtros = [];
-    
+
     this.filtro();
   }
 
@@ -327,6 +382,32 @@ export class VacationComponent implements OnInit {
         }
       }
     });
+  }
+
+  verTrazabilidad(row: any): void {
+    const dialogRef = this.dialog.open(LoaderComponent, {
+      width: '400px', data: {}, disableClose: true
+    });
+    this.bandejaService.getListaTraza({ codRegistro: row.codRegistro }).subscribe({
+      next: (record: any) => {
+        dialogRef.close();
+        this.dialog.open(TrazabilityVacationComponent, {
+          width: '650px',
+          autoFocus: false,
+          closeOnNavigation: true,
+          data: record
+        });
+      },
+      error: error => {
+        dialogRef.close();
+      },
+    })
+  }
+
+  handleFileInput(event: Event) {
+    const target= event.target as HTMLInputElement;
+    const file: File = (target.files as FileList)[0];
+    this.fileToUpload = file;
   }
 
 }

@@ -17,7 +17,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
-            if(err.status == 401 || err.status == 403) window.location.href = environment.urlHome;
+            if(err.status == 401 || err.status == 403) window.location.href = environment.urlService;
             if(err.status == 409 && err.error.codRpta == '-1') return of(err.error);
             if(err.error.code == 400 ) {
                 console.log(err)

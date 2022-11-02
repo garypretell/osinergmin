@@ -40,6 +40,9 @@
         <button mat-menu-item (click)="goReport()">
           Reporte de Saldos Vacacionales
         </button>
+        <button mat-menu-item (click)="goReportHistory()">
+          Reporte de Saldos Históricos
+        </button>
         <button mat-menu-item (click)="goRequestReport()">
           Reporte de Solicitudes Vacacionales
         </button>
@@ -306,6 +309,25 @@
             (click)="interrumpir(row)"
             *ngIf="row.codEstado === 4"
             ><i class="fas fa-stopwatch"></i> Interrumpir</span
+          >
+          <span
+            class="badge bg-danger"
+            role="button"
+            (click)="eliminar(row)"
+            ><i class="fas fa-trash"></i> Eliminar</span
+          >
+          <span
+            class="badge bg-secondary"
+            role="button"
+            (click)="actualizar(row)"
+            *ngIf="row.codEstado === 4"
+            ><i class="fas fa-sync"></i> Actualizar</span
+          >
+          <span
+            class="badge bg-dark"
+            role="button"
+            (click)="verTrazabilidad(row)"
+            ><i class="fas fa-list-ol"></i> Trazabilidad</span
           >
         </ng-template>
       </ngx-datatable-column>

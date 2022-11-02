@@ -234,7 +234,7 @@ export class RequestReportComponent implements OnInit {
       width: '400px', data: {}, disableClose: true
     });
     this._recordDownloadSub = this.bandejaService
-      .retrieveExcelReport(
+      .retrieveExcelReport2(
         {
         },
         {}

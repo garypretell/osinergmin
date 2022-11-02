@@ -5,6 +5,7 @@ export const PATH_URL_DATA = {
     urlBandejaVacaciones: 'bandeja',
     urlRegistrarVacaciones: 'registrar',
     urlReporte: 'reporte',
+    urlReporteHistorico: 'reporte-historico',
     urlReporteSolicitudes: 'reporte-solicitudes',
     urlDetalleVacaciones: 'solicitud/:solic',
     urlInterrupcionVacaciones: 'interrumpir-solicitud/:solic',

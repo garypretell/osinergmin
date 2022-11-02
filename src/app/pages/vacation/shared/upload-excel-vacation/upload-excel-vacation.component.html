@@ -1,0 +1,28 @@
+<h3><strong>CARGA DE ARCHIVO</strong></h3>
+<ngx-file-drag-drop
+  [formControl]="fileControl"
+  [accept]="
+    '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+  "
+  activeBorderColor="#3F51B5"
+  [emptyPlaceholder]="'Arrastre el archivo o haga click para seleccionar'"
+  [multiple]="false"
+  (valueChanged)="onValueChange($event)"
+>
+</ngx-file-drag-drop>
+
+<div fxLayout="row" fxLayoutAlign="end center">
+  <div mat-dialog-actions class="m-1">
+    <button mat-raised-button mat-dialog-close>Cerrar</button>
+  </div>
+  <div mat-dialog-actions class="m-1">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!fileControl.valid"
+      (click)="uploadFileToActivity()"
+    >
+      Cargar
+    </button>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+span {
+    font-weight: bold;
+  }
+  mat-form-field {
+    width: 100% !important;
+  }
+  .info-icon {
+    color: rgb(69, 41, 252);
+  }
+  
+  .ngx-datatable::-webkit-scrollbar-track {
+    width: 5px;
+    border-radius: 8px !important;
+    background: #3a47fc;
+  }
+  
+  .contenedor::-webkit-scrollbar {
+    width: 5px;
+  }
+  .contenedor::-webkit-scrollbar-thumb {
+    background: #3a47fc;
+    border-radius: 5px;
+  }
+  
+  .my-custom-cell {
+    align-items: center !important;
+    text-align: center !important;
+  }
+  
+  @media screen and (max-width: 800px) {
+    .desktop-hidden {
+      display: initial;
+    }
+    .mobile-hidden {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 800px) {
+    .desktop-hidden {
+      display: none;
+    }
+    .mobile-hidden {
+      display: initial;
+    }
+  }
+  
+  .example-chip-list {
+    width: 100%;
+  }
+  
+  .example-action-buttons {
+    padding-bottom: 20px;
+  }
+  
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .example-headers-align .mat-form-field .mat-form-field {
+    margin-left: 8px;
+  }
+  
+  

@@ -1,0 +1,381 @@
+<mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
+    <h1>Reporte de Saldos Históricos</h1>
+    <span class="badge bg-info m-2" role="button" (click)="goback()"
+                > <i class="fas fa-home"></i> Regresar a Bandeja</span
+              >
+    <div
+      fxLayout="row"
+      fxLayoutGap="25px"
+      fxLayout.xs="column"
+      [ngStyle]="{ 'margin-bottom': '10px' }"
+    >
+      <div fxFlex="100">
+        <mat-accordion
+          class="example-headers-align"
+          multi
+          [ngStyle]="{ 'margin-bottom': '10px' }"
+        >
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> 
+                <ng-container *ngIf="filtros.length > 0; else filter">
+                  Filtros ({{filtros.length }})
+                </ng-container>
+                <ng-template #filter> Filtrar</ng-template>
+                
+              </mat-panel-title>
+              <mat-panel-description>
+                &nbsp;
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+  
+            <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
+              <form [formGroup]="addFilterForm" (ngSubmit)="filtrar()">
+                <div
+                  fxLayoutGap="25px"
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxFlexFill
+                  [ngStyle]="{ 'margin-bottom': '10px' }"
+                >
+                  <div fxFlex="23">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Número de Identificación</mat-label>
+                      <input
+                        name="identificacion"
+                        formControlName="identificacion"
+                        matInput
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="23">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Nombres</mat-label>
+                      <input
+                        name="nombres"
+                        formControlName="nombres"
+                        matInput
+                        type="text"
+                        class="text-uppercase"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="23">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Apellidos</mat-label>
+                      <input
+                        name="apellidos"
+                        formControlName="apellidos"
+                        matInput
+                        type="text"
+                        class="text-uppercase"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="23">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Periodo</mat-label>
+                      <mat-select formControlName="periodo">
+                        <mat-option>-- None --</mat-option>
+                        <mat-option
+                          *ngFor="let item of listaPeriodos"
+                          [value]="item"
+                          >{{ item.descPeriodo }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div
+                  fxLayoutGap="25px"
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxFlexFill
+                  [ngStyle]="{ 'margin-bottom': '10px' }"
+                >
+                  <div fxFlex="23">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Fecha de Ingreso</mat-label>
+                      <input
+                        matInput
+                        readonly
+                        [matDatepicker]="picker"
+                        formControlName="fecha_Ingreso"
+                        name="fechaInicio"
+                      />
+                      <mat-hint>DD/MM/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="23">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Fecha de Vencimiento</mat-label>
+                      <input
+                        matInput
+                        readonly
+                        [matDatepicker]="picker1"
+                        formControlName="fecha_Vencimiento"
+                        name="fechaFin"
+                      />
+                      <mat-hint>DD/MM/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker1"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="23">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>Gerencia</mat-label>
+                      <mat-select formControlName="gerencia">
+                        <mat-option>-- None --</mat-option>
+                        <mat-option
+                          *ngFor="let item of listaGerencias"
+                          [value]="item"
+                          >{{ item.descripcion }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="23">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>Modalidad</mat-label>
+                      <mat-select formControlName="modalidad">
+                        <mat-option>-- None --</mat-option>
+                        <mat-option
+                          *ngFor="let item of listaModalidades"
+                          [value]="item"
+                          >{{ item.descripcion }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div
+                  fxLayoutGap="25px"
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxFlexFill
+                  fxLayoutAlign="end center"
+                  [ngStyle]="{ 'margin-bottom': '10px' }"
+                >
+                  <div>
+                    <button mat-raised-button color="primary" type="submit">
+                      Buscar
+                    </button>
+                  </div>
+                  <div></div>
+                </div>
+              </form>
+            </mat-card>
+            <mat-form-field class="example-chip-list" appearance="legacy"  *ngIf="filtros.length > 0">
+              <mat-chip-list #chipList aria-label="Mock selection">
+                <mat-chip
+                  *ngFor="let filtro of filtros"
+                  [selectable]="selectable"
+                  [removable]="removable"
+                  (removed)="remove(filtro)"
+                  color="primary"
+                  selected
+                >
+                  {{ filtro.id | uppercase | filter_format }}: {{ filtro.name }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-form-field>
+            <mat-datepicker #picker></mat-datepicker>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <button
+                mat-raised-button
+                color="warn"
+                type="button"
+                *ngIf="filtros.length > 0"
+                (click)="clearAll()"
+              >
+                Limpiar
+              </button>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+  
+        <div
+          fxLayout="row"
+          fxLayoutGap="25px"
+          fxLayoutAlign.lg="end center"
+          [fxLayoutAlign.lt-lg]="'center center'"
+          [ngStyle]="{ 'margin-bottom': '10px', 'margin-top': '10px' }"
+        >
+          <button
+            mat-button
+            class="btnexcel"
+            type="button"
+            (click)="downloadExcelRecord()"
+          >
+            <i class="fas fa-file-excel"></i>
+            <span> Xls</span>
+          </button>
+        </div>
+        
+        <ngx-datatable
+          class="material contenedor"
+          [rows]="rows"
+          [columns]="columnas"
+          [sortType]="SortType.multi"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          rowHeight="auto"
+          [reorderable]="true"
+          [limit]="5"
+          [loadingIndicator]="loadingIndicator"
+          [scrollbarH]="true"
+          [messages]="{
+            emptyMessage: 'No hay resultados disponibles.',
+            totalMessage: 'solicitudes'
+          }"
+        >
+        <ng-container *ngFor='let column of columnas' >
+          <ng-container [ngSwitch]="column.name">
+            <ng-container *ngSwitchCase="'Identificacion'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> <i class="fas fa-hashtag"></i> Identificacion</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'Modalidad'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> <i class="fas fa-directions"></i> Modalidad</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'Fecha de Ingreso'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span><i class="far fa-calendar-alt"></i> Fecha de Ingreso</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'Gerencia'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> <i class="fas fa-building"></i> Gerencia</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'Saldo Vacacional'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> <i class="fas fa-check"></i> Saldo Vacacional</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'Observación'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> <i class="fas fa-sticky-note"></i> Observación</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'Fecha de Vencimiento'">
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> <i class="far fa-calendar-alt"></i> Fecha Vencimiento</span>
+                </ng-template>
+                <ng-template
+                  let-row="row"
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+  
+            <ng-container *ngSwitchDefault>
+              <ngx-datatable-column name="{{column.name}}" prop="{{column.prop}}">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <span> {{column.name}}</span>
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+          </ng-container>
+      </ng-container>
+        </ngx-datatable>
+      </div>
+    </div>
+  </mat-card>
+  

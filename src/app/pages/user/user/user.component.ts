@@ -8,6 +8,9 @@ import { PATH_URL_DATA } from '@shared/constants/constants';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { SortType, ColumnMode } from '@swimlane/ngx-datatable';
 import { UserAddComponent } from '../shared/user-add/user-add.component';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { IDatosRegistroResponse } from '@shared/models/common/interfaces/bandeja.interface';
 
 @Component({
   selector: 'app-user',
@@ -35,7 +38,10 @@ export class UserComponent implements OnInit {
   public addFilterForm: FormGroup;
   selectable = true;
   removable = true;
-  constructor(private bandejaService: BandejaService, private formBuilder: FormBuilder, public dialog: MatDialog, private router: Router, private vacationService: VacationService) { 
+
+  usuario: any = {};
+  private unsubscribe$ = new Subject();
+  constructor(private bandejaService: BandejaService, private formBuilder: FormBuilder, public dialog: MatDialog, private router: Router, private vacationService: VacationService) {
     this.addFilterForm = this.formBuilder.group({
       codigo_Empleado: ['', []],
       apellidos: ['', []],
@@ -50,7 +56,7 @@ export class UserComponent implements OnInit {
     this.getData();
   }
 
-  getData(): void { 
+  getData(): void {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
@@ -66,12 +72,12 @@ export class UserComponent implements OnInit {
     });
   }
 
-  deleteUser(row: any): void { 
+  deleteUser(row: any): void {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
 
-    this.bandejaService.deleteUsuario({codUsuario: row.codUsuario}).subscribe({
+    this.bandejaService.deleteUsuario({ codUsuario: row.codUsuario }).subscribe({
       next: (result: any) => {
         this.getData();
         dialogRef.close();
@@ -82,12 +88,12 @@ export class UserComponent implements OnInit {
     });
   }
 
-  activeUser(row: any): void { 
+  activeUser(row: any): void {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
 
-    this.bandejaService.activeUsuario({codUsuario: row.codUsuario}).subscribe({
+    this.bandejaService.activeUsuario({ codUsuario: row.codUsuario }).subscribe({
       next: (result: any) => {
         this.getData();
         dialogRef.close();
@@ -99,32 +105,81 @@ export class UserComponent implements OnInit {
   }
 
   abrirDialogoCrear(nuevo: boolean, error: string): void {
-    const user = {};
-    const dialogo = this.dialog.open(UserAddComponent, {
-      data: { user, tittle: 'Registrar Usuario', errorMssg: error, nuevo },
-      width: '40vw',
-      autoFocus: false,
-    });
+    const usuario: any = this.vacationService.userValue;
+    usuario && usuario.identificacion ? this.usuario = usuario : this.goHome();
+    if (usuario) {
+      const dialogRef = this.dialog.open(LoaderComponent, {
+        width: '400px', data: {}, disableClose: true
+      });
 
-    dialogo.afterClosed().subscribe((userC) => {
-      if (userC !== undefined) {
-        this.agregar(userC.user);
-      }
-    });
+      this.bandejaService.getDatosRegistros({
+        identificacion: this.usuario.identificacion,
+        nombres: this.usuario.nombres
+      }).pipe(takeUntil(this.unsubscribe$)).subscribe({
+        next: (data: IDatosRegistroResponse) => {
+          dialogRef.close();
+          const lista = data.listaEmpleadosReemplazo;
+          const user = {};
+          const dialogo = this.dialog.open(UserAddComponent, {
+            data: { user, lista, tittle: 'Registrar Usuario', errorMssg: error, nuevo },
+            width: '40vw',
+            autoFocus: false,
+          });
+
+          dialogo.afterClosed().subscribe((userC) => {
+            if (userC !== undefined) {
+              this.agregar(userC.user);
+            }
+          });
+        },
+        error: error => {
+          dialogRef.close();
+        },
+        complete: () => {
+          dialogRef.close();
+        }
+      });
+    }
   }
 
   abrirDialogoActualizar(user: any, error: string, nuevo: boolean): void {
-    const dialogo = this.dialog.open(UserAddComponent, {
-      data: { user, tittle: 'Editar Usuario', errorMssg: error, nuevo },
-      width: '40vw',
-      autoFocus: false,
-    });
 
-    dialogo.afterClosed().subscribe((userA) => {
-      if (userA !== undefined) {
-        this.editar(userA.user);
-      }
-    });
+    const usuario: any = this.vacationService.userValue;
+    usuario && usuario.identificacion ? this.usuario = usuario : this.goHome();
+    if (usuario) {
+      const dialogRef = this.dialog.open(LoaderComponent, {
+        width: '400px', data: {}, disableClose: true
+      });
+
+      this.bandejaService.getDatosRegistros({
+        identificacion: this.usuario.identificacion,
+        nombres: this.usuario.nombres
+      }).pipe(takeUntil(this.unsubscribe$)).subscribe({
+        next: (data: IDatosRegistroResponse) => {
+          dialogRef.close();
+          const lista = data.listaEmpleadosReemplazo;
+
+          const dialogo = this.dialog.open(UserAddComponent, {
+            data: { user, lista, tittle: 'Editar Usuario', errorMssg: error, nuevo },
+            width: '40vw',
+            autoFocus: false,
+          });
+
+          dialogo.afterClosed().subscribe((userA) => {
+            if (userA !== undefined) {
+              this.editar(userA.user);
+            }
+          });
+        },
+        error: error => {
+          dialogRef.close();
+        },
+        complete: () => {
+          dialogRef.close();
+        }
+      });
+    }
+
   }
 
   agregar(user: any): any {
@@ -159,6 +214,11 @@ export class UserComponent implements OnInit {
 
   goback(): void {
     this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+  }
+
+  goHome(): void {
+    this.dialog.closeAll();
+    this.router.navigate([`${PATH_URL_DATA.urlHome}`]);
   }
 
 }

@@ -19,11 +19,11 @@ import { map, mergeMap } from 'rxjs/operators';
 import { UploadExcelVacationComponent } from '@pages/vacation/shared/upload-excel-vacation/upload-excel-vacation.component';
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  selector: 'app-report-history',
+  templateUrl: './report-history.component.html',
+  styleUrls: ['./report-history.component.scss']
 })
-export class ReportComponent implements OnInit {
+export class ReportHistoryComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('listaPlazosTemplate') listaPlazosTemplate!: TemplateRef<any>;
   private _recordDownloadSub!: Subscription;

@@ -5,6 +5,7 @@ import { PATH_URL_DATA } from '@shared/constants/constants';
 import { DetailVacationComponent } from './vacation/detail-vacation/detail-vacation.component';
 import { InterruptionVacationComponent } from './vacation/interruption-vacation/interruption-vacation.component';
 import { RegisterVacationComponent } from './vacation/register-vacation/register-vacation.component';
+import { ReportHistoryComponent } from './vacation/report-history/report-history.component';
 import { ReportComponent } from './vacation/report/report.component';
 import { RequestPendingGrhDetailComponent } from './vacation/request-pending-grh/request-pending-grh-detail/request-pending-grh-detail.component';
 import { RequestPendingGrhComponent } from './vacation/request-pending-grh/request-pending-grh.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: PATH_URL_DATA.urlSolicitudesPendientesGrh, component: RequestPendingGrhComponent, pathMatch: 'full' },
   { path: PATH_URL_DATA.urlSolicitudesPendientesDetalleGrh, component: RequestPendingGrhDetailComponent, pathMatch: 'full' },
   { path: PATH_URL_DATA.urlReporte, component: ReportComponent, pathMatch: 'full' },
+  { path: PATH_URL_DATA.urlReporteHistorico, component: ReportHistoryComponent, pathMatch: 'full' },
   { path: PATH_URL_DATA.urlReporteSolicitudes, component: RequestReportComponent, pathMatch: 'full' },
 ];
 

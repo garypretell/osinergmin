@@ -13,6 +13,31 @@
           padding: 1rem;
         "
       >
+
+      <mat-form-field appearance="legacy">
+        <mat-label>Seleccione usuario</mat-label>
+        <input
+          id="reemplazo"
+          matInput
+          [matAutocomplete]="auto"  
+          formControlName="codEmplReemplazo"
+          [readonly]="actionTODO === 'edit' ? true : false"
+          
+        />
+     
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="OnReemplazoSelected">
+          <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="20"></mat-spinner></mat-option>
+          <mat-option    *ngFor="let state of filteredReemplazo | async"
+            [value]="state"
+          >
+            <span>{{ state.nombres }}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <button type="button" mat-button *ngIf="userForm.baseForm.get('codEmplReemplazo')?.value && actionTODO === 'new' " matSuffix mat-icon-button aria-label="Clear" (click)="userForm.baseForm.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Codigo Empleado</mat-label>
         <input
@@ -24,6 +49,7 @@
           placeholder="Codigo Empleado"
           onkeypress='return event.charCode >= 48 && event.charCode <= 57'
           required
+          readonly
         />
         <mat-error>
           <ng-container
@@ -45,6 +71,7 @@
           type="text"
           placeholder="Apellidos"
           required
+          readonly
         />
         <mat-error>
           <ng-container
@@ -66,6 +93,7 @@
           type="text"
           placeholder="Nombres"
           required
+          readonly
         />
         <mat-error>
           <ng-container
@@ -87,6 +115,7 @@
           type="email"
           placeholder="Correo Electrónico"
           required
+          readonly
         />
         <mat-error>
           <ng-container

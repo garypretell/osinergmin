@@ -9,11 +9,12 @@ export class BaseFormUser {
   constructor(private fb: FormBuilder) { }
 
   baseForm = this.fb.group({
-    codEmpl: ['', [Validators.required]],
-    apeEmpl: ['', [Validators.required]],
-    nomEmpl: ['', [Validators.required]],
-    boxMail: ['', [Validators.required, Validators.pattern(this.isValidEmail)]],
-    tipoUsuario: ['', [Validators.required]]
+    codEmpl: [{ value: '', disabled: true }, [Validators.required]],
+    apeEmpl: [{ value: '', disabled: true }, [Validators.required]],
+    nomEmpl: [{ value: '', disabled: true }, [Validators.required]],
+    boxMail: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(this.isValidEmail)]],
+    tipoUsuario: ['', [Validators.required]],
+    codEmplReemplazo: ['']
   });
 
 

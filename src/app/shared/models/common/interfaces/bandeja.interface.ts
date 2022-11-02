@@ -62,6 +62,10 @@ export interface IDetalleVacacionalBody {
     motivo?: string;
 }
 
+export interface IEliminarVacacionalBody {
+    codRegistro: string;
+}
+
 export interface IRegistroVacaionalBody {
     identificacion: string;
     nombres: string;

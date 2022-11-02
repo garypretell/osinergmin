@@ -2,12 +2,14 @@ import { environment } from '@environments/environment';
 
 export class BandejaEndpoint {
   public static GetBandeja = `${environment.urlService}api/vacaciones/bandeja/obtenerDatosBandejaUrl?identificacion={identificacion}`;
+  public static GetActualizar = `${environment.urlService}api/vacaciones/bandeja/actualizarSaldo`;
   public static PostDeadlines = `${environment.urlService}api/vacaciones/bandeja/listarPlazosVacacionales`;
   public static PostDatosRegistro = `${environment.urlService}api/vacaciones/bandeja/obtenerDatosRegistroVacacional`;
   public static PostRegistroVacacional = `${environment.urlService}api/vacaciones/bandeja/registrarVacacional`;
   public static PostDetalle = `${environment.urlService}api/vacaciones/bandeja/verRegistroVacacional`;
   public static PostActualizar = `${environment.urlService}api/vacaciones/bandeja/editarRegistroVacacional`;
   public static PostAnular = `${environment.urlService}api/vacaciones/bandeja/anularRegistroVacacional`;
+  public static PostEliminar = `${environment.urlService}api/vacaciones/bandeja/eliminarRegistroVacacional`;
   public static PostRecuperar = `${environment.urlService}api/vacaciones/bandeja/recuperarJefeRegistroVacacional`;
   public static PostEnviarJefe = `${environment.urlService}api/vacaciones/bandeja/enviarJefeRegistroVacacional`;
   public static GetReprogramar = `${environment.urlService}api/vacaciones/bandeja/obtenerDatosReprogramacionVacacional`;
@@ -21,6 +23,7 @@ export class BandejaEndpoint {
   public static PostAprobarGrh = `${environment.urlService}api/vacaciones/bandeja/aprobarGrhRegistroVacacional`;
   public static PostRechazarGrh = `${environment.urlService}api/vacaciones/bandeja/rechazarGrhRegistroVacacional`;
   public static RetrieveExcelReport = `${environment.urlService}api/vacaciones/bandeja/retrieveExcelReport`;
+  public static RetrieveExcelReport2 = `${environment.urlService}api/vacaciones/bandeja/retrieveExcelReport2`;
   public static PostCabeceraFiltros = `${environment.urlService}api/vacaciones/bandeja/cargaFiltrosReporte`;
   public static PostCabeceraFiltrosSolicitudes = `${environment.urlService}api/vacaciones/bandeja/cargaFiltrosReporteSolicitudes`;
   public static PostFiltrosReporte = `${environment.urlService}api/vacaciones/bandeja/buscarFiltrosReporte`;
@@ -31,4 +34,5 @@ export class BandejaEndpoint {
   public static PostActivarUsuario= `${environment.urlService}api/vacaciones/bandeja/activarUsuario`;
   public static PostCrearUsuario= `${environment.urlService}api/vacaciones/bandeja/registrarUsuario`;
   public static PostActualizarUsuario= `${environment.urlService}api/vacaciones/bandeja/editarUsuario`;
+  public static PostCargarArchivo = `${environment.urlService}api/vacaciones/bandeja/cargarArchivo`;
 }

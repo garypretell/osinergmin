@@ -229,6 +229,9 @@
         [fxLayoutAlign.lt-lg]="'center center'"
         [ngStyle]="{ 'margin-bottom': '10px', 'margin-top': '10px' }"
       >
+      <button mat-button class="btnxls" type="button" (click)="openModalExcel()">
+        <span> Cargar</span>
+      </button>
       <button mat-button class="btnpdf" type="button" (click)="exportAsXLSX()">
         <span> Descargar</span>
       </button>
