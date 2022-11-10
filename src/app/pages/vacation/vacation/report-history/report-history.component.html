@@ -1,5 +1,6 @@
 <mat-card [ngStyle]="{ 'margin-bottom': '10px' }">
-    <h1>Reporte de Saldos Históricos</h1>
+    <h1> {{addFilterForm.get('fecha_Saldo')?.value ? 'Reporte de Saldos Históricos al' : 'Reporte de Saldos Históricos'}} {{addFilterForm.get('fecha_Saldo')?.value | date: 'dd/MM/yyyy'}}</h1>
+    
     <span class="badge bg-info m-2" role="button" (click)="goback()"
                 > <i class="fas fa-home"></i> Regresar a Bandeja</span
               >
@@ -38,7 +39,7 @@
                   fxFlexFill
                   [ngStyle]="{ 'margin-bottom': '10px' }"
                 >
-                  <div fxFlex="23">
+                  <div fxFlex="30">
                     <mat-form-field
                       class="example-full-width"
                       appearance="legacy"
@@ -52,7 +53,7 @@
                       />
                     </mat-form-field>
                   </div>
-                  <div fxFlex="23">
+                  <div fxFlex="30">
                     <mat-form-field
                       class="example-full-width"
                       appearance="legacy"
@@ -67,7 +68,7 @@
                       />
                     </mat-form-field>
                   </div>
-                  <div fxFlex="23">
+                  <div fxFlex="30">
                     <mat-form-field
                       class="example-full-width"
                       appearance="legacy"
@@ -82,14 +83,14 @@
                       />
                     </mat-form-field>
                   </div>
-                  <div fxFlex="23">
+                  <div fxFlex="23" [hidden]="true">
                     <mat-form-field
                       class="example-full-width"
                       appearance="legacy"
                     >
                       <mat-label>Periodo</mat-label>
                       <mat-select formControlName="periodo">
-                        <mat-option>-- None --</mat-option>
+                        <mat-option>-- Seleccionar --</mat-option>
                         <mat-option
                           *ngFor="let item of listaPeriodos"
                           [value]="item"
@@ -106,7 +107,7 @@
                   fxFlexFill
                   [ngStyle]="{ 'margin-bottom': '10px' }"
                 >
-                  <div fxFlex="23">
+                  <div fxFlex="30">
                     <mat-form-field
                       class="example-full-width"
                       appearance="legacy"
@@ -127,7 +128,7 @@
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                   </div>
-                  <div fxFlex="23">
+                  <!-- <div fxFlex="23" [hidden]="true">
                     <mat-form-field
                       class="example-full-width"
                       appearance="legacy"
@@ -147,12 +148,12 @@
                       ></mat-datepicker-toggle>
                       <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
-                  </div>
-                  <div fxFlex="23">
+                  </div> -->
+                  <div fxFlex="30">
                     <mat-form-field appearance="legacy">
                       <mat-label>Gerencia</mat-label>
                       <mat-select formControlName="gerencia">
-                        <mat-option>-- None --</mat-option>
+                        <mat-option>-- Seleccionar --</mat-option>
                         <mat-option
                           *ngFor="let item of listaGerencias"
                           [value]="item"
@@ -161,17 +162,47 @@
                       </mat-select>
                     </mat-form-field>
                   </div>
-                  <div fxFlex="23">
+                  <div fxFlex="30">
                     <mat-form-field appearance="legacy">
                       <mat-label>Modalidad</mat-label>
                       <mat-select formControlName="modalidad">
-                        <mat-option>-- None --</mat-option>
+                        <mat-option>-- Seleccionar --</mat-option>
                         <mat-option
                           *ngFor="let item of listaModalidades"
                           [value]="item"
                           >{{ item.descripcion }}</mat-option
                         >
                       </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div
+                  fxLayoutGap="25px"
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxFlexFill
+                  [ngStyle]="{ 'margin-bottom': '10px' }"
+                >
+                  <div fxFlex="30">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="legacy"
+                    >
+                      <mat-label>Fecha Saldo</mat-label>
+                      <input
+                        matInput
+                        readonly
+                        [matDatepicker]="picker3"
+                        formControlName="fecha_Saldo"
+                        name="fechaInicio"
+                        [max]="maxFechaSaldo"
+                      />
+                      <mat-hint>DD/MM/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker3"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #picker3></mat-datepicker>
                     </mat-form-field>
                   </div>
                 </div>

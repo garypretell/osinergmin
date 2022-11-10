@@ -38,7 +38,7 @@
                 fxFlexFill
                 [ngStyle]="{ 'margin-bottom': '10px' }"
               >
-                <div fxFlex="23">
+                <div fxFlex="30">
                   <mat-form-field
                     class="example-full-width"
                     appearance="legacy"
@@ -52,7 +52,7 @@
                     />
                   </mat-form-field>
                 </div>
-                <div fxFlex="23">
+                <div fxFlex="30">
                   <mat-form-field
                     class="example-full-width"
                     appearance="legacy"
@@ -67,7 +67,7 @@
                     />
                   </mat-form-field>
                 </div>
-                <div fxFlex="23">
+                <div fxFlex="30">
                   <mat-form-field
                     class="example-full-width"
                     appearance="legacy"
@@ -82,14 +82,14 @@
                     />
                   </mat-form-field>
                 </div>
-                <div fxFlex="23">
+                <!-- <div fxFlex="23">
                   <mat-form-field
                     class="example-full-width"
                     appearance="legacy"
                   >
                     <mat-label>Periodo</mat-label>
                     <mat-select formControlName="periodo">
-                      <mat-option>-- None --</mat-option>
+                      <mat-option>-- Seleccionar --</mat-option>
                       <mat-option
                         *ngFor="let item of listaPeriodos"
                         [value]="item"
@@ -97,7 +97,7 @@
                       >
                     </mat-select>
                   </mat-form-field>
-                </div>
+                </div> -->
               </div>
               <div
                 fxLayoutGap="25px"
@@ -106,7 +106,7 @@
                 fxFlexFill
                 [ngStyle]="{ 'margin-bottom': '10px' }"
               >
-                <div fxFlex="23">
+                <div fxFlex="30">
                   <mat-form-field
                     class="example-full-width"
                     appearance="legacy"
@@ -127,7 +127,7 @@
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <div fxFlex="23">
+                <!-- <div fxFlex="23">
                   <mat-form-field
                     class="example-full-width"
                     appearance="legacy"
@@ -147,12 +147,12 @@
                     ></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                   </mat-form-field>
-                </div>
-                <div fxFlex="23">
+                </div> -->
+                <div fxFlex="30">
                   <mat-form-field appearance="legacy">
                     <mat-label>Gerencia</mat-label>
                     <mat-select formControlName="gerencia">
-                      <mat-option>-- None --</mat-option>
+                      <mat-option>-- Seleccionar --</mat-option>
                       <mat-option
                         *ngFor="let item of listaGerencias"
                         [value]="item"
@@ -161,11 +161,11 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div fxFlex="23">
+                <div fxFlex="30">
                   <mat-form-field appearance="legacy">
                     <mat-label>Modalidad</mat-label>
                     <mat-select formControlName="modalidad">
-                      <mat-option>-- None --</mat-option>
+                      <mat-option>-- Seleccionar --</mat-option>
                       <mat-option
                         *ngFor="let item of listaModalidades"
                         [value]="item"

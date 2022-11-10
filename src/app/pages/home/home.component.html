@@ -1,5 +1,5 @@
 <div fxLayout="row" [ngStyle.lt-lg]="{'margin-top': '15vh'}">
-    <div class="shape" fxFlexOffset.gt-md="72%" fxFlexOffset.lt-lg="calc(50% - 9rem)"  [ngStyle]="{'margin-top': '30px'}">
+    <div class="shape" fxFlexOffset.gt-md="72%" fxFlexOffset.lt-lg="calc(50% - 9rem)"  [ngStyle]="{'margin-top': '10px'}">
       <div fxLayout="column" fxLayoutAlign="space-around center" class="m-3">
           
         <mat-toolbar class="text-center header-color">
@@ -18,6 +18,30 @@
           
               <div class="form-element">
                 <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Ingresar</button>
+              </div>
+          
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+<div fxLayout="row">
+    <div class="shape" fxFlexOffset.gt-md="72%" fxFlexOffset.lt-lg="calc(50% - 9rem)"  [ngStyle]="{'margin-top': '10px'}">
+      <div fxLayout="column" fxLayoutAlign="space-around center" class="m-3">
+          
+
+          
+          <div class="container" [ngStyle]="{'margin-top': '20px'}" > 
+            <form class="form">
+              
+              <div class="form-element">
+                <button mat-raised-button color="primary" type="button" class="button" (click)="actualizar()">Actualizar Saldos</button>
+              </div>
+              <div class="form-element">
+                <button mat-raised-button color="primary" type="button" class="button" (click)="goUser()">Usuarios</button>
+              </div>
+              <div class="form-element">
+                <button mat-raised-button color="primary" type="button" class="button" (click)="openModalExcel()">Carga de documentos</button>
               </div>
           
             </form>

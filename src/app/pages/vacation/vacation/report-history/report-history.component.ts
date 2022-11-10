@@ -48,7 +48,16 @@ export class ReportHistoryComponent implements OnInit {
   listaModalidades: IListaModalidades[] = [];
   listaPeriodos: IListaPeriodos[] = [];
 
-  columnas: any = [];
+  columnas: any = [
+    { prop: 'identificacion', name: 'Identificacion', sortable: true },
+    { prop: 'apellidos', name: 'Apellidos', sortable: true },
+    { prop: 'nombres', name: 'Nombres', sortable: true },
+    { prop: 'modalidad', name: 'Modalidad', sortable: true },
+    { prop: 'fechaIngreso', name: 'Fecha de Ingreso', sortable: true },
+    { prop: 'gerencia', name: 'Gerencia', sortable: true },
+    { prop: 'saldoVacacional', name: 'Saldo Vacacional', sortable: true },
+    { prop: 'observacion', name: 'Observación', sortable: true }
+  ];
 
   filtrosReporte: IFiltrosReporte = {
     identificacion: "",
@@ -58,8 +67,10 @@ export class ReportHistoryComponent implements OnInit {
     gerencia: "",
     periodo: "",
     fechaIngreso: "",
-    fechaVencimiento: ""
+    // fechaVencimiento: "",
+    fechaSaldo: ''
   };
+  maxFechaSaldo: any;
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe,
     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
     this.identificacion = +this.cookieService.get('identificacion');
@@ -70,7 +81,8 @@ export class ReportHistoryComponent implements OnInit {
       apellidos: ['', []],
       nombres: ['', []],
       fecha_Ingreso: ['', []],
-      fecha_Vencimiento: ['', []],
+      // fecha_Vencimiento: ['', []],
+      fecha_Saldo: ['', []],
       gerencia: ['', []],
       modalidad: ['', []],
       periodo: ['', []],
@@ -78,6 +90,10 @@ export class ReportHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const result = new Date(Date.now());
+    result.setDate(result.getDate() - 1);
+    this.maxFechaSaldo = result;
+    // this.addFilterForm.get('fecha_Saldo')?.setValue(result);
     this.getData();
   }
 
@@ -86,44 +102,45 @@ export class ReportHistoryComponent implements OnInit {
       width: '400px', data: {}, disableClose: true
     });
 
-    let obs = this.bandejaService.postFiltroReporte(this.filtrosReporte).pipe(mergeMap(
-      (lista) => {
-        return forkJoin([
-          of(lista),
-          this.bandejaService.getCabeceraFiltros()
-        ]);
-      }
-    ));
+    // let obs = this.bandejaService.postFiltroReporteHistorico(this.filtrosReporte).pipe(mergeMap(
+    //   (lista) => {
+    //     return forkJoin([
+    //       of(lista),
+    //       this.bandejaService.getCabeceraFiltros()
+    //     ]);
+    //   }
+    // ));
 
-    obs.subscribe(
+    this.bandejaService.getCabeceraFiltros().subscribe(
       {
         next: (result: any) => {
-          const lista = result[0];
-          const cabecera = result[1];
-          this.rows = lista;
+          dialogRef.close();
+          // const lista = result[0];
+          const cabecera = result;
+          // this.rows = lista;
 
           this.listaGerencias = cabecera.listaGerencias;
           this.listaModalidades = cabecera.listaModalidades;
           this.listaPeriodos = cabecera.listaPeriodos;
 
-          this.columnas = [
-            { prop: 'identificacion', name: 'Identificacion', sortable: true },
-            { prop: 'apellidos', name: 'Apellidos', sortable: true },
-            { prop: 'nombres', name: 'Nombres', sortable: true },
-            { prop: 'modalidad', name: 'Modalidad', sortable: true },
-            { prop: 'fechaIngreso', name: 'Fecha de Ingreso', sortable: true },
-            { prop: 'gerencia', name: 'Gerencia', sortable: true }
-          ];
-          this.listaPeriodos.map((m, i) => {
-            this.columnas.push({ prop: `${i + 1}_${m.descPeriodo}s`, name: `${m.descPeriodo}`, sortable: true })
-            this.columnas.push({ prop: `${i + 1}_fecVencimientos`, name: `Fecha de Vencimiento`, sortable: true })
-            this.rows.map((r: any, y) => {
-              r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-              r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-            });
-          });
-          this.columnas.push({ prop: 'saldoVacacional', name: 'Saldo Vacacional', sortable: true });
-          this.columnas.push({ prop: 'observacion', name: 'Observación', sortable: true });
+          // this.columnas = [
+          //   { prop: 'identificacion', name: 'Identificacion', sortable: true },
+          //   { prop: 'apellidos', name: 'Apellidos', sortable: true },
+          //   { prop: 'nombres', name: 'Nombres', sortable: true },
+          //   { prop: 'modalidad', name: 'Modalidad', sortable: true },
+          //   { prop: 'fechaIngreso', name: 'Fecha de Ingreso', sortable: true },
+          //   { prop: 'gerencia', name: 'Gerencia', sortable: true }
+          // ];
+          // // this.listaPeriodos.map((m, i) => {
+          // //   this.columnas.push({ prop: `${i + 1}_${m.descPeriodo}s`, name: `${m.descPeriodo}`, sortable: true })
+          // //   this.columnas.push({ prop: `${i + 1}_fecVencimientos`, name: `Fecha de Vencimiento`, sortable: true })
+          // //   this.rows.map((r: any, y) => {
+          // //     r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+          // //     r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+          // //   });
+          // // });
+          // this.columnas.push({ prop: 'saldoVacacional', name: 'Saldo Vacacional', sortable: true });
+          // this.columnas.push({ prop: 'observacion', name: 'Observación', sortable: true });
           dialogRef.close();
         },
         error: error => {
@@ -279,6 +296,14 @@ export class ReportHistoryComponent implements OnInit {
   }
 
   filtrar(): void {
+    if (!this.addFilterForm.value.fecha_Saldo) {
+      Swal.fire(
+        'Advertencia!',
+        'El filtro Fecha Saldo es obligatorio!',
+        'info'
+      );
+      return;
+    }
     if (this.addFilterForm.value.fecha_Ingreso && this.addFilterForm.value.fecha_Vencimiento) {
       if (this.addFilterForm.value.fecha_Ingreso > this.addFilterForm.value.fecha_Vencimiento) {
         Swal.fire(
@@ -302,18 +327,19 @@ export class ReportHistoryComponent implements OnInit {
       gerencia: this.addFilterForm.value.gerencia.descripcion ? this.addFilterForm.value.gerencia.descripcion : '',
       periodo: this.addFilterForm.value.periodo.descPeriodo ? this.addFilterForm.value.periodo.descPeriodo : '',
       fechaIngreso: this.addFilterForm.value.fecha_Ingreso ? this.datePipe.transform(this.addFilterForm.value.fecha_Ingreso, 'dd/MM/yyyy') : '',
-      fechaVencimiento: this.addFilterForm.value.fecha_Vencimiento ? this.datePipe.transform(this.addFilterForm.value.fecha_Vencimiento, 'dd/MM/yyyy') : ''
+      // fechaVencimiento: this.addFilterForm.value.fecha_Vencimiento ? this.datePipe.transform(this.addFilterForm.value.fecha_Vencimiento, 'dd/MM/yyyy') : '',
+      fechaSaldo: this.addFilterForm.value.fecha_Saldo ? this.datePipe.transform(this.addFilterForm.value.fecha_Saldo, 'dd/MM/yyyy') : ''
     }
 
-    this.bandejaService.postFiltroReporte(objSearch).subscribe({
+    this.bandejaService.postFiltroReporteHistorico(objSearch).subscribe({
       next: (result: any) => {
         this.rows = result;
-        this.listaPeriodos.map((m, i) => {
-          this.rows.map((r: any, y) => {
-            r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-            r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-          });
-        });
+        // this.listaPeriodos.map((m, i) => {
+        //   this.rows.map((r: any, y) => {
+        //     r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+        //     r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+        //   });
+        // });
         dialogRef.close();
       },
       error: error => {
@@ -337,7 +363,7 @@ export class ReportHistoryComponent implements OnInit {
   clearAll(): void {
     this.filtros = [];
     Object.keys(this.addFilterForm.value).forEach((key) => {
-      this.addFilterForm.get(key)?.setValue('');
+      if(key !== 'fecha_Saldo') this.addFilterForm.get(key)?.setValue('');
     });
     this.filtrar();
   }
@@ -346,6 +372,9 @@ export class ReportHistoryComponent implements OnInit {
     Object.keys(this.addFilterForm.value).forEach((key) => {
       if (this.addFilterForm.value[key]) {
         switch (key) {
+          case 'identificacion':
+            this.filtros.push({ id: key, name: this.addFilterForm.value[key] });
+            break;
           case 'nombres':
           case 'apellidos':
             this.filtros.push({ id: key, name: this.addFilterForm.value[key].toUpperCase() });
@@ -372,14 +401,23 @@ export class ReportHistoryComponent implements OnInit {
   }
 
   downloadExcelRecord(): void {
+    if (!this.addFilterForm.value.fecha_Saldo) {
+      Swal.fire(
+        'Advertencia!',
+        'El filtro Fecha Saldo es obligatorio!',
+        'info'
+      );
+      return;
+    }
     const year = new Date().getFullYear();
     this.showLoading = true;
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
     this._recordDownloadSub = this.bandejaService
-      .retrieveExcelReport(
+      .retrieveExcelReport3(
         {
+          fechaSaldo: this.datePipe.transform(this.addFilterForm.value.fecha_Saldo, 'dd/MM/yyyy')
         },
         {}
       )
@@ -388,7 +426,7 @@ export class ReportHistoryComponent implements OnInit {
           const blob = new Blob([record.body], { type: 'application/octet-stream' });
           const url = window.URL.createObjectURL(blob);
           const element = document.createElement('a');
-          element.setAttribute('download', 'report.xls');
+          element.setAttribute('download', `Reporte_Saldos_Historicos_al _${this.datePipe.transform(this.addFilterForm.value.fecha_Saldo, 'dd/MM/yyyy')}.xls`);
           element.setAttribute('href', url);
           element.style.display = 'none';
           document.body.appendChild(element);
@@ -409,27 +447,27 @@ export class ReportHistoryComponent implements OnInit {
 
   exportAsXLSX(): void {
     let arr: any = [];
-    
+
     this.rows.map((r: any, y) => {
-        const obj: any = {};
-        obj.identificacion = r.identificacion;
-        obj.apellidos = r.apellidos;
-        obj.nombres = r.nombres;
-        obj.modalidad = r.modalidad;
-        obj.fechaIngreso = r.fechaIngreso;
-        obj.gerencia = r.gerencia;
-        this.listaPeriodos.map((m, i) => {
-          obj[`${m.descPeriodo}`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-          obj[`FechaVencimiento_${m.descPeriodo}`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-        });
-        arr.push(obj);
-      });
+      const obj: any = {};
+      obj.identificacion = r.identificacion;
+      obj.apellidos = r.apellidos;
+      obj.nombres = r.nombres;
+      obj.modalidad = r.modalidad;
+      obj.fechaIngreso = r.fechaIngreso;
+      obj.gerencia = r.gerencia;
+      // this.listaPeriodos.map((m, i) => {
+      //   obj[`${m.descPeriodo}`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+      //   obj[`FechaVencimiento_${m.descPeriodo}`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+      // });
+      arr.push(obj);
+    });
 
     this.vacationService.exportToExcel(arr, 'reporte');
   }
 
   goback(): void {
-    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`]);
   }
 
   openModalExcel(): void {

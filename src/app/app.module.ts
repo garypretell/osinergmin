@@ -48,7 +48,7 @@ import { HomeComponent } from '@pages/home/home.component';
   ],
   providers: [
     CookieService,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

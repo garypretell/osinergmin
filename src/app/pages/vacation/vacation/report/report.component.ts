@@ -56,9 +56,9 @@ export class ReportComponent implements OnInit {
     nombres: "",
     modalidad: "",
     gerencia: "",
-    periodo: "",
+    // periodo: "",
     fechaIngreso: "",
-    fechaVencimiento: ""
+    // fechaVencimiento: ""
   };
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe,
     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
@@ -70,10 +70,10 @@ export class ReportComponent implements OnInit {
       apellidos: ['', []],
       nombres: ['', []],
       fecha_Ingreso: ['', []],
-      fecha_Vencimiento: ['', []],
+      // fecha_Vencimiento: ['', []],
       gerencia: ['', []],
       modalidad: ['', []],
-      periodo: ['', []],
+      // periodo: ['', []],
     });
   }
 
@@ -114,14 +114,14 @@ export class ReportComponent implements OnInit {
             { prop: 'fechaIngreso', name: 'Fecha de Ingreso', sortable: true },
             { prop: 'gerencia', name: 'Gerencia', sortable: true }
           ];
-          this.listaPeriodos.map((m, i) => {
-            this.columnas.push({ prop: `${i + 1}_${m.descPeriodo}s`, name: `${m.descPeriodo}`, sortable: true })
-            this.columnas.push({ prop: `${i + 1}_fecVencimientos`, name: `Fecha de Vencimiento`, sortable: true })
-            this.rows.map((r: any, y) => {
-              r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-              r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-            });
-          });
+          // this.listaPeriodos.map((m, i) => {
+          //   this.columnas.push({ prop: `${i + 1}_${m.descPeriodo}s`, name: `${m.descPeriodo}`, sortable: true })
+          //   this.columnas.push({ prop: `${i + 1}_fecVencimientos`, name: `Fecha de Vencimiento`, sortable: true })
+          //   this.rows.map((r: any, y) => {
+          //     r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+          //     r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+          //   });
+          // });
           this.columnas.push({ prop: 'saldoVacacional', name: 'Saldo Vacacional', sortable: true });
           this.columnas.push({ prop: 'observacion', name: 'Observación', sortable: true });
           dialogRef.close();
@@ -300,20 +300,20 @@ export class ReportComponent implements OnInit {
       nombres: this.addFilterForm.value.nombres ? this.addFilterForm.value.nombres : '',
       modalidad: this.addFilterForm.value.modalidad.descripcion ? this.addFilterForm.value.modalidad.descripcion : '',
       gerencia: this.addFilterForm.value.gerencia.descripcion ? this.addFilterForm.value.gerencia.descripcion : '',
-      periodo: this.addFilterForm.value.periodo.descPeriodo ? this.addFilterForm.value.periodo.descPeriodo : '',
+      // periodo: this.addFilterForm.value.periodo.descPeriodo ? this.addFilterForm.value.periodo.descPeriodo : '',
       fechaIngreso: this.addFilterForm.value.fecha_Ingreso ? this.datePipe.transform(this.addFilterForm.value.fecha_Ingreso, 'dd/MM/yyyy') : '',
-      fechaVencimiento: this.addFilterForm.value.fecha_Vencimiento ? this.datePipe.transform(this.addFilterForm.value.fecha_Vencimiento, 'dd/MM/yyyy') : ''
+      // fechaVencimiento: this.addFilterForm.value.fecha_Vencimiento ? this.datePipe.transform(this.addFilterForm.value.fecha_Vencimiento, 'dd/MM/yyyy') : ''
     }
 
     this.bandejaService.postFiltroReporte(objSearch).subscribe({
       next: (result: any) => {
         this.rows = result;
-        this.listaPeriodos.map((m, i) => {
-          this.rows.map((r: any, y) => {
-            r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-            r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-          });
-        });
+        // this.listaPeriodos.map((m, i) => {
+        //   this.rows.map((r: any, y) => {
+        //     r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+        //     r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+        //   });
+        // });
         dialogRef.close();
       },
       error: error => {
@@ -346,13 +346,16 @@ export class ReportComponent implements OnInit {
     Object.keys(this.addFilterForm.value).forEach((key) => {
       if (this.addFilterForm.value[key]) {
         switch (key) {
+          case 'identificacion':
+            this.filtros.push({ id: key, name: this.addFilterForm.value[key] });
+            break;
           case 'nombres':
           case 'apellidos':
             this.filtros.push({ id: key, name: this.addFilterForm.value[key].toUpperCase() });
             break;
-          case 'periodo':
-            this.filtros.push({ id: key, name: this.addFilterForm.value[key].descPeriodo });
-            break;
+          // case 'periodo':
+          //   this.filtros.push({ id: key, name: this.addFilterForm.value[key].descPeriodo });
+          //   break;
           case 'modalidad':
           case 'gerencia':
             this.filtros.push({ id: key, name: this.addFilterForm.value[key].descripcion });
@@ -418,10 +421,10 @@ export class ReportComponent implements OnInit {
         obj.modalidad = r.modalidad;
         obj.fechaIngreso = r.fechaIngreso;
         obj.gerencia = r.gerencia;
-        this.listaPeriodos.map((m, i) => {
-          obj[`${m.descPeriodo}`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-          obj[`FechaVencimiento_${m.descPeriodo}`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-        });
+        // this.listaPeriodos.map((m, i) => {
+        //   obj[`${m.descPeriodo}`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+        //   obj[`FechaVencimiento_${m.descPeriodo}`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+        // });
         arr.push(obj);
       });
 
@@ -429,7 +432,7 @@ export class ReportComponent implements OnInit {
   }
 
   goback(): void {
-    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`]);
   }
 
   openModalExcel(): void {

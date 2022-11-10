@@ -105,16 +105,16 @@ export class UserComponent implements OnInit {
   }
 
   abrirDialogoCrear(nuevo: boolean, error: string): void {
-    const usuario: any = this.vacationService.userValue;
-    usuario && usuario.identificacion ? this.usuario = usuario : this.goHome();
-    if (usuario) {
+    // const usuario: any = this.vacationService.userValue;
+    // usuario && usuario.identificacion ? this.usuario = usuario : this.goHome();
+    // if (usuario) {
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
       });
 
       this.bandejaService.getDatosRegistros({
-        identificacion: this.usuario.identificacion,
-        nombres: this.usuario.nombres
+        identificacion: '43828860',
+        nombres: ''
       }).pipe(takeUntil(this.unsubscribe$)).subscribe({
         next: (data: IDatosRegistroResponse) => {
           dialogRef.close();
@@ -139,21 +139,21 @@ export class UserComponent implements OnInit {
           dialogRef.close();
         }
       });
-    }
+    // }
   }
 
   abrirDialogoActualizar(user: any, error: string, nuevo: boolean): void {
 
-    const usuario: any = this.vacationService.userValue;
-    usuario && usuario.identificacion ? this.usuario = usuario : this.goHome();
-    if (usuario) {
+    // const usuario: any = this.vacationService.userValue;
+    // usuario && usuario.identificacion ? this.usuario = usuario : this.goHome();
+    // if (usuario) {
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
       });
 
       this.bandejaService.getDatosRegistros({
-        identificacion: this.usuario.identificacion,
-        nombres: this.usuario.nombres
+        identificacion: '43828860',
+        nombres: ''
       }).pipe(takeUntil(this.unsubscribe$)).subscribe({
         next: (data: IDatosRegistroResponse) => {
           dialogRef.close();
@@ -178,7 +178,7 @@ export class UserComponent implements OnInit {
           dialogRef.close();
         }
       });
-    }
+    // }
 
   }
 
@@ -213,7 +213,7 @@ export class UserComponent implements OnInit {
   }
 
   goback(): void {
-    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`]);
   }
 
   goHome(): void {

@@ -47,7 +47,7 @@ export class RequestPendingComponent implements OnInit {
     public dialog: MatDialog,
     private cookieService: CookieService
   ) {
-    this.identificacion = this.vacationService.identificationValue;
+    this.identificacion = +this.cookieService.get('isLoggedIn');
   }
 
   selectFilter() {
@@ -83,8 +83,7 @@ export class RequestPendingComponent implements OnInit {
 
   goBandeja(): void {
     this.router.navigate(
-      [`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`],
-      { queryParams: { id: this.vacationService.identificationValue } }
+      [`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`]
     );
   }
 

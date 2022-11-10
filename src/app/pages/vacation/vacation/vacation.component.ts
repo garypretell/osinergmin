@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { TrazabilityVacationComponent } from '../shared/trazability-vacation/trazability-vacation.component';
+import { AlertComponent } from '@shared/components/alert/alert.component';
 
 
 @Component({
@@ -24,14 +25,6 @@ import { TrazabilityVacationComponent } from '../shared/trazability-vacation/tra
   styleUrls: ['./vacation.component.scss']
 })
 export class VacationComponent implements OnInit {
-  fruitCtrl = new FormControl('');
-  filteredFruits!: Observable<string[]>;
-  fruits: string[] = ['2001'];
-  allFruits: string[] = ['2001', '2002', '2003', '2004', '2005'];
-
-  @ViewChild('fruitInput')
-  fruitInput!: ElementRef<HTMLInputElement>;
-
 
   identificacion: any;
   usuario: IBandejaResponse = {} as IBandejaResponse;
@@ -64,7 +57,7 @@ export class VacationComponent implements OnInit {
   fileToUpload: any;
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe,
     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
-    this.identificacion = +this.route.snapshot.queryParams['id'];
+    this.identificacion = +this.cookieService.get('isLoggedIn');
     this.cookieService.set('identificacion', this.identificacion);
     this.vacationService.identificationSubjectObsData = this.identificacion;
 
@@ -82,16 +75,45 @@ export class VacationComponent implements OnInit {
     console.log('25-10-2022')
   }
 
+  async logout() {
+    await new Promise((resolve, reject) => {
+      try {
+        this.cookieService.delete('isLoggedIn', '/')
+        this.cookieService.delete('identificacion', '/')
+        resolve(true)
+      }
+      catch (err) {
+        reject(false)
+      }
+
+    }).then(() => {
+      // this.router.navigateByUrl('/home')
+    })
+  }
+
   getData(): void {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
     this.bandejaService.getBandeja({ identificacion: this.identificacion }).subscribe({
-      next: (user: IBandejaResponse) => {
+      next: async (user: IBandejaResponse) => {
         this.usuario = user;
         this.vacationService.userSubjectObsData = user;
         this.rows = user.solicitudesVacacionales;
         dialogRef.close();
+        if (user.acceso === 2 || user.acceso === 3) {
+          const alert: any = {};
+          alert.title = '¡Acceso restringido para este usuario!';
+          alert.message = user.accesoDescripcion;
+          alert.close = true;
+          alert.showIcon = true;
+          alert.btnClose = true;
+
+          const dialogRef2 = this.dialog.open(AlertComponent, {
+            width: '400px', data: { alert: alert }, disableClose: true
+          });
+          await this.logout();
+        }
       },
       error: error => {
         dialogRef.close();
@@ -405,7 +427,7 @@ export class VacationComponent implements OnInit {
   }
 
   handleFileInput(event: Event) {
-    const target= event.target as HTMLInputElement;
+    const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
     this.fileToUpload = file;
   }

@@ -5,11 +5,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
     AlertComponent,
-    LoaderComponent
+    LoaderComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule,
@@ -18,11 +20,13 @@ import { LoaderComponent } from './components/loader/loader.component';
     MatDialogModule
   ],
   exports: [
-    AlertComponent
+    AlertComponent,
+    MessageComponent
   ], 
   entryComponents : [
     AlertComponent,
-    LoaderComponent
+    LoaderComponent,
+    MessageComponent
   ], 
   providers: [
   ]

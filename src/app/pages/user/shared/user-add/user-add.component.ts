@@ -144,7 +144,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
 
   goBandeja(): void {
     this.dialogRef.close();
-    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`], { queryParams: { id: this.vacationService.identificationValue } });
+    this.router.navigate([`${PATH_URL_DATA.urlVacaciones}/${PATH_URL_DATA.urlBandejaVacaciones}`]);
   }
 
   OnReemplazoSelected(value: any) {

@@ -1,4 +1,6 @@
 export interface IBandejaResponse {
+    acceso: number;
+    accesoDescripcion: string;
     nombres: string;
     saldo: number;
     fechaVencimiento: string;
@@ -197,9 +199,10 @@ export interface IFiltrosReporte {
     nombres: string;
     modalidad: string;
     gerencia: string;
-    periodo: string;
+    periodo?: string;
     fechaIngreso: string | null;
-    fechaVencimiento: string | null;
+    fechaVencimiento?: string | null;
+    fechaSaldo?: string | null;
 }
 
 export interface IFiltrosReporteSolicitudes {

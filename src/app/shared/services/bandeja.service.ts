@@ -177,6 +177,14 @@ export class BandejaService {
     });
   }
 
+  retrieveExcelReport3(body: any, params: any): Observable<any> {
+    return this.apiService.postDownload(BandejaEndpoint.RetrieveExcelReport3, body, {
+      params,
+      responseType: 'arraybuffer' as 'json',
+      observe: 'response' as 'body'
+    });
+  }
+
   /**
    * Descargar Excel
    */
@@ -200,6 +208,12 @@ export class BandejaService {
    */
   postFiltroReporte(body: IFiltrosReporte): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostFiltrosReporte, body);
+  }
+  /**
+   * Obtener Datos por Filtro
+   */
+  postFiltroReporteHistorico(body: IFiltrosReporte): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostFiltrosReporteHistorico, body);
   }
 
   /**
