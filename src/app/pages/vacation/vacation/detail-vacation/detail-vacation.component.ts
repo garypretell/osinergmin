@@ -119,14 +119,14 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
       if(change) {
         this.hasDot = change.toString().includes('.');
         const result = new Date(this.vacationForm.baseForm.get('fechaInicio')?.value);
-        result.setDate(result.getDate() + change);
+        result.setDate(result.getDate() + change - 1);
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       }
     })
     this.vacationForm.baseForm.get('fechaInicio')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if(change) {
         const result = new Date(change);
-        result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value);
+        result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value - 1);
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       }
     })
@@ -165,7 +165,7 @@ export class DetailVacationComponent implements OnInit, OnDestroy {
   calcularDias(): any {
     this.vacationForm.baseForm.get('fechaInicio')?.setValue(moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
       const result = moment(this.detalle.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
-      result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
+      result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value - 1);
       this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       this.fechaFin = result;
   }

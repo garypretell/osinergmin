@@ -110,7 +110,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
       if(change) {
         this.hasDot = change.toString().includes('.');
         const result = new Date(this.vacationForm.baseForm.get('fechaInicio')?.value);
-        result.setDate(result.getDate() + change);
+        result.setDate(result.getDate() + change - 1);
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       }
     })
@@ -118,7 +118,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
       if(change) {
         this.hasDot = change.toString().includes('.');
         const result = new Date(change);
-        result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value);
+        result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value - 1);
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       }
     })
@@ -143,7 +143,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
   calcularDias(): any {
       this.vacationForm.baseForm.get('fechaInicio')?.setValue(new Date(this.fechaInicio));
       const result = new Date(this.fechaInicio);
-      result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value);
+      result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value - 1);
       this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
       this.fechaFin = result;
   }

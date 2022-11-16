@@ -23,7 +23,7 @@ export class BaseFormReschedule {
     fechaInicio: ['', []],
     fechaFinReprogramacion: ['', [Validators.required]],
     fechaFin: ['', [Validators.required]],
-    diasReprogramacion: [1, [Validators.required]],
+    diasReprogramacion: [1, [Validators.required, Validators.min(0.5)]],
     dias: [0, [Validators.required, Validators.min(0.5)]],
     diaMedioReprogramacion: ['', []],
     maxDias: ['', [Validators.required]]

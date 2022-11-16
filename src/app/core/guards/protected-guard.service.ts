@@ -3,7 +3,7 @@ import { Router, CanActivate } from '@angular/router';
 import { PATH_URL_DATA } from '@shared/constants/constants';
 import { CookieService } from 'ngx-cookie-service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProtectedGuardService implements CanActivate {
     constructor(private cookieService: CookieService, public router: Router) { }
     canActivate(): boolean {

@@ -114,14 +114,14 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
       if (change) {
         this.hasDotRep = change.toString().includes('.');
         const result = new Date(this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.value);
-        result.setDate(result.getDate() + change);
+        result.setDate(result.getDate() + change - 1);
         this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
       }
     })
     this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
       if (change) {
         const result = new Date(change);
-        result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value);
+        result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value - 1);
         this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
       }
     })
@@ -130,7 +130,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
   calcularDias(): any {
     this.rescheduleForm.baseForm.get('fechaInicioReprogramacion')?.setValue(new Date(this.fechaInicio));
     const result = new Date(this.fechaInicio);
-    result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value);
+    result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('diasReprogramacion')?.value - 1);
     this.rescheduleForm.baseForm.get('fechaFinReprogramacion')?.setValue(result);
     this.fechaFin = result;
   }
@@ -138,7 +138,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
   calcularDiasBefore(): any {
     this.rescheduleForm.baseForm.get('fechaInicio')?.setValue( moment(this.registro.verRegistroVacacional.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
     const result =  moment(this.registro.verRegistroVacacional.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
-    result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('dias')?.value);
+    result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('dias')?.value - 1);
     this.rescheduleForm.baseForm.get('fechaFin')?.setValue(result);
   }
 
