@@ -46,6 +46,10 @@ export interface IDeleteUserBody {
     codUsuario: string;
 }
 
+export interface IDeletePeriodBody {
+    codPeriodo: string;
+}
+
 export interface IDatosRegistroBody {
     identificacion: string;
     nombres: string;

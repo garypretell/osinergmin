@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IFiltrosReporte, IRegistroVacaionalBody, IFiltrosReporteSolicitudes, ITrazaBody, IDeleteUserBody, IEliminarVacacionalBody } from '@shared/models/common/interfaces/bandeja.interface';
+import { IBandejaRequest, IBandejaResponse, IDatosRegistroBody, IDatosRegistroResponse, IDetalleRegistroResponse, IDetalleVacacionalBody, IInterrupcionVacacionalBody, IPlazosBody, IFiltrosReporte, IRegistroVacaionalBody, IFiltrosReporteSolicitudes, ITrazaBody, IDeleteUserBody, IEliminarVacacionalBody, IDeletePeriodBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaEndpoint } from '@shared/providers/bandeja.endpoint';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
@@ -238,10 +238,24 @@ export class BandejaService {
   }
 
   /**
+   * Obtener Lista Periodos
+   */
+  getListaPeriodo(): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostListaPeriodos, {});
+  }
+
+  /**
    * Inactivar Usuario
    */
   deleteUsuario(body: IDeleteUserBody): Observable<any> {
-    return this.apiService.post(BandejaEndpoint.PostInactivarUsuario, body);
+    return this.apiService.post(BandejaEndpoint.PostInactivarPeriodo, body);
+  }
+
+  /**
+   * Inactivar Periodo
+   */
+  deletePeriodo(body: IDeletePeriodBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostInactivarPeriodo, body);
   }
 
   /**
@@ -252,6 +266,13 @@ export class BandejaService {
   }
 
   /**
+   * Activar Periodo
+   */
+  activePeriod(body: IDeletePeriodBody): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostActivarPeriodo, body);
+  }
+
+  /**
    * Crear Usuario
    */
   crearUsuario(body: any): Observable<any> {
@@ -259,10 +280,24 @@ export class BandejaService {
   }
 
   /**
+   * Crear Usuario
+   */
+  crearPeriodo(body: any): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostCrearPeriodo, body);
+  }
+
+  /**
    * Actualizar Usuario
    */
   actualizarUsuario(body: any): Observable<any> {
     return this.apiService.post(BandejaEndpoint.PostActualizarUsuario, body);
+  }
+
+  /**
+   * Actualizar Usuario
+   */
+  actualizarPeriodo(body: any): Observable<any> {
+    return this.apiService.post(BandejaEndpoint.PostActualizarPeriodo, body);
   }
 
   /**

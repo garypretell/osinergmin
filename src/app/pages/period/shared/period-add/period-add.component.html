@@ -1,0 +1,76 @@
+<div class="container">
+  <h3 mat-dialog-title>{{ data.tittle }}</h3>
+  <a mat-list-item style="color: red">{{ data.errorMssg }}</a>
+  <form [formGroup]="periodForm.baseForm">
+    <mat-dialog-content class="mat-typography">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          margin: 1rem auto;
+          max-height: 600px;
+          max-width: 600px;
+          padding: 1rem;
+        "
+      >
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Descripción Periodo </mat-label>
+        <input
+          matInput
+          maxlength="50"
+          class="e-input"
+          formControlName="descPeriodo"
+          type="text"
+          placeholder="descPeriodo"
+          required
+        />
+        <mat-error>
+          <ng-container
+
+            *ngFor="let error of periodForm.errors($any(periodForm.baseForm.get('descPeriodo')))"
+          >
+            {{ periodForm.handleError(error, "descPeriodo") }} <br />
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="dp" placeholder="Periodo Inicial" [formControl]="dateInit">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event, dp)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="dpE" placeholder="Periodo Final" [formControl]="dateEnd">
+        <mat-datepicker-toggle matSuffix [for]="dpE"></mat-datepicker-toggle>
+        <mat-datepicker #dpE
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandlerEnd($event, dpE)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+      </div>
+      
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="cancelar()">Cancelar</button>
+      <button
+        mat-raised-button
+        [mat-dialog-close]="data"
+        color="primary"
+        (click)="onSave()"
+        ckdFocusInitial
+        [disabled]="!periodForm.baseForm.valid"
+      >
+        Aceptar
+      </button>
+    </mat-dialog-actions>
+  </form>
+
+  
+  
+</div>

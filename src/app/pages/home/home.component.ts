@@ -70,6 +70,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`${PATH_URL_DATA.urlUsuarios}`]);
   }
 
+  goPeriod(): void {
+    this.router.navigate([`${PATH_URL_DATA.urlPeriodos}`]);
+  }
+
   openModalExcel(): void {
     this.dialog.open(UploadExcelVacationComponent, {
       width: '650px',

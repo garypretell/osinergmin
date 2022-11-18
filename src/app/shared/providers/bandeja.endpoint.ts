@@ -32,9 +32,14 @@ export class BandejaEndpoint {
   public static PostFiltrosReporteSolicitudes = `${environment.urlService}api/vacaciones/bandeja/buscarFiltrosReporteSolicitudes`;
   public static PostListaTraza= `${environment.urlService}api/vacaciones/bandeja/listaReporteTraza`;
   public static PostListaUsuarios= `${environment.urlService}api/vacaciones/bandeja/listarUsuarios`;
+  public static PostListaPeriodos= `${environment.urlService}api/vacaciones/bandeja/listarPeriodos`;
   public static PostInactivarUsuario= `${environment.urlService}api/vacaciones/bandeja/inactivarUsuario`;
+  public static PostInactivarPeriodo= `${environment.urlService}api/vacaciones/bandeja/inactivarPeriodo`;
   public static PostActivarUsuario= `${environment.urlService}api/vacaciones/bandeja/activarUsuario`;
+  public static PostActivarPeriodo= `${environment.urlService}api/vacaciones/bandeja/activarPeriodo`;
   public static PostCrearUsuario= `${environment.urlService}api/vacaciones/bandeja/registrarUsuario`;
+  public static PostCrearPeriodo= `${environment.urlService}api/vacaciones/bandeja/registrarPeriodo`;
   public static PostActualizarUsuario= `${environment.urlService}api/vacaciones/bandeja/editarUsuario`;
+  public static PostActualizarPeriodo= `${environment.urlService}api/vacaciones/bandeja/editarPeriodo`;
   public static PostCargarArchivo = `${environment.urlService}api/vacaciones/bandeja/cargarArchivo`;
 }

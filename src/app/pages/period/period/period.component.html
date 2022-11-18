@@ -1,0 +1,79 @@
+<h3>MANTENIMIENTO DE PERIODOS</h3>
+<span class="badge bg-info m-1" role="button" (click)="goback()"
+              > <i class="fas fa-home"></i> Regresar a Bandeja</span
+            >
+<div fxLayout="row" fxLayoutAlign="end center" class="mb-2">
+    <button mat-raised-button color="primary" (click)="abrirDialogoCrear(true, '')">Nuevo Periodo</button>
+</div>
+<ngx-datatable
+  id="datatable"
+  class="material contenedor"
+  [rows]="rows"
+  [columns]="columns"
+  [sortType]="SortType.multi"
+  [columnMode]="ColumnMode.force"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  rowHeight="auto"
+  [reorderable]="true"
+  [limit]="5"
+  [loadingIndicator]="loadingIndicator"
+  [scrollbarH]="true"
+  [messages]="{
+    emptyMessage: 'No hay resultados disponibles.',
+    totalMessage: 'solicitudes'
+  }"
+>
+  <ng-container *ngFor="let column of columns">
+    <ng-container [ngSwitch]="column.name">
+      <ng-container *ngSwitchCase="'Estado'">
+        <ngx-datatable-column name="{{ column.name }}" prop="{{ column.prop }}">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ value === "A" ? "ACTIVO" : "INACTIVO" }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ng-container>
+      <ng-container *ngSwitchCase="'Acciones'">
+        <ngx-datatable-column name="{{ column.name }}" prop="{{ column.prop }}">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            <ng-container *ngIf="row.estado === 'A'; else inactivo">
+              <span
+                (click)="deletePeriod(row)"
+                class="badge bg-danger m-1"
+                role="button"
+
+                ><i class="fas fa-user-times"></i> Eliminar</span
+              >
+            </ng-container>
+            <ng-template #inactivo>
+              <span
+                (click)="activePeriod(row)"
+                class="badge bg-success m-1"
+                role="button"
+                ><i class="fas fa-user"></i> Activar</span
+              >
+            </ng-template>
+            <span class="badge bg-info m-1" role="button" (click)="abrirDialogoActualizar(row, '', false)"
+              > <i class="fas fa-user-edit"></i> Editar</span
+            >
+          </ng-template>
+        </ngx-datatable-column>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <ngx-datatable-column name="{{ column.name }}" prop="{{ column.prop }}">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <span> {{ column.name }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ngx-datatable>
