@@ -11,6 +11,7 @@ import { PeriodAddComponent } from '../shared/period-add/period-add.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { IDatosRegistroResponse } from '@shared/models/common/interfaces/bandeja.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-period',
@@ -113,13 +114,22 @@ export class PeriodComponent implements OnInit {
 
     dialogo.afterClosed().subscribe((periodC) => {
       if (periodC !== undefined) {
-        this.agregar(periodC.period);
+        const descripcion = periodC.period.descPeriodo;
+        const value = this.rows.find((f: any) => f.descPeriodo === descripcion)
+        if(value){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El periodo ya existe!'
+          })
+        } else {
+          this.agregar(periodC.period);
+        }
       }
     });
   }
 
   abrirDialogoActualizar(period: any, error: string, nuevo: boolean): void {
-    console.log(period);
     const dialogo = this.dialog.open(PeriodAddComponent, {
       data: { period, tittle: 'Editar Periodo', errorMssg: error, nuevo },
       width: '40vw',
@@ -128,7 +138,17 @@ export class PeriodComponent implements OnInit {
 
     dialogo.afterClosed().subscribe((periodA) => {
       if (periodA !== undefined) {
-        this.editar(periodA.period);
+        const descripcion = periodA.period.descPeriodo;
+        const value = this.rows.find((f: any) => f.descPeriodo === descripcion)
+        if(value){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El periodo ya existe!'
+          })
+        } else {
+          this.editar(periodA.period);
+        }
       }
     });
   }

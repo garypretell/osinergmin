@@ -1,19 +1,23 @@
 <div mat-dialog-content>
-    <h3><strong>TRAZABILIDAD DE LA SOLICITUD: {{data[0].codSolicitud}}</strong></h3>
-    <h5> TIPO: {{data[0].descTipoGoce | uppercase}}</h5>
+    <h3 class="text-center"><strong>TRAZABILIDAD DE LA SOLICITUD: {{test}}</strong></h3>
+    <h4> TIPO: {{data[0].descTipoGoce | uppercase}}</h4>
       <table class="table table-striped">
         <thead>
           <tr>
             <th>#</th>
-            <th class="text-center">FECHA DE REGISTRO</th>
-            <th>ESTADO DE LA SOLICITUD </th>
+            <th>FECHA</th>
+            <th>USUARIO</th>
+            <th>ESTADO</th>
+            <th>SOLICITUD</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let d of data; let i = index">
             <td>{{ i + 1 }}</td>
-            <td class="text-center">{{ d.fechaRegistro }}</td>
+            <td>{{ d.fechaRegistro }}</td>
+            <td>{{ d.usuario}}</td>
             <td >{{ d.desEstado }}</td>
+            <td >{{ d.codSolicitud }}</td>
           </tr>
         </tbody>
       </table>

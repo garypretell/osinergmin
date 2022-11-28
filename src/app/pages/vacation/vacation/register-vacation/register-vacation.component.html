@@ -109,9 +109,9 @@
             <div fxFlex="50">
               <mat-form-field class="example-full-width" appearance="legacy">
                 <mat-label>Fecha Fin de Vacaciones</mat-label>
-                <input matInput readonly [matDatepicker]="picker1" formControlName="fechaFin"  name="fechaFin"/>
+                <input matInput [matDatepicker]="picker1" formControlName="fechaFin"  name="fechaFin"/>
                 <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle disabled
+                <mat-datepicker-toggle 
                   matSuffix
                   [for]="picker1"
                 ></mat-datepicker-toggle>

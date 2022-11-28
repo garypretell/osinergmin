@@ -10,6 +10,7 @@ import { PATH_URL_DATA } from '@shared/constants/constants';
 import { IDatosRegistroResponse, IEmpleadoAprobacion, IEmpleadosReemplazo, IRegistroVacaionalBody } from '@shared/models/common/interfaces/bandeja.interface';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { BaseFormVacation } from '@shared/utils/base-form-vacation';
+import moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, debounceTime, tap, finalize, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -33,13 +34,15 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
   listaEmpleadoAprobacion: Array<IEmpleadoAprobacion> = [];
   aprobadoCtrl = new FormControl('');
   aprobadoValue: any;
-  filteredAprobado!: Observable<IEmpleadoAprobacion[]>  | undefined;
+  filteredAprobado!: Observable<IEmpleadoAprobacion[]> | undefined;
   steps = 0.5;
   hasDot = false;
   isLoading = false;
+  fechaFinState = false;
+  diasState = false;
   private unsubscribe$ = new Subject();
-  constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService, 
-              private datePipe: DatePipe, public dialog: MatDialog, public vacationForm: BaseFormVacation) {}
+  constructor(private router: Router, private vacationService: VacationService, private bandejaService: BandejaService,
+    private datePipe: DatePipe, public dialog: MatDialog, public vacationForm: BaseFormVacation) { }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next(null);
@@ -62,7 +65,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
     const user: any = this.vacationService.userValue;
     user && user.identificacion ? this.usuario = user : this.goBandeja();
     this.vacationForm.baseForm.reset();
-    if(user?.identificacion) {
+    if (user?.identificacion) {
       this.vacationForm.baseForm.get('maxDias')?.setValue(user.saldo);
       const dialogRef = this.dialog.open(LoaderComponent, {
         width: '400px', data: {}, disableClose: true
@@ -107,29 +110,43 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
     }
     this.calcularDias();
     this.vacationForm.baseForm.get('dias')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
-      if(change) {
+      if (change && !this.fechaFinState) {
         this.hasDot = change.toString().includes('.');
         const result = new Date(this.vacationForm.baseForm.get('fechaInicio')?.value);
-        result.setDate(result.getDate() + change - 1);
+        result.setDate(result.getDate() + Math.round(+change) - 1);
+        this.diasState = true;
         this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
+        this.diasState = false;
       }
     })
     this.vacationForm.baseForm.get('fechaInicio')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
-      if(change) {
-        this.hasDot = change.toString().includes('.');
-        const result = new Date(change);
-        result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value - 1);
-        this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
+      if (change) {
+        const fecha1 = moment(change);
+        const fecha2 = moment(this.vacationForm.baseForm.get('fechaFin')?.value);
+        const temp = fecha2.diff(fecha1, 'days') + 1;
+        this.fechaFinState = true;
+        this.vacationForm.baseForm.get('dias')?.setValue(temp);
+        this.fechaFinState = false;
       }
     })
-    
+    this.vacationForm.baseForm.get('fechaFin')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
+      if (change && !this.diasState) {
+        const fecha2 = moment(change);
+        const fecha1 = moment(this.vacationForm.baseForm.get('fechaInicio')?.value);
+        const temp = fecha2.diff(fecha1, 'days') + 2;
+        this.fechaFinState = true;
+        this.vacationForm.baseForm.get('dias')?.setValue(temp);
+        this.fechaFinState = false;
+      }
+    })
+
   }
 
   private pathFormData(): void {
     this.vacationForm.baseForm.patchValue({
       identificacion: this.usuario.identificacion,
       nombres: this.usuario.nombres,
-      codRegistro:  this.registro.codRegistro,
+      codRegistro: this.registro.codRegistro,
       codigoSolicitud: this.registro.codigoSolicitud,
       diaMedio: '1',
       maxDias: this.usuario.saldo
@@ -141,18 +158,18 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
   }
 
   calcularDias(): any {
-      this.vacationForm.baseForm.get('fechaInicio')?.setValue(new Date(this.fechaInicio));
-      const result = new Date(this.fechaInicio);
-      result.setDate(result.getDate() +  this.vacationForm.baseForm.get('dias')?.value - 1);
-      this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
-      this.fechaFin = result;
+    this.vacationForm.baseForm.get('fechaInicio')?.setValue(new Date(this.fechaInicio));
+    const result = new Date(this.fechaInicio);
+    result.setDate(result.getDate() + this.vacationForm.baseForm.get('dias')?.value);
+    this.vacationForm.baseForm.get('fechaFin')?.setValue(result);
+    this.fechaFin = result;
   }
 
   registrar(): void {
     const body: IRegistroVacaionalBody = {
       identificacion: this.usuario.identificacion,
       nombres: this.usuario.nombres,
-      codRegistro:  this.registro.codRegistro,
+      codRegistro: this.registro.codRegistro,
       codigoSolicitud: this.registro.codigoSolicitud,
       diaMedio: this.vacationForm.baseForm.get('dias')?.value.toString().includes('.') ? '1' : '0',
       fechaInicio: this.datePipe.transform(this.vacationForm.baseForm.get('fechaInicio')?.value, 'dd/MM/yyyy')?.toString() || '',

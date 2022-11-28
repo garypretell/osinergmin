@@ -131,14 +131,14 @@ export class ReportHistoryComponent implements OnInit {
           //   { prop: 'fechaIngreso', name: 'Fecha de Ingreso', sortable: true },
           //   { prop: 'gerencia', name: 'Gerencia', sortable: true }
           // ];
-          // // this.listaPeriodos.map((m, i) => {
-          // //   this.columnas.push({ prop: `${i + 1}_${m.descPeriodo}s`, name: `${m.descPeriodo}`, sortable: true })
-          // //   this.columnas.push({ prop: `${i + 1}_fecVencimientos`, name: `Fecha de Vencimiento`, sortable: true })
-          // //   this.rows.map((r: any, y) => {
-          // //     r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-          // //     r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-          // //   });
-          // // });
+           this.listaPeriodos.map((m, i) => {
+             this.columnas.push({ prop: `${i + 1}_${m.descPeriodo}s`, name: `${m.descPeriodo}`, sortable: true })
+             this.columnas.push({ prop: `${i + 1}_fecVencimientos`, name: `Fecha de Vencimiento`, sortable: true })
+            this.rows.map((r: any, y) => {
+             r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+              r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+            });
+           });
           // this.columnas.push({ prop: 'saldoVacacional', name: 'Saldo Vacacional', sortable: true });
           // this.columnas.push({ prop: 'observacion', name: 'Observación', sortable: true });
           dialogRef.close();
@@ -334,12 +334,12 @@ export class ReportHistoryComponent implements OnInit {
     this.bandejaService.postFiltroReporteHistorico(objSearch).subscribe({
       next: (result: any) => {
         this.rows = result;
-        // this.listaPeriodos.map((m, i) => {
-        //   this.rows.map((r: any, y) => {
-        //     r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-        //     r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-        //   });
-        // });
+         this.listaPeriodos.map((m, i) => {
+           this.rows.map((r: any, y) => {
+             r[`${i + 1}_${m.descPeriodo}s`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+             r[`${i + 1}_fecVencimientos`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+           });
+         });
         dialogRef.close();
       },
       error: error => {
@@ -456,10 +456,10 @@ export class ReportHistoryComponent implements OnInit {
       obj.modalidad = r.modalidad;
       obj.fechaIngreso = r.fechaIngreso;
       obj.gerencia = r.gerencia;
-      // this.listaPeriodos.map((m, i) => {
-      //   obj[`${m.descPeriodo}`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
-      //   obj[`FechaVencimiento_${m.descPeriodo}`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
-      // });
+       this.listaPeriodos.map((m, i) => {
+         obj[`${m.descPeriodo}`] = r.listaPlazos[i].saldo ? r.listaPlazos[i].saldo : 0;
+         obj[`FechaVencimiento_${m.descPeriodo}`] = r.listaPlazos[i].fecVencimiento ? r.listaPlazos[i].fecVencimiento : '';
+       });
       arr.push(obj);
     });
 

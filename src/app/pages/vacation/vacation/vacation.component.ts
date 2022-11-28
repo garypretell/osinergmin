@@ -112,7 +112,7 @@ export class VacationComponent implements OnInit {
           const dialogRef2 = this.dialog.open(AlertComponent, {
             width: '400px', data: { alert: alert }, disableClose: true
           });
-          await this.logout();
+          // await this.logout();
         }
       },
       error: error => {
@@ -414,7 +414,7 @@ export class VacationComponent implements OnInit {
       next: (record: any) => {
         dialogRef.close();
         this.dialog.open(TrazabilityVacationComponent, {
-          width: '650px',
+          width: '850px',
           autoFocus: false,
           closeOnNavigation: true,
           data: record

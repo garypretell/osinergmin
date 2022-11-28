@@ -11,17 +11,34 @@ import Swal from 'sweetalert2';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-@Output() showMenu = new EventEmitter<any>();
-public faBars = faBars;
-public faBell = faBell;
-public faComment = faComment;
-public avatar = 'assets/images/avatar.jpg';
-public logo = 'assets/images/osinermin.png';
+  @Output() showMenu = new EventEmitter<any>();
+  public faBars = faBars;
+  public faBell = faBell;
+  public faComment = faComment;
+  public avatar = 'assets/images/avatar.jpg';
+  public logo = 'assets/images/osinermin.png';
   constructor(
     private router: Router, public vacationService: VacationService, private cookieService: CookieService
-  ) { }
+  ) {
+    this.checkToken();
+  }
 
   ngOnInit(): void {
+  }
+
+  private checkToken(): void {
+
+    const isExpired = this.cookieService.get('isLoggedIn') || null;
+    if (isExpired) {
+      this.logOut();
+    }
+  }
+
+  public logOut(): any {
+    this.cookieService.delete('isLoggedIn', '/')
+    this.cookieService.delete('identificacion', '/')
+    this.cookieService.deleteAll();
+    this.router.navigate(['/home']);
   }
 
   logout() {
@@ -35,20 +52,21 @@ public logo = 'assets/images/osinermin.png';
       cancelButtonText: 'Cancelar',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await new Promise((resolve, reject) => {
-          try {
-            this.cookieService.delete('isLoggedIn', '/')
-            this.cookieService.delete('identificacion', '/')
-            resolve(true)
-          }
-          catch (err) {
-            reject(false)
-          }
-    
-        }).then(() => {
-          this.router.navigateByUrl('/home')
-        })
-       
+        this.logOut();
+        // await new Promise((resolve, reject) => {
+        //   try {
+        //     this.cookieService.delete('isLoggedIn', '/')
+        //     this.cookieService.delete('identificacion', '/')
+        //     resolve(true)
+        //   }
+        //   catch (err) {
+        //     reject(false)
+        //   }
+
+        // }).then(() => {
+        //   this.router.navigateByUrl('/home')
+        // })
+
       }
     })
   }

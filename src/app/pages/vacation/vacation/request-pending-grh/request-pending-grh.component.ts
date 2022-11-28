@@ -88,6 +88,12 @@ export class RequestPendingGrhComponent implements OnInit {
   }
 
   aprobar(row: any): void {
+
+    let nombre_user='';
+    this.vacationService.userSubjectObs.subscribe(data=>{
+      nombre_user=data.nombres;
+    });
+
     Swal.fire({
       title: `<p>¿Está seguro de aprobar la solicitud</p><p>${row.codSolicitud} ?</p>`,
       // text: "No podrás revertir el proceso!",
@@ -107,7 +113,7 @@ export class RequestPendingGrhComponent implements OnInit {
         this.bandejaService
           .postAprobarGrh({
             identificacion: this.identificacion,
-            nombres: row.nombres,
+            nombres: nombre_user,
             codRegistro: row.codRegistro,
             codSolicitud: row.codSolicitud,
           })
@@ -133,6 +139,10 @@ export class RequestPendingGrhComponent implements OnInit {
   }
 
   async rechazar(row: any): Promise<void> {
+    let nombre_user='';
+    this.vacationService.userSubjectObs.subscribe(data=>{
+      nombre_user=data.nombres;
+    });    
     Swal.fire({
       title: `<p>¿Está seguro de rechazar la solicitud</p><p>${row.codSolicitud} ?</p>`,
       html: `<div class="mb-3">
@@ -163,7 +173,7 @@ export class RequestPendingGrhComponent implements OnInit {
         this.bandejaService
           .postRechazarGrh({
             identificacion: this.identificacion,
-            nombres: row.nombres,
+            nombres: nombre_user,
             codRegistro: row.codRegistro,
             codSolicitud: row.codSolicitud,
             motivo: result?.value?.comentario ? result?.value?.comentario : '',

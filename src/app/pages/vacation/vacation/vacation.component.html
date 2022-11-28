@@ -300,14 +300,14 @@
             class="badge bg-success"
             role="button"
             (click)="reprogramar(row)"
-            *ngIf="row.codEstado === 4"
+            *ngIf="row.codEstado === 4 && row.esReprogramacion ===1"
             ><i class="fas fa-retweet"></i> Reprogramar</span
           >
           <span
             class="badge bg-primary"
             role="button"
             (click)="interrumpir(row)"
-            *ngIf="row.codEstado === 4"
+            *ngIf="row.codEstado === 4 && row.esInterrumpir ===1"
             ><i class="fas fa-stopwatch"></i> Interrumpir</span
           >
           <span

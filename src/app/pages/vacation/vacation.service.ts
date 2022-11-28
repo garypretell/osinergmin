@@ -6,6 +6,8 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset= UTF-8';
 const EXCEL_EXT = '.xlsx'
 
@@ -17,7 +19,9 @@ export class VacationService {
     userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     vacationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     identificationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  constructor(private observer: BreakpointObserver) {}
+  constructor(private router: Router, private observer: BreakpointObserver, private cookieService: CookieService,) {
+    this.checkToken();
+  }
 
   get userValue(): any {
     return this.userSubject.value;
@@ -96,4 +100,14 @@ export class VacationService {
     const data: Blob =  new Blob([buffer], {type: EXCEL_TYPE});
     FileSaver.saveAs(data, fileName + '_export_' + Date.now() + EXCEL_EXT);
   }
+
+  public checkToken(): void {
+
+      const token = this.cookieService.get('token');
+
+      if (!token) {
+        this.cookieService.deleteAll();
+        this.router.navigate(['/home']);
+      }
+    }
 }

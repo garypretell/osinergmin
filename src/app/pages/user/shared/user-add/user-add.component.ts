@@ -74,7 +74,6 @@ export class UserAddComponent implements OnInit, OnDestroy {
 
 
     if (this.data?.user.hasOwnProperty('codUsuario')) {
-      console.log(this.data.user);
       this.actionTODO = Action.EDIT;
       this.reemplazoValue = this.listaEmpleadosReemplazo.find(x => x.identificacion === this.data?.user?.codEmpl);
       this.reemplazoValue ? this.userForm.baseForm.get('codEmplReemplazo')?.setValue(this.reemplazoValue) : this.userForm.baseForm.reset();

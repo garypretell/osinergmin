@@ -7,6 +7,7 @@ import { PATH_URL_DATA } from '@shared/constants/constants';
 import { BandejaService } from '@shared/services/bandeja.service';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { CookieService } from 'ngx-cookie-service';
+import { async } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -88,6 +89,11 @@ export class RequestPendingComponent implements OnInit {
   }
 
   aprobar(row: any): void {
+    let nombre_user='';
+    this.vacationService.userSubjectObs.subscribe(data=>{
+      nombre_user=data.nombres;
+    });
+     
     Swal.fire({
       title: `<p>¿Está seguro de aprobar la solicitud</p><p>${row.codSolicitud} ?</p>`,
       // text: "No podrás revertir el proceso!",
@@ -104,10 +110,11 @@ export class RequestPendingComponent implements OnInit {
           data: {},
           disableClose: true,
         });
+      
         this.bandejaService
           .postAprobar({
             identificacion: this.identificacion,
-            nombres: row.nombres,
+            nombres: nombre_user,
             codRegistro: row.codRegistro,
             codSolicitud: row.codSolicitud,
           })
@@ -133,6 +140,10 @@ export class RequestPendingComponent implements OnInit {
   }
 
   async rechazar(row: any): Promise<void> {
+    let nombre_user='';
+    this.vacationService.userSubjectObs.subscribe(data=>{
+      nombre_user=data.nombres;
+    });
     Swal.fire({
       title: `<p>¿Está seguro de rechazar la solicitud</p><p>${row.codSolicitud} ?</p>`,
       html: `<div class="mb-3">
@@ -163,7 +174,7 @@ export class RequestPendingComponent implements OnInit {
         this.bandejaService
           .postRechazar({
             identificacion: this.identificacion,
-            nombres: row.nombres,
+            nombres: nombre_user,
             codRegistro: row.codRegistro,
             codSolicitud: row.codSolicitud,
             motivo: result?.value?.comentario ? result?.value?.comentario : '',

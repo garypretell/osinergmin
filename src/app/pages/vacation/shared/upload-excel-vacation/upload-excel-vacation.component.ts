@@ -34,7 +34,6 @@ export class UploadExcelVacationComponent implements OnInit {
   }
 
   uploadFileToActivity() {
-    console.log(this.fileControl.value[0])
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
@@ -46,6 +45,7 @@ export class UploadExcelVacationComponent implements OnInit {
         const message: any = {};
           message.title = record.carga === 1 ? '¡La carga se realizó con éxito!' : '¡La carga no se realizó con éxito!';
           message.message = record.mensajesCarga;
+          message.identificadores = record.identificaciones;
           message.close = false;
 
           const dialogRef2 = this.dialog.open(MessageComponent, {

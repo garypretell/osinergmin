@@ -175,6 +175,7 @@ export class RescheduleVacationComponent implements OnInit, OnDestroy {
       identificacion: this.usuario.identificacion,
       nombres: this.usuario.nombres,
       codRegistro:  this.rescheduleForm.baseForm.get('codRegistro')?.value,
+      codSolicitud:  this.rescheduleForm.baseForm.get('codSolicitud')?.value,
       codRegistroReprogramacion: this.rescheduleForm.baseForm.get('codRegistroReprogramacion')?.value,
       codigoSolicitudReprogramacion: this.rescheduleForm.baseForm.get('codigoSolicitudReprogramacion')?.value,
       codEmplReemplazoReprogramacion: this.rescheduleForm.baseForm.get('codEmplReemplazoReprogramacion')?.value.identificacion,

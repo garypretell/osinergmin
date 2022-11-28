@@ -105,7 +105,7 @@ export class InterruptionVacationComponent implements OnInit {
       if (change) {
         const fecha2 = moment(change);
         const fecha1 = moment(this.rescheduleForm.baseForm.get('fechaInicio')?.value);
-        this.rescheduleForm.baseForm.get('diasInterruptidas')?.setValue(+this.rescheduleForm.baseForm.get('dias')?.value-fecha2.diff(fecha1, 'days') - 1);
+        this.rescheduleForm.baseForm.get('diasInterruptidas')?.setValue(+this.rescheduleForm.baseForm.get('dias')?.value-fecha2.diff(fecha1, 'days'));
       }
     })
 
@@ -114,7 +114,7 @@ export class InterruptionVacationComponent implements OnInit {
   calcularDiasBefore(): any {
     this.rescheduleForm.baseForm.get('fechaInicio')?.setValue( moment(this.registro.verRegistroVacacional.registroVacional.fechaInicio, "DD/MM/YYYY").toDate());
     const result =  moment(this.registro.verRegistroVacacional.registroVacional.fechaInicio, "DD/MM/YYYY").toDate();
-    result.setDate(result.getDate() + this.rescheduleForm.baseForm.get('dias')?.value - 1);
+    result.setDate(result.getDate() + Math.round(this.rescheduleForm.baseForm.get('dias')?.value) -1);
     this.rescheduleForm.baseForm.get('fechaFin')?.setValue(result);
   }
 
@@ -150,16 +150,18 @@ export class InterruptionVacationComponent implements OnInit {
       identificacion: this.cookieService.get('identificacion'),
       nombres: this.usuario.nombres,
       codRegistro:  this.rescheduleForm.baseForm.get('codRegistro')?.value,
+      codSolicitud:  this.rescheduleForm.baseForm.get('codSolicitud')?.value,
       codRegistroInterruptida: this.rescheduleForm.baseForm.get('codRegistroInterruptida')?.value,
       codigoSolicitudInterruptida: this.rescheduleForm.baseForm.get('codigoSolicitudInterruptida')?.value,
       codEmplReemplazoInterruptida: this.rescheduleForm.baseForm.get('codEmplReemplazoInterruptida')?.value.identificacion,
       codEmplAprobacionInterruptida: this.rescheduleForm.baseForm.get('codEmplAprobacionInterruptida')?.value.identificacion,
       fechaInicioReprogramacion: this.datePipe.transform(this.rescheduleForm.baseForm.get('fechaInicio')?.value, 'dd/MM/yyyy')?.toString() || '',
-      fechaInterruptida: this.datePipe.transform(this.rescheduleForm.baseForm.get('fechaInterruptida')?.value, 'dd/MM/yyyy')?.toString() || '',
+      fechaInterruptida: this.datePipe.transform(this.rescheduleForm.baseForm.get('fechaInterruptida')?.value.setDate(this.rescheduleForm.baseForm.get('fechaInterruptida')?.value.getDate()-1), 'dd/MM/yyyy')?.toString() || '',
       diaMedioInterruptida: this.rescheduleForm.baseForm.get('dias')?.value.toString().includes('.') ? 1 : 0,
       diasInterruptidas: this.rescheduleForm.baseForm.get('diasInterruptidas')?.value || '',
-      dias: (+this.rescheduleForm.baseForm.get('dias')?.value) - (+this.rescheduleForm.baseForm.get('diasInterruptidas')?.value - 1) ,
+      dias: (+this.rescheduleForm.baseForm.get('dias')?.value) - (+this.rescheduleForm.baseForm.get('diasInterruptidas')?.value) ,
     }
+     console.log(body);
 
     this.bandejaService.postInterrupcion(body).subscribe({
       next: (data: any) => {

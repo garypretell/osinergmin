@@ -51,7 +51,7 @@ enum Action {
 })
 export class PeriodAddComponent implements OnInit, OnDestroy {
   dateInit = new FormControl(moment());
-  dateEnd = new FormControl(moment());
+  dateEnd = new FormControl(moment().add(1, 'years'));
   ocultar = false;
   usuario: any;
   tipoLista: any[] = [];
@@ -78,9 +78,7 @@ export class PeriodAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    console.log(this.data);
-
+    const descPeriodo = `${this.dateInit.value.year()}-${this.dateEnd.value.year()}`;
     if (this.data?.period.hasOwnProperty('codPeriodo')) {
       this.actionTODO = Action.EDIT;
       this.ocultar = true;
@@ -89,9 +87,14 @@ export class PeriodAddComponent implements OnInit, OnDestroy {
     } else {
       if (this.data?.nuevo) {
         this.periodForm.baseForm.reset();
+        this.periodForm?.baseForm?.get('descPeriodo')?.setValue(descPeriodo);
+        this.periodForm?.baseForm?.get('descPeriodo')?.disable();
       }
     }
+  }
 
+  validateData(): any {
+    return this.dateInit.value.isBefore(this.dateEnd.value) ? true : false;
   }
 
   onSave(): void {
@@ -110,6 +113,10 @@ export class PeriodAddComponent implements OnInit, OnDestroy {
     this.periodForm.baseForm.patchValue({
       descPeriodo: this.data?.period?.descPeriodo
     });
+    const arrDesc = this.data?.period?.descPeriodo.split('-')
+    this.dateInit = new FormControl(moment().set('year', arrDesc[0]));
+    this.dateEnd = new FormControl(moment().set('year', arrDesc[1]));
+    this.periodForm?.baseForm?.get('descPeriodo')?.disable();
   }
 
   agregar(): any {
@@ -137,6 +144,11 @@ export class PeriodAddComponent implements OnInit, OnDestroy {
     const ctrlValue = this.dateInit.value;
     ctrlValue.year(normalizedYear.year());
     this.dateInit.setValue(ctrlValue);
+    const descPeriodo = `${this.dateInit.value.year()}-${this.dateEnd.value.year()}`;
+    this.periodForm.baseForm.patchValue({
+      descPeriodo: descPeriodo
+    });
+    // this.periodForm.baseForm.get('descPeriodo')?.setValue(descPeriodo);
     datepicker.close();
   }
 
@@ -144,6 +156,11 @@ export class PeriodAddComponent implements OnInit, OnDestroy {
     const ctrlValue = this.dateEnd.value;
     ctrlValue.year(normalizedYear.year());
     this.dateEnd.setValue(ctrlValue);
+    const descPeriodo = `${this.dateInit.value.year()}-${this.dateEnd.value.year()}`;
+    this.periodForm.baseForm.patchValue({
+      descPeriodo: descPeriodo
+    });
+    // this.periodForm.baseForm.get('descPeriodo')?.setValue(descPeriodo);
     datepicker.close();
   }
 

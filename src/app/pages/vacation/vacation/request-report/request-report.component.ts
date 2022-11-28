@@ -233,10 +233,21 @@ export class RequestReportComponent implements OnInit {
     const dialogRef = this.dialog.open(LoaderComponent, {
       width: '400px', data: {}, disableClose: true
     });
+
+    const objSearch: IFiltrosReporteSolicitudes = {
+      identificacion: this.addFilterForm.value.identificacion ? this.addFilterForm.value.identificacion : '',
+      apellidos: this.addFilterForm.value.apellidos ? this.addFilterForm.value.apellidos : '',
+      nombres: this.addFilterForm.value.nombres ? this.addFilterForm.value.nombres : '',
+      tipoGoce: this.addFilterForm.value.tipo_Goce.descTipoGoce ? this.addFilterForm.value.tipo_Goce.descTipoGoce : '',
+      tipoEstado: this.addFilterForm.value.tipo_Estado.descEstadoVacacional ? this.addFilterForm.value.tipo_Estado.descEstadoVacacional : '',
+      codigoSolicitud: this.addFilterForm.value.codigo_Solicitud ? this.addFilterForm.value.codigo_Solicitud : '',
+      fechaInicio: this.addFilterForm.value.fecha_Inicio ? this.datePipe.transform(this.addFilterForm.value.fecha_Inicio, 'dd/MM/yyyy') : '',
+      fechaFin: this.addFilterForm.value.fecha_Fin ? this.datePipe.transform(this.addFilterForm.value.fecha_Fin, 'dd/MM/yyyy') : ''
+    }
+
     this._recordDownloadSub = this.bandejaService
       .retrieveExcelReport2(
-        {
-        },
+        objSearch,
         {}
       )
       .subscribe({
@@ -244,7 +255,7 @@ export class RequestReportComponent implements OnInit {
           const blob = new Blob([record.body], { type: 'application/octet-stream' });
           const url = window.URL.createObjectURL(blob);
           const element = document.createElement('a');
-          element.setAttribute('download', 'report.xls');
+          element.setAttribute('download', 'reporte_kactus.xls');
           element.setAttribute('href', url);
           element.style.display = 'none';
           document.body.appendChild(element);
