@@ -107,6 +107,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
           );
         }
       });
+      
     }
     this.calcularDias();
     this.vacationForm.baseForm.get('dias')?.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(change => {
@@ -139,7 +140,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
         this.fechaFinState = false;
       }
     })
-
+    this.vacationForm.baseForm.get('fechaFin')?.setValue(null);
   }
 
   private pathFormData(): void {
