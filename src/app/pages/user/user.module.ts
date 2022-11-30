@@ -30,7 +30,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   ],
   providers: [
     DatePipe,
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
   ]
 })
 export class UserModule { }

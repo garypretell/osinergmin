@@ -30,7 +30,7 @@ import { PeriodAddComponent } from './shared/period-add/period-add.component';
   ],
   providers: [
     DatePipe,
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
   ]
 })
 export class PeriodModule { }

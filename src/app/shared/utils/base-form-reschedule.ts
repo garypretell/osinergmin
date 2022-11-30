@@ -1,5 +1,6 @@
 import { AbstractControl, FormArray, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class BaseFormReschedule {
@@ -27,7 +28,7 @@ export class BaseFormReschedule {
     dias: [0, [Validators.required, Validators.min(0.5)]],
     diaMedioReprogramacion: ['', []],
     maxDias: ['', [Validators.required]]
-  }, { validators: validateScore });
+  }, { validators: [validateScore, validateDate] });
 
 
   errors(ctrl: AbstractControl): string[] {
@@ -58,6 +59,18 @@ export function validateScore(
     const highscore = control.get('maxDias')?.value;
     const lowscore = control.get('diasReprogramacion')?.value;
     return (Number(lowscore) > Number(highscore)) ? { scoreError: true } : null;
+  }
+  return null;
+}
+
+export function validateDate(
+  control: AbstractControl
+): ValidationErrors | null {
+  if (control && control.get('fechaFin') && control.get('fechaFin')?.value) {
+    const dateValue = control.get('fechaFin')?.value;
+    const temp = moment(dateValue).isoWeekday();
+    console.log(temp);
+    return (+temp === 5) ? { dateError: true } : null;
   }
   return null;
 }

@@ -97,6 +97,7 @@
             </ng-container> 
           </mat-error>
         </mat-form-field>
+        <p class="text-danger"  *ngIf="vacationForm.baseForm.hasError('dateError')">* Dia selecciondo no esta permitido. </p>
       </div>
     </div>
     <div

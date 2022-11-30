@@ -1,5 +1,6 @@
 import { AbstractControl, FormArray, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class BaseFormInterruption {
@@ -25,7 +26,7 @@ export class BaseFormInterruption {
     diasInterruptidas: [0, [Validators.required]],
     dias: [0, [Validators.required, Validators.min(0.5)]],
     diaMedioInterruptida: ['', []]
-  });
+  }, { validators: [validateDate] });
 
 
   errors(ctrl: AbstractControl): string[] {
@@ -47,4 +48,17 @@ export class BaseFormInterruption {
     };
     return messages[error];
   }
+}
+
+
+export function validateDate(
+  control: AbstractControl
+): ValidationErrors | null {
+  if (control && control.get('fechaFin') && control.get('fechaFin')?.value) {
+    const dateValue = control.get('fechaFin')?.value;
+    const temp = moment(dateValue).isoWeekday();
+    console.log(temp);
+    return (+temp === 5) ? { dateError: true } : null;
+  }
+  return null;
 }
