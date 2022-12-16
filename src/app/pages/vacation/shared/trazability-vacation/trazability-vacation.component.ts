@@ -15,7 +15,6 @@ export class TrazabilityVacationComponent implements OnInit {
 
   ngOnInit(): void {
     this.test = this.data[0].codSolicitud.toString().split('a partir')[0];
-    console.log(this.data);
   }
 
 }

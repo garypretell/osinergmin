@@ -105,6 +105,12 @@
   </ng-template>
   </ngx-datatable-column>
 
+  <ngx-datatable-column prop="fechaVencimiento" [flexGrow]="2" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <span> <i class="fas fa-calendar"></i> Fecha Venc. </span>
+    </ng-template>
+  </ngx-datatable-column>
+
   <ngx-datatable-column
     name="Solicitar"
     prop="actions"

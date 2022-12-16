@@ -8,6 +8,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { PATH_URL_DATA } from '@shared/constants/constants';
+
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset= UTF-8';
 const EXCEL_EXT = '.xlsx'
 
@@ -76,15 +78,6 @@ export class VacationService {
   }
 
   exportToExcel(json: any[], excelFileName: string): void {
-
-    // var Heading =[
-    //   [ "EMPLOYEE","SCORES","COMMENTS"]  
-    // ];
-      
-    // const myworksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.emp ,{skipHeader:true});
-    // XLSX.utils.sheet_add_json(myworksheet,this.emp,{skipHeader:true , origin: 'A2'});
-    // XLSX.utils.sheet_add_aoa(myworksheet, Heading);
-
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
     XLSX.utils.sheet_add_json(worksheet, json, {skipHeader:true , origin: 'A2'});
     const workbook: XLSX.WorkBook = {
@@ -103,9 +96,11 @@ export class VacationService {
 
   public checkToken(): void {
 
+    const ruta = window.location.href;
+    const data = ruta.includes(PATH_URL_DATA.urlValidarDocumento.split('/')[0]);
       const token = this.cookieService.get('token');
 
-      if (!token) {
+      if (!token && !data) {
         this.cookieService.deleteAll();
         this.router.navigate(['/home']);
       }

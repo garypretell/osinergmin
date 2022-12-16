@@ -64,7 +64,6 @@ export function validateDate(
   if (control && control.get('fechaFin') && control.get('fechaFin')?.value) {
     const dateValue = control.get('fechaFin')?.value;
     const temp = moment(dateValue).isoWeekday();
-    console.log(temp);
     return (+temp === 5) ? { dateError: true } : null;
   }
   return null;

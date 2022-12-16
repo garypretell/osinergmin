@@ -161,7 +161,6 @@ export class InterruptionVacationComponent implements OnInit {
       diasInterruptidas: this.rescheduleForm.baseForm.get('diasInterruptidas')?.value || '',
       dias: (+this.rescheduleForm.baseForm.get('dias')?.value) - (+this.rescheduleForm.baseForm.get('diasInterruptidas')?.value) ,
     }
-     console.log(body);
 
     this.bandejaService.postInterrupcion(body).subscribe({
       next: (data: any) => {

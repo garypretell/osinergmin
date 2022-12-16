@@ -15,6 +15,7 @@ export const PATH_URL_DATA = {
     urlSolicitudesPendientesDetalle : 'solicitudes-pendientes/:solic',
     urlSolicitudesPendientesGrh : 'solicitudes-pendientes-grh',
     urlSolicitudesPendientesDetalleGrh : 'solicitudes-pendientes-grh/:solic',
+    urlValidarDocumento : 'valida-documento/:documento',
     ulrError: 'error',
     urlDefault: '',
     urlDefault2: '**'

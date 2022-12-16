@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router, public vacationService: VacationService, private cookieService: CookieService
   ) {
-    this.checkToken();
+    // this.checkToken();
   }
 
   ngOnInit(): void {
@@ -28,10 +28,10 @@ export class HeaderComponent implements OnInit {
 
   private checkToken(): void {
 
-    const isExpired = this.cookieService.get('isLoggedIn') || null;
-    if (isExpired) {
-      this.logOut();
-    }
+    // const isExpired = this.cookieService.get('isLoggedIn') || null;
+    // if (isExpired) {
+    //   this.logOut();
+    // }
   }
 
   public logOut(): any {
@@ -53,20 +53,6 @@ export class HeaderComponent implements OnInit {
     }).then(async (result) => {
       if (result.isConfirmed) {
         this.logOut();
-        // await new Promise((resolve, reject) => {
-        //   try {
-        //     this.cookieService.delete('isLoggedIn', '/')
-        //     this.cookieService.delete('identificacion', '/')
-        //     resolve(true)
-        //   }
-        //   catch (err) {
-        //     reject(false)
-        //   }
-
-        // }).then(() => {
-        //   this.router.navigateByUrl('/home')
-        // })
-
       }
     })
   }

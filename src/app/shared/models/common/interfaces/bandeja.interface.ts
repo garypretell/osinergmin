@@ -10,6 +10,7 @@ export interface IBandejaResponse {
     cantidaPorAprobar: number;
     cantidaPorAprobarGrh?: number;
     solicitudesVacacionales: ISolicitud[];
+    esFechaVencimiento?: boolean;
 }
 
 export interface ISolicitud {

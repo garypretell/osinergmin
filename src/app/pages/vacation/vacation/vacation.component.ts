@@ -55,6 +55,7 @@ export class VacationComponent implements OnInit {
   removable = true;
 
   fileToUpload: any;
+  hintColor = '#ff0000'
   constructor(private bandejaService: BandejaService, private router: Router, private vacationService: VacationService, private datePipe: DatePipe,
     private route: ActivatedRoute, public dialog: MatDialog, private cookieService: CookieService, private formBuilder: FormBuilder,) {
     this.identificacion = +this.cookieService.get('isLoggedIn');

@@ -99,6 +99,7 @@
           [(ngModel)]="usuario.fechaVencimiento"
           readonly
         />
+        <mat-hint [ngStyle]="{color: hintColor}" *ngIf="usuario.esFechaVencimiento">Vacaciones próximas a vencer, programar inmediatamente.</mat-hint>
       </mat-form-field>
     </div>
     <div fxFlex="5">

@@ -134,7 +134,7 @@ export class RegisterVacationComponent implements OnInit, OnDestroy {
       if (change && !this.diasState) {
         const fecha2 = moment(change);
         const fecha1 = moment(this.vacationForm.baseForm.get('fechaInicio')?.value);
-        const temp = fecha2.diff(fecha1, 'days') + 2;
+        const temp = fecha2.format("DD/MM/YYYY") === fecha1.format("DD/MM/YYYY") ? fecha2.diff(fecha1, 'days') + 1 : fecha2.diff(fecha1, 'days') + 2;
         this.fechaFinState = true;
         this.vacationForm.baseForm.get('dias')?.setValue(temp);
         this.fechaFinState = false;

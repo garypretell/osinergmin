@@ -90,7 +90,9 @@
                   min="0"
                   oninput="validity.valid||(value='');"
                 />
-                <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados.</mat-hint>
+                
+                <mat-hint>Para solicitar medio día de vacaciones, indíquelo como 0,5 en el numero de días solicitados. <br>
+                  En caso la programación inicie o concluya un viernes, se debe considerar el sábado y domingo siguientes.</mat-hint>
                 <mat-error>
                   <ng-container *ngFor="let error of vacationForm.errors($any(vacationForm.baseForm.get('dias')))">
                     {{ vacationForm.handleError(error,'dias')}} <br>
@@ -109,7 +111,7 @@
             <div fxFlex="50">
               <mat-form-field class="example-full-width" appearance="legacy">
                 <mat-label>Fecha Fin de Vacaciones</mat-label>
-                <input matInput [matDatepicker]="picker1" formControlName="fechaFin"  name="fechaFin"/>
+                <input matInput [matDatepicker]="picker1" formControlName="fechaFin" [min]="today"  name="fechaFin"/>
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle 
                   matSuffix
@@ -122,7 +124,7 @@
                   </ng-container> 
                 </mat-error>
               </mat-form-field>
-              <p class="text-danger"  *ngIf="vacationForm.baseForm.hasError('dateError')">* Dia selecciondo no esta permitido. </p>
+              <p class="text-danger"  *ngIf="vacationForm.baseForm.hasError('dateError')">* Dia seleccionado no esta permitido. </p>
             </div>
             <div fxFlex="50">
                 <mat-checkbox style="margin-top: 10px;" class="example-margin" [disabled]="true" [(ngModel)]="hasDot" name="hasDot" [ngModelOptions]="{standalone: true}" >La fecha final considera solo medio día de vacaciones.</mat-checkbox>

@@ -29,7 +29,6 @@ export class MessageComponent implements OnInit {
     this.rows.map((r: any, y) => {
       const obj: any = {};
       obj.identificador = r;
-    console.log(obj.identificador);
       arr.push(obj);
     });
 

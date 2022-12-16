@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { HomeComponent } from '@pages/home/home.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ValidarDocumentoComponent } from '@pages/validar-documento/validar-documento.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     LeftNavMenuComponent,
     SkeletonComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    ValidarDocumentoComponent
   ],
   imports: [
     BrowserModule,
