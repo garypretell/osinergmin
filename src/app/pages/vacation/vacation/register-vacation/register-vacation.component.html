@@ -99,7 +99,7 @@
                   </ng-container>
                 </mat-error>               
               </mat-form-field>
-              <p [ngStyle]="{'font-size': '10x'}" class="text-danger" *ngIf="vacationForm.baseForm.hasError('scoreError')">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
+              <p [ngStyle]="{'font-size': '10x', 'margin-top': '15px'}" class="text-danger" *ngIf="vacationForm.baseForm.hasError('scoreError')">La cantidad de días solicitados debe ser menor igual al saldo vacacional ({{usuario?.saldo}})</p>
             </div>
           </div>
           <div
@@ -111,7 +111,7 @@
             <div fxFlex="50">
               <mat-form-field class="example-full-width" appearance="legacy">
                 <mat-label>Fecha Fin de Vacaciones</mat-label>
-                <input matInput [matDatepicker]="picker1" formControlName="fechaFin" [min]="today"  name="fechaFin"/>
+                <input matInput readonly [matDatepicker]="picker1" formControlName="fechaFin" [min]="today"  name="fechaFin"/>
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle 
                   matSuffix
