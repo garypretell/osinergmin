@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/osinermin",
+            "outputPath": "dist/sisva-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -67,7 +67,7 @@
               ],
               "outputHashing": "all"
             },
-            "qa": {
+            "cert": {
               "budgets": [
                 {
                   "type": "initial",
@@ -83,7 +83,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.qa.ts"
+                  "with": "src/environments/environment.cert.ts"
                 }
               ],
               "outputHashing": "all"
@@ -105,8 +105,8 @@
             "production": {
               "browserTarget": "osinermin:build:production"
             },
-            "qa": {
-              "browserTarget": "osinermin:build:qa"
+            "cert": {
+              "browserTarget": "osinermin:build:cert"
             },
             "development": {
               "browserTarget": "osinermin:build:development"

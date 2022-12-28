@@ -4,7 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build", 
+    "serve.cert": "ng run osinermin:serve:cert",
+    "serve.prod": "ng run osinermin:serve:production",
+    "build.cert": "ng run osinermin:build:cert",
+    "build.prod": "ng run osinermin:build:production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
